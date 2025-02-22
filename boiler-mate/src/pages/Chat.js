@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebaseConfig";
-import { collection, query, where, getDocs, addDoc, doc, updateDoc, arrayUnion, onSnapshot, serverTimestamp } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc, doc, updateDoc, arrayUnion, arrayRemove, onSnapshot, serverTimestamp } from "firebase/firestore";
 
 const Chat = () => {
     const currentUser = auth.currentUser;
@@ -13,6 +13,10 @@ const Chat = () => {
     const [filteredFriends, setFilteredFriends] = useState([]);
     const [newFriendToAdd, setNewFriendToAdd] = useState("");
     const [newChatName, setNewChatName] = useState("");
+    const [chatMembers, setChatMembers] = useState([]); // Add state for chat members
+    const [chatOwner, setChatOwner] = useState(""); // Add state for chat owner
+    const [memberToRemove, setMemberToRemove] = useState(""); // Add state for selected member to remove
+    const [errorMessage, setErrorMessage] = useState(""); // Add state for error message
 
     useEffect(() => {
         if (currentUser) {
@@ -76,6 +80,8 @@ const Chat = () => {
             if (existingChat) {
                 setSelectedChat(existingChat.id);
                 setSelectedChatName(existingChat.name); // Set chat name
+                setChatOwner(existingChat.owner); // Set chat owner
+                fetchChatMembers(existingChat.members); // Fetch chat members
                 listenForMessages(existingChat.id);
             } else {
                 const chatName = prompt("Enter a name for the chat room:"); // Prompt user for chat room name
@@ -83,15 +89,35 @@ const Chat = () => {
                     createdAt: serverTimestamp(),
                     members: [currentUser.uid, friendId],
                     messages: [],
-                    name: chatName // Add chat room name to the document
+                    name: chatName, // Add chat room name to the document
+                    owner: currentUser.uid // Set the current user as the owner
                 });
 
                 setSelectedChat(newChatRef.id);
                 setSelectedChatName(chatName); // Set chat name
+                setChatOwner(currentUser.uid); // Set chat owner
+                fetchChatMembers([currentUser.uid, friendId]); // Fetch chat members
                 listenForMessages(newChatRef.id);
             }
         } catch (error) {
             console.error("Error getting or creating chat:", error);
+        }
+    };
+
+    // 📌 Fetch Chat Members
+    const fetchChatMembers = async (memberIds) => {
+        try {
+            const memberData = await Promise.all(memberIds.map(async (memberId) => {
+                const memberSnap = await getDocs(query(collection(db, "users"), where("uid", "==", memberId)));
+                if (!memberSnap.empty) {
+                    return memberSnap.docs[0].data().username;
+                }
+                return null;
+            }));
+
+            setChatMembers(memberData.filter(name => name !== null));
+        } catch (error) {
+            console.error("Error fetching chat members:", error);
         }
     };
 
@@ -153,8 +179,34 @@ const Chat = () => {
             });
             alert("Friend added to chat!");
             setNewFriendToAdd(""); // Clear input
+            fetchChatMembers([...chatMembers, newUserId]); // Update chat members
         } catch (error) {
             console.error("Error adding friend to chat:", error);
+        }
+    };
+
+    // 📌 Remove Member from Chat
+    const removeMemberFromChat = async () => {
+        if (!selectedChat || !memberToRemove) {
+            setErrorMessage("Please select a member to remove.");
+            return;
+        }
+        if (chatMembers.length <= 1 || memberToRemove === chatOwner) {
+            setErrorMessage("Cannot remove the last member or the owner.");
+            return;
+        }
+
+        try {
+            const chatRef = doc(db, "chats", selectedChat);
+            await updateDoc(chatRef, {
+                members: arrayRemove(memberToRemove)
+            });
+            alert("Member removed from chat!");
+            setChatMembers(chatMembers.filter(member => member !== memberToRemove)); // Update chat members
+            setMemberToRemove(""); // Clear selected member
+            setErrorMessage(""); // Clear error message
+        } catch (error) {
+            console.error("Error removing member from chat:", error);
         }
     };
 
@@ -198,6 +250,7 @@ const Chat = () => {
             {selectedChat && (
                 <div className="chat-box">
                     <h3>Chat Room: {selectedChatName}</h3> {/* Display chat room name */}
+                    <p>Members: {chatMembers.join(", ")}</p> {/* Display chat members */}
                     <div className="messages">
                         {messages.map((msg) => (
                             <p key={msg.messageID}>
@@ -233,6 +286,25 @@ const Chat = () => {
                         onChange={(e) => setNewChatName(e.target.value)}
                     />
                     <button onClick={updateChatName}>Update Chat Name</button>
+
+                    {/* ➖ Remove Member from Chat */}
+                    {currentUser.uid === chatOwner && (
+                        <div>
+                            <select
+                                value={memberToRemove}
+                                onChange={(e) => setMemberToRemove(e.target.value)}
+                            >
+                                <option value="">Select member to remove</option>
+                                {chatMembers.map((memberId) => (
+                                    <option key={memberId} value={memberId}>
+                                        {memberId}
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={removeMemberFromChat}>Remove Member</button>
+                            {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
+                        </div>
+                    )}
                 </div>
             )}
         </div>
