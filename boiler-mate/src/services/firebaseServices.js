@@ -24,6 +24,7 @@ export const createUserProfile = async (userID, email, username) => {
         major: "",
         graduationYear: "",
         roomType: "",
+        chats: [],
         hobbies: [],
         smokeDrinkWeed: "",
         sleepSchedule: "",
