@@ -1,9 +1,9 @@
-// src/pages/Home.js
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import "../css/Home.css"; // Import the updated CSS
 
 const Home = () => {
   const navigate = useNavigate();
@@ -31,63 +31,28 @@ const Home = () => {
   };
 
   return (
-    <div className="background flex flex-col items-center justify-center min-h-screen">
-      {/* Navigation Bar */}
-      <nav className="w-full flex justify-center space-x-6 py-4 bg-gray-700 rounded-lg shadow-lg">
-        <button className="text-white text-lg font-semibold hover:underline">Profile</button>
-        <button 
-          className="text-white text-lg font-semibold hover:underline" 
-          onClick={() => navigate("/chat")} // Navigates to Chat Page
-        >
-          Chat
+    <div className="background">
+      {/* Navbar at the top */}
+      <nav className="navbar">
+        <div className="nav-left">
+          <h2 className="logo">Boiler Mate</h2>
+        </div>
+        <div className="nav-right">
+          <button className="nav-button" onClick={() => navigate("/profile")}>Profile</button>
+          <button className="nav-button" onClick={() => navigate("/match")}>Match</button>
+          <button className="nav-button" onClick={() => navigate("/friends")}>Friends</button>
+          <button className="nav-button" onClick={() => navigate("/chat")}>Chat</button>
+          <button className="nav-button" onClick={() => navigate("/roommate-request")}>
+          Request Guide
         </button>
-        <button className="text-white text-lg font-semibold hover:underline">Match</button>
-        <button 
-          className="text-white text-lg font-semibold hover:underline" 
-          onClick={() => navigate("/friends")} // Navigates to Friends Page
-        >
-          Friends
-        </button>
-        <button className="text-white text-lg font-semibold hover:underline">Submit</button>
+          <button className="logout-btn" onClick={handleLogout}>🔐 Log Out</button>
+        </div>
       </nav>
 
-      {/* Welcome Message */}
-      <h1 className="text-5xl italic font-bold text-white mt-10">
-        Welcome, {username}!
-      </h1>
-      <p className="italic text-lg text-gray-800 mt-4">Some Stats here...</p>
-
-      {/* Buttons */}
-      <div className="mt-10 flex flex-col space-y-4">
-        <button
-          className="w-60 py-3 bg-yellow-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-yellow-700"
-          onClick={() => navigate("/roommate-request")}
-        >
-          🏠 Roommate Request Guide
-        </button>
-
-        {/* 🔥 Chat Button */}
-        <button
-          className="w-60 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-green-700"
-          onClick={() => navigate("/chat")}
-        >
-          💬 Open Chat
-        </button>
-
-        <button
-          className="w-60 py-3 bg-gray-700 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-gray-800"
-          onClick={handleLogout}
-        >
-          🔐 Log Out
-        </button>
-
-        {/* 🔥 Manage Friends Button */}
-        <button
-          className="w-60 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700"
-          onClick={() => navigate("/friends")}
-        >
-          👥 Manage Friends
-        </button>
+      {/* Welcome Section */}
+      <div className="welcome-container">
+        <h1 className="welcome-text">Welcome, {username}!</h1>
+        <p>Ditch The Train Wreck.</p>
       </div>
     </div>
   );
