@@ -15,7 +15,7 @@ body, html {
   /* Navbar */
   .navbar {
     width: 100%;
-    padding: 15px 30px;
+    padding: 15px 30px;    
     background: white;
     display: flex;
     justify-content: space-between;
@@ -28,9 +28,13 @@ body, html {
   }
   
   .nav-left h2 {
-    font-size: 22px;
+    font-size: 3rem;
     font-weight: 700;
-    color: #555960;
+    color: #8E6F3E;
+    margin: 0;          /* Remove default H2 margins */
+    line-height: 1;
+    padding: 15px 30px;     /* Or another small line-height if needed */
+    padding: 0;
   }
   
   .nav-right {
@@ -74,7 +78,7 @@ body, html {
   }
   
   .welcome-text {
-    font-size: 52px;
+    font-size: 6rem;
     font-weight: 800;
     background: linear-gradient(to right, #8E6F3E, #DAAA00);
     -webkit-background-clip: text;
@@ -82,7 +86,7 @@ body, html {
   }
   
   .welcome-container p {
-    font-size: 20px;
+    font-size: 2rem;
     color: #555960;
   }
   
