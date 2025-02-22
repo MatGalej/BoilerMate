@@ -20,10 +20,12 @@ const Home = () => {
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
+      } else {
+        navigate("/401"); // Redirect to 401 page if user is not authenticated
       }
     };
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = async () => {
     await signOut(auth);
