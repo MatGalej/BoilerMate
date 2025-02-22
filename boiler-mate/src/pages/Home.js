@@ -1,21 +1,29 @@
 // src/pages/Home.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebaseConfig";
-import { signOut } from "firebase/auth";
 import "../css/home.css";
 
 const Home = () => {
   const navigate = useNavigate();
+  
+  const handleSignUp = () => {
+    navigate("/signup");
+  };
 
-  const handleLogout = async () => {
-    await signOut(auth);
+  const handleLogIn = () => {
     navigate("/login");
   };
 
   return (
     <div class="background">
-        <h1>HELLO!</h1>
+        <div class="Content-Panel">
+            <h1 class="welcome-text">BoilerMate</h1>
+            <p class="subtitle">Ditch The Train Wreck</p>
+            <div class="button-container">
+              <button class="button" id="signup" onClick={handleSignUp}>Sign Up</button>   
+              <button class="button" id="login" onClick={handleLogIn}>Log In</button>
+            </div>
+        </div>
     </div>
   );
 };
