@@ -21,7 +21,7 @@ const Home = () => {
           console.error("Error fetching user data:", error);
         }
       } else {
-        navigate("/401"); // Redirect to 401 page if user is not authenticated
+        //navigate("/401"); // Redirect to 401 page if user is not authenticated
       }
     };
     fetchUserData();
