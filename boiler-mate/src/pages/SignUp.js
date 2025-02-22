@@ -54,7 +54,7 @@ function SignUp() {
     <div className="background">
       <div className="login-panel-background">
         <div className="login-container">
-          <h1>Sign up</h1>
+          <h2>Sign up</h2>
           <form onSubmit={handleSignUp}>
             <input
               className="input"
@@ -83,9 +83,7 @@ function SignUp() {
             <button type="submit">Register</button>
           </form>
           <p>{message}</p>
-          <p>
-            <a href="/login">Already have an account?</a>
-          </p>
+          <p className="signup-link">Already have an account? <button type="button" onClick={() => navigate("/login")} className="back-button">Log in</button></p>
         </div>
       </div>
     </div>
