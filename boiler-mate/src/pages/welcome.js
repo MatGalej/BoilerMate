@@ -1,14 +1,35 @@
+// src/pages/Home.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import "../css/Welcome.css";
 
-function welcome() {
+
+const Welcome = () => {
+  const navigate = useNavigate();
+ 
+  const handleSignUp = () => {
+    navigate("/signup");
+  };
 
 
-    return (
-        <div>
-            
+  const handleLogIn = () => {
+    navigate("/login");
+  };
+
+
+  return (
+    <div class="background">
+        <div class="Content-Panel">
+            <h1 class="welcome-text">BoilerMate</h1>
+            <p class="subtitle">Ditch The Train Wreck</p>
+            <div class="button-container">
+              <button class="button" id="signup" onClick={handleSignUp}>Sign Up</button>  
+              <button class="button" id="login" onClick={handleLogIn}>Log In</button>
+            </div>
         </div>
-    );
-}
+    </div>
+  );
+};
 
-export default welcome;
+
+export default Welcome;
