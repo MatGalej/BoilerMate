@@ -14,7 +14,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 import PotentialMatches from "./matchingAlg/PotentialMatches";
 
+
+
 function App() {
+  const [userId, setUserId] = useState(null);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
