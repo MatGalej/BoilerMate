@@ -31,36 +31,36 @@ const Home = () => {
   };
 
   return (
-    <div className="background flex flex-col items-center justify-center min-h-screen">
+    <div className="">
       {/* Navigation Bar */}
-      <nav className="w-full flex justify-center space-x-6 py-4 bg-gray-700 rounded-lg shadow-lg">
-        <button className="text-white text-lg font-semibold hover:underline">Profile</button>
+      <nav className="">
+        <button className="">Profile</button>
         <button 
-          className="text-white text-lg font-semibold hover:underline" 
+          className="" 
           onClick={() => navigate("/chat")} // Navigates to Chat Page
         >
           Chat
         </button>
-        <button className="text-white text-lg font-semibold hover:underline">Match</button>
+        <button className="">Match</button>
         <button 
           className="text-white text-lg font-semibold hover:underline" 
           onClick={() => navigate("/friends")} // Navigates to Friends Page
         >
           Friends
         </button>
-        <button className="text-white text-lg font-semibold hover:underline">Submit</button>
+        <button className="">Submit</button>
       </nav>
 
       {/* Welcome Message */}
-      <h1 className="text-5xl italic font-bold text-white mt-10">
+      <h1 className="">
         Welcome, {username}!
       </h1>
-      <p className="italic text-lg text-gray-800 mt-4">Some Stats here...</p>
+      <p className="">Some Stats here...</p>
 
       {/* Buttons */}
-      <div className="mt-10 flex flex-col space-y-4">
+      <div className="">
         <button
-          className="w-60 py-3 bg-yellow-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-yellow-700"
+          className=""
           onClick={() => navigate("/roommate-request")}
         >
           🏠 Roommate Request Guide
@@ -68,14 +68,14 @@ const Home = () => {
 
         {/* 🔥 Chat Button */}
         <button
-          className="w-60 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-green-700"
+          className=""
           onClick={() => navigate("/chat")}
         >
           💬 Open Chat
         </button>
 
         <button
-          className="w-60 py-3 bg-gray-700 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-gray-800"
+          className=""
           onClick={handleLogout}
         >
           🔐 Log Out
@@ -83,7 +83,7 @@ const Home = () => {
 
         {/* 🔥 Manage Friends Button */}
         <button
-          className="w-60 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700"
+          className=""
           onClick={() => navigate("/friends")}
         >
           👥 Manage Friends
