@@ -115,14 +115,18 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
-          <input
-            type="number"
+          <select
             name="graduationYear"
-            placeholder="Graduation Year"
             value={formData.graduationYear}
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          />
+          >
+            <option value="">Select Graduation Year</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+          </select>
           <button
             onClick={nextStep}
             className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
@@ -142,9 +146,10 @@ const Questionnaire = () => {
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           >
             <option value="">Select Room Type</option>
-            <option value="Single">Single</option>
             <option value="Double">Double</option>
-            <option value="Apartment">Apartment</option>
+            <option value="Triple">Triple</option>
+            <option value="Quad">Quad</option>
+            <option value="Apartment/Suite">Apartment/Suite</option>
           </select>
           <button
             onClick={nextStep}
@@ -180,6 +185,13 @@ const Questionnaire = () => {
           <label className="text-center mb-2">
             Rate your cleanliness (1-7)
           </label>
+          <label className="text-center mb-2">
+            How clean do you keep your space? (1 = messy, 7 = very clean)
+            <span className="ml-2 font-bold text-yellow-500">
+              {formData.cleanliness}
+            </span>
+          </label>
+
           <input
             type="range"
             name="cleanliness"
@@ -211,7 +223,6 @@ const Questionnaire = () => {
             <option value="Before 8 AM">Before 8 AM</option>
             <option value="8-10 AM">8-10 AM</option>
             <option value="10 AM - 12 PM">10 AM - 12 PM</option>
-            <option value="Afternoon or Later">Afternoon or Later</option>
           </select>
           <button
             onClick={nextStep}
@@ -222,27 +233,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 7: Sleep Time */}
+      {/* Step 7: Preferred Study Location (Short Answer) */}
       {step === 7 && (
-        <>
-          <input
-            type="time"
-            name="sleepTime"
-            value={formData.sleepTime}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
-        </>
-      )}
-
-      {/* Step 8: Preferred Study Location (Short Answer) */}
-      {step === 8 && (
         <>
           <label className="text-center mb-2">
             Where do you prefer to study?
@@ -264,12 +256,19 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 9: Extroversion (1-7 Slider) */}
-      {step === 9 && (
+      {/* Step 8: Extroversion (1-7 Slider) */}
+      {step === 8 && (
         <>
           <label className="text-center mb-2">
             How extroverted are you? (1 = introvert, 7 = extrovert)
           </label>
+          <label className="text-center mb-2">
+            How extroverted are you? (1 = introvert, 7 = extrovert)
+            <span className="ml-2 font-bold text-yellow-500">
+              {formData.extroversion}
+            </span>
+          </label>
+
           <input
             type="range"
             name="extroversion"
@@ -288,13 +287,21 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 10: Friendship Preference (1-7 Slider) */}
-      {step === 10 && (
+      {/* Step 9: Friendship Preference (1-7 Slider) */}
+      {step === 9 && (
         <>
           <label className="text-center mb-2">
             How social do you want to be with your roommate? (1 = distant, 7 =
             best friends)
           </label>
+          <label className="text-center mb-2">
+            How close do you want to be with your roommate? (1 = distant, 7 =
+            best friends)
+            <span className="ml-2 font-bold text-yellow-500">
+              {formData.friendshipPreference}
+            </span>
+          </label>
+
           <input
             type="range"
             name="friendshipPreference"
@@ -313,8 +320,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 11: Music Preference (Short Answer) */}
-      {step === 11 && (
+      {/* Step 10: Music Preference (Short Answer) */}
+      {step === 10 && (
         <>
           <label className="text-center mb-2">
             What are your music preferences? (Speakers, instrument usage, etc.)
@@ -335,8 +342,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 12: Dietary Restrictions (Short Answer) */}
-      {step === 12 && (
+      {/* Step 11: Dietary Restrictions (Short Answer) */}
+      {step === 11 && (
         <>
           <label className="text-center mb-2">
             Do you have any dietary restrictions or allergies?
@@ -357,8 +364,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 13: Guests Overnight Stay (Dropdown) */}
-      {step === 13 && (
+      {/* Step 12: Guests Overnight Stay (Dropdown) */}
+      {step === 12 && (
         <>
           <label className="text-center mb-2">
             Are you comfortable with overnight guests?
@@ -372,7 +379,6 @@ const Questionnaire = () => {
             <option value="">Select</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
-            <option value="Occasionally">Occasionally</option>
           </select>
           <button
             onClick={nextStep}
@@ -383,8 +389,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 14: Guests Throughout Day (1-7 Slider) */}
-      {step === 14 && (
+      {/* Step 13: Guests Throughout Day (1-7 Slider) */}
+      {step === 13 && (
         <>
           <label className="text-center mb-2">
             How often do you have guests over during the day? (1 = never, 7 =
@@ -408,8 +414,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 15: Shared Cleaning Supplies (Yes/No Dropdown) */}
-      {step === 15 && (
+      {/* Step 14: Shared Cleaning Supplies (Yes/No Dropdown) */}
+      {step === 14 && (
         <>
           <label className="text-center mb-2">
             Would you be okay with sharing cleaning supplies?
@@ -433,8 +439,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 16: Sleep Time (Time Select) */}
-      {step === 16 && (
+      {/* Step 15: Sleep Time (Time Select) */}
+      {step === 15 && (
         <>
           <label className="text-center mb-2">
             What time do you usually go to bed?
@@ -455,23 +461,37 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 17: Smoke, Drink, Weed (Dropdown) */}
-      {step === 17 && (
+      {/* Step 16: Smoke, Drink, Weed (Checkbox Input) */}
+      {step === 16 && (
         <>
           <label className="text-center mb-2">
-            Do you smoke, drink, or use weed?
+            Do you smoke, drink, or use weed? (Select all that apply)
           </label>
-          <select
-            name="smokeDrinkWeed"
-            value={formData.smokeDrinkWeed}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          >
-            <option value="">Select</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-            <option value="Occasionally">Occasionally</option>
-          </select>
+
+          <div className="flex flex-col space-y-2">
+            {["Smoke", "Drink", "Weed", "None"].map((option) => (
+              <label key={option} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  name="smokeDrinkWeed"
+                  value={option}
+                  checked={formData.smokeDrinkWeed.includes(option)}
+                  onChange={(e) => {
+                    const { value, checked } = e.target;
+                    setFormData((prev) => ({
+                      ...prev,
+                      smokeDrinkWeed: checked
+                        ? [...prev.smokeDrinkWeed, value] // Add option if checked
+                        : prev.smokeDrinkWeed.filter((item) => item !== value), // Remove if unchecked
+                    }));
+                  }}
+                  className="h-5 w-5 text-yellow-500"
+                />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+
           <button
             onClick={nextStep}
             className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
@@ -481,8 +501,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 18: Activity Level (1-7 Slider) */}
-      {step === 18 && (
+      {/* Step 17: Activity Level (1-7 Slider) */}
+      {step === 17 && (
         <>
           <label className="text-center mb-2">
             How active are you? (1 = sedentary, 7 = very active)
@@ -505,8 +525,8 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 19: Profile Picture Upload */}
-      {step === 19 && (
+      {/* Step 18: Profile Picture Upload */}
+      {step === 18 && (
         <>
           <ProfilePictureUpload userID={userID} />
           <button
