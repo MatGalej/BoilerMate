@@ -1,0 +1,205 @@
+/* --- Chat Page Container --- */
+.chat-page {  
+    width: 100%;
+    color: #ffffff;            /* White text by default */
+    min-height: 100vh;
+    padding: 2rem;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Page Title */
+  .chat-header {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* --- Search Section at the Top --- */
+  .search-section {
+    max-width: 600px;
+    margin: 0 auto 2rem auto; /* center horizontally, space below */
+    text-align: center;
+  }
+  
+  .search-section input {
+    width: 70%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  /* Buttons that appear for search results */
+  .search-section button {
+    background-color: #d9a63c;
+    color: #fff;
+    border: none;
+    margin: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  /* Chat History (when no chat is selected) */
+  .chat-history {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .chat-history button {
+    display: block;
+    width: 100%;
+    background-color: #6f727b;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin: 0.5rem auto;
+    cursor: pointer;
+  }
+  
+  /* --- When a chat is selected, show the 2-column layout --- */
+  .chat-content {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  /* Left column: messages and message input */
+  .chat-left {
+    flex: 1;   /* Takes up remaining space */
+    background-color: #4a4a4a;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  /* Top area showing chat name + members */
+  .chat-info-top {
+    margin-bottom: 1rem;
+  }
+  
+  /* The scrollable message area */
+  .messages {
+    flex: 1;
+    background-color: #2c2c2c;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-y: auto;
+  }
+  
+  .message-line {
+    margin: 0.25rem 0;
+  }
+  
+  .timestamp {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+  
+  /* Input + send button at bottom */
+  .message-input {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .message-input input {
+    flex: 1;  /* fill up available space */
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .message-input button {
+    background-color: #d9a63c;
+    color: #fff;
+    border: none;
+    padding: 0 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Right column: members, add friend, rename chat, etc. */
+  .chat-right {
+    width: 280px;
+    background-color: #4a4a4a;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Subsections inside the right column */
+  .owner-controls {
+    border-top: 1px solid #666;
+    padding-top: 1rem;
+  }
+  
+  .add-friend-section,
+  .remove-friend-section,
+  .rename-chat-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  /* Inputs and buttons inside the right column sections */
+  .chat-right input,
+  .chat-right select {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .chat-right button {
+    background-color: #d9a63c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  
+  /* "Back to Chat List" button */
+  .chat-right > button {
+    margin-top: auto; /* push it to bottom of the flex container if you want */
+    background-color: #666;
+    color: #fff;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: #ff8888;
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+  
+  .message-line {
+    white-space: pre-wrap;        /* respects new lines, wraps text  */
+    word-wrap: break-word;        /* older name for break-word logic */
+    word-break: break-word;       /* ensures words longer than container break */
+    margin: 0.25rem 0;            /* small vertical spacing if desired */
+  }
+
+.owner-controls,
+.rename-chat-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;  /* all items inside get spaced */
+}
+
+.message-input button {
+    padding: 0.4rem 0.7rem;  /* smaller vertical/horizontal padding */
+    font-size: 0.9rem;       /* reduce text size if needed */
+  }
+
+  .message-input input {
+    flex: 1;                 /* the input expands to fill remaining width */
+    margin-right: 0.5rem;    /* tiny spacing before the button */
+}

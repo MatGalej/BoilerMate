@@ -139,7 +139,6 @@ const Friends = () => {
             });
 
             setFriendRequests(friendRequests.filter((user) => user.id !== userId));
-
             alert("Friend request declined.");
         } catch (error) {
             console.error("Error declining friend request:", error);
@@ -179,7 +178,6 @@ const Friends = () => {
 
             setFriendsList(friendsList.filter((friend) => friend.id !== userId));
             setBlockedFriends([...blockedFriends, userId]);
-
             alert("User blocked.");
         } catch (error) {
             console.error("Error blocking user:", error);
@@ -202,37 +200,54 @@ const Friends = () => {
 
     return (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* Left Side - Existing Content */}
+            {/* Left Side - Friend Requests and Search */}
             <div className="friends-container" style={{ width: "65%" }}>
                 <h2>Find Friends</h2>
-                <input
-                    type="text"
-                    placeholder="Search by username"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <button onClick={handleSearch}>Search</button>
 
-                {/* 🔍 Search Results */}
-                <h3>Search Results:</h3>
-                {searchResults.length > 0 ? (
-                    searchResults.map((user) => (
-                        <div key={user.id} className="friend-card">
-                            <p>{user.username}</p>
-                            {user.isFriend ? (
-                                <p>✅ Already your friend</p>
-                            ) : (
-                                <button onClick={() => sendFriendRequest(user.id)}>➕ Send Friend Request</button>
-                            )}
-                            <button onClick={() => blockFriend(user.id)}>🚫 Block</button>
-                        </div>
-                    ))
-                ) : (
-                    <p>No users found</p>
-                )}
+                {/* Friend Requests Review Section */}
+                <div className="friend-requests-section">
+                    <h3>Friend Requests</h3>
+                    {friendRequests.length > 0 ? (
+                        friendRequests.map((user) => (
+                            <div key={user.id} className="friend-request-card">
+                                <p>{user.username}</p>
+                                <button onClick={() => acceptFriendRequest(user.id)}>✅ Accept</button>
+                                <button onClick={() => declineFriendRequest(user.id)}>❌ Decline</button>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No pending friend requests</p>
+                    )}
+                </div>
+
+                {/* Friend Search Section */}
+                <div className="friend-search-section">
+                    <input
+                        type="text"
+                        placeholder="Search by username"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button onClick={handleSearch}>Search</button>
+
+                    <h3>Search Results:</h3>
+                    {searchResults.length > 0 ? (
+                        searchResults.map((user) => (
+                            <div key={user.id} className="friend-card">
+                                <p>{user.username}</p>
+                                {user.isFriend ? (
+                                    <p>✅ Already your friend</p>
+                                ) : (
+                                    <button onClick={() => sendFriendRequest(user.id)}>➕ Send Friend Request</button>
+                                )}
+                                <button onClick={() => blockFriend(user.id)}>🚫 Block</button>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No users found</p>
+                    )}
+                </div>
             </div>
-
-            
 
             {/* Right Side - Friends List */}
             <div className="friends-list-container" style={{ width: "30%", borderLeft: "1px solid #ccc", paddingLeft: "20px" }}>

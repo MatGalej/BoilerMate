@@ -58,6 +58,35 @@ textarea {
   justify-content: center;
 }
 
+/* Center-align label and input container */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* Ensure label is centered and not constrained */
+.input-group label {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 8px;
+}
+
+/* Ensure input is also centered */
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
 /* Ensure All Form Elements Align */
 .form-container {
   display: flex;
@@ -112,6 +141,8 @@ textarea {
   font-family: monospace;
   font-size: 1rem;
   margin-bottom: 1rem;
+  max-width: 800px;
+  text-align: center;
 }
 
 /* Button container - flexbox to ensure alignment */
@@ -177,111 +208,66 @@ textarea {
   background-color: #5d6068; /* Slightly darker on hover */
 }
 
-/* Center slider with proper spacing */
-input[type="range"] {
-  -webkit-appearance: none; /* Remove default browser styles */
-  appearance: none;
-  width: 90%; /* Matches text fields */
-  max-width: 400px; /* Keeps it in sync with input fields */
-  margin: 16px auto 30px auto; /* Centers automatically */
-  display: block;
-  background: transparent; /* Remove default background */
-}
-
-/* Thicker Custom Track */
-input[type="range"]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 10px; /* Increased thickness */
-  background: #6f727b; /* Match input background */
-  border-radius: 5px; /* Rounded edges */
-}
-
-/* Thicker Custom Thumb (Slider Handle) */
-input[type="range"]::-webkit-slider-thumb {
+/* General Slider Styling */
+.custom-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 24px; /* Larger for better grip */
+  width: 100%;
+  max-width: 400px; /* Keeps in sync with text fields */
+  height: 12px;
+  margin: 16px auto;
+  background: #6f727b; /* Match input background */
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Slider Track */
+.custom-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  background: #6f727b;
+  border-radius: 5px;
+}
+
+/* Slider Thumb (Handle) */
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px; /* Restored size */
   height: 24px;
-  background: #daaa00; /* Gold thumb */
+  background: #daaa00; /* Restored gold */
   border-radius: 50%;
   cursor: pointer;
   margin-top: -7px; /* Centers thumb on track */
 }
 
-/* Firefox Thumb */
-input[type="range"]::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  background: #daaa00; /* Gold thumb */
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-/* Focus Outline */
-input[type="range"]:focus {
-  outline: none;
-}
-
 /* Active State (While Dragging) */
-input[type="range"]::-webkit-slider-thumb:active {
+.custom-slider::-webkit-slider-thumb:active {
   background: #b38f00; /* Darker gold when clicked */
 }
 
-/* Container for the slider */
+/* Slider Layout */
 .slider-container {
-  position: relative;
-  width: 90%;
-  max-width: 400px;
-  margin: 16px auto;
-  text-align: center;
-}
-
-/* Style the slider */
-.styled-slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  appearance: none;
-  height: 10px;
-  background: #6f727b; /* Gray track */
-  border-radius: 5px;
-  outline: none;
-  position: relative;
+  max-width: 600px;
 }
 
-/* Customize the slider knob */
-.styled-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 40px; /* Larger thumb */
-  height: 40px;
-  background: #daaa00; /* Gold */
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  z-index: 2;
+/* Ensures number and slider are inline */
+.slider-wrapper {
+  display: flex;
+  align-items: center; /* ✅ Ensures vertical alignment */
+  gap: 12px; /* ✅ Adds space between number and slider */
+  width: 100%;
 }
 
-/* Firefox */
-.styled-slider::-moz-range-thumb {
-  width: 40px;
-  height: 40px;
-  background: #daaa00;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 2;
-}
-
-/* Number Inside the Slider Knob */
-.slider-thumb-value {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background: none; /* Transparent */
-  color: white;
-  font-size: 14px;
+/* Number Display */
+.slider-value {
+  font-size: 1.2rem;
   font-weight: bold;
-  text-align: center;
-  width: 40px;
-  height: 40px;
-  line-height: 40px; /* Center text */
-  pointer-events: none; /* Prevent interaction */
-  z-index: 3;
+  color: white;
+  min-width: 20px; /* ✅ Keeps the number aligned */
+  text-align: right;
 }
