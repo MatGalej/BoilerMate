@@ -187,10 +187,10 @@ const Questionnaire = ({ userID }) => {
             Back
           </button>
           <button
-            onClick={handleSubmit}
+            onClick={nextStep}
             className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
           >
-            Submit
+            Next
           </button>
         </>
       )}
