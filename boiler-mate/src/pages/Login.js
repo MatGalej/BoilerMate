@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { auth } from "../firebaseConfig"; // ✅ Correct Firebase import
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import "../css/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,15 +30,17 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Purdue Email" required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} {/* Display error message */}
-      <p>Don't have an account? <button type="button" onClick={() => navigate("/signup")}>Sign Up</button></p>
+    <div className="overlay">
+      <div className="login-container">
+        <h2>Login</h2>
+        <form onSubmit={handleLogin}>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Purdue Email" required />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+          <button type="submit">Login</button>
+        </form>
+        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
+        <p className="signup-link">Don't have an account? <button type="button" onClick={() => navigate("/signup")} className="back-button">Sign Up</button></p>
+      </div>
     </div>
   );
 };
