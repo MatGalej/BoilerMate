@@ -25,5 +25,6 @@ export const analytics =
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const realtimeDb = getDatabase(app); // Renamed to avoid duplicate `db` declarations
+export const db = getFirestore(app);  // Rename this export to match what is expected in Home.js
 
 export default app;

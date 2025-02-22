@@ -62,7 +62,7 @@ const RoommateRequestGuide = () => {
         {/* Back Button */}
         <div className="mt-6">
           <button
-            onClick={handleBackClick}
+            onClick={() => navigate("/home")}
             className="w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 shadow-md text-sm"
           >
             🔙 Back to Home
