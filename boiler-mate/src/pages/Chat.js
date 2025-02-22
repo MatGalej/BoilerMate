@@ -6,11 +6,13 @@ const Chat = () => {
     const currentUser = auth.currentUser;
     const [friends, setFriends] = useState([]);
     const [selectedChat, setSelectedChat] = useState(null);
+    const [selectedChatName, setSelectedChatName] = useState(""); // Add state for chat name
     const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState("");
     const [friendSearch, setFriendSearch] = useState("");
     const [filteredFriends, setFilteredFriends] = useState([]);
     const [newFriendToAdd, setNewFriendToAdd] = useState("");
+    const [newChatName, setNewChatName] = useState("");
 
     useEffect(() => {
         if (currentUser) {
@@ -73,15 +75,19 @@ const Chat = () => {
 
             if (existingChat) {
                 setSelectedChat(existingChat.id);
+                setSelectedChatName(existingChat.name); // Set chat name
                 listenForMessages(existingChat.id);
             } else {
+                const chatName = prompt("Enter a name for the chat room:"); // Prompt user for chat room name
                 const newChatRef = await addDoc(collection(db, "chats"), {
                     createdAt: serverTimestamp(),
                     members: [currentUser.uid, friendId],
-                    messages: []
+                    messages: [],
+                    name: chatName // Add chat room name to the document
                 });
 
                 setSelectedChat(newChatRef.id);
+                setSelectedChatName(chatName); // Set chat name
                 listenForMessages(newChatRef.id);
             }
         } catch (error) {
@@ -152,6 +158,23 @@ const Chat = () => {
         }
     };
 
+    // 📌 Update Chat Room Name
+    const updateChatName = async () => {
+        if (!selectedChat || !newChatName.trim()) return;
+
+        try {
+            const chatRef = doc(db, "chats", selectedChat);
+            await updateDoc(chatRef, {
+                name: newChatName
+            });
+            alert("Chat room name updated!");
+            setSelectedChatName(newChatName); // Update chat name in state
+            setNewChatName(""); // Clear input
+        } catch (error) {
+            console.error("Error updating chat room name:", error);
+        }
+    };
+
     return (
         <div className="chat-container">
             <h2>Chat</h2>
@@ -174,7 +197,7 @@ const Chat = () => {
             {/* 💬 Chat Window */}
             {selectedChat && (
                 <div className="chat-box">
-                    <h3>Chat Room: {selectedChat}</h3>
+                    <h3>Chat Room: {selectedChatName}</h3> {/* Display chat room name */}
                     <div className="messages">
                         {messages.map((msg) => (
                             <p key={msg.messageID}>
@@ -201,6 +224,15 @@ const Chat = () => {
                         onChange={(e) => setNewFriendToAdd(e.target.value)}
                     />
                     <button onClick={addFriendToChat}>Add Friend</button>
+
+                    {/* ➕ Set Chat Name */}
+                    <input
+                        type="text"
+                        placeholder="Set the chat room name..."
+                        value={newChatName}
+                        onChange={(e) => setNewChatName(e.target.value)}
+                    />
+                    <button onClick={updateChatName}>Update Chat Name</button>
                 </div>
             )}
         </div>
