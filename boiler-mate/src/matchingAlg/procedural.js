@@ -110,7 +110,7 @@ export const findBestMatch = async (userID) => {
   const sortedKeys = entries.map(entry => entry[0]);
 
   try {
-      await setDoc(doc(firestore, "users", userID), {
+      await updateDoc(doc(firestore, "users", userID), {
         potentialMatches: sortedKeys
       });
       console.log("✅ Match stored in Firestore!");

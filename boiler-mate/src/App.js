@@ -9,11 +9,24 @@ import Questionnaire from "./pages/Questionnaire";
 import Chat from "./pages/Chat"; 
 import Profile from "./pages/Profile";// ✅ Import Chat Page
 import ChangePassword from "./pages/ChangePassword";
-
-
-
+import React, { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebaseConfig";
+import PotentialMatches from "./matchingAlg/PotentialMatches";
 
 function App() {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid); // ✅ Set logged-in user's ID
+      } else {
+        setUserId(null); // No user logged in
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup the listener
+  }, []);
+
   return (
     <Router>
       <Routes>
@@ -27,7 +40,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />{" "}
         <Route path="/profile" element={<Profile />} />
         <Route path="/change-password" element={<ChangePassword />} />
-        {/* ✅ Added Chat Page Route */}
+        <Route path="/match" element={<PotentialMatches userId={userId} />} />
       </Routes>
     </Router>
   );
