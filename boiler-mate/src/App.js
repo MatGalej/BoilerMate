@@ -8,6 +8,10 @@ import Friends from "./pages/Friends";
 import Questionnaire from "./pages/Questionnaire";
 import Chat from "./pages/Chat"; 
 import Profile from "./pages/Profile";// ✅ Import Chat Page
+import ChangePassword from "./pages/ChangePassword";
+
+
+
 
 function App() {
   return (
@@ -22,7 +26,7 @@ function App() {
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/chat" element={<Chat />} />{" "}
         <Route path="/profile" element={<Profile />} />
-        
+        <Route path="/change-password" element={<ChangePassword />} />
         {/* ✅ Added Chat Page Route */}
       </Routes>
     </Router>
