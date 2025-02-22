@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import "../css/Profile.css";
 
 const Profile = () => {
-  const navigate = useNavigate(); // ✅ Define navigate
-
   const [userData, setUserData] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [newUsername, setNewUsername] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,6 +31,24 @@ const Profile = () => {
     };
     fetchUserData();
   }, []);
+
+  const handleChangeUsername = async () => {
+    if (!newUsername) {
+      setError("Username cannot be empty");
+      return;
+    }
+
+    try {
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      await updateDoc(userDocRef, { username: newUsername });
+      setSuccess("Username updated successfully");
+      setError("");
+      setUserData((prevData) => ({ ...prevData, username: newUsername }));
+    } catch (error) {
+      setError("Error updating username: " + error.message);
+      setSuccess("");
+    }
+  };
 
   if (!userData) return <p>Loading...</p>;
 
@@ -52,6 +72,9 @@ const Profile = () => {
           
           <button onClick={() => setIsFlipped(true)} className="flip-btn small-btn">
             More Info 🔄
+          </button>
+          <button onClick={() => navigate("/questionnaire")} className="edit-btn">
+            Edit Info ✏️
           </button>
         </div>
 
@@ -99,6 +122,22 @@ const Profile = () => {
         <button onClick={() => auth.signOut()} className="sidebar-btn logout-btn">
           Logout
         </button>
+      </div>
+
+      {/* Change Username Section */}
+      <div className="change-username-container">
+        <h2>Change Username</h2>
+        <input
+          type="text"
+          placeholder="New Username"
+          value={newUsername}
+          onChange={(e) => setNewUsername(e.target.value)}
+        />
+        <button onClick={handleChangeUsername} className="change-username-btn">
+          Update Username
+        </button>
+        {error && <p className="error-text">{error}</p>}
+        {success && <p className="success-text">{success}</p>}
       </div>
     </div>
   );
