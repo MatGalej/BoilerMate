@@ -7,7 +7,7 @@ import "../css/Home.css"; // Import the updated CSS
 
 const Home = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("User");
+  const [firstName, setFirstName] = useState("User");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -15,7 +15,7 @@ const Home = () => {
         try {
           const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
           if (userDoc.exists()) {
-            setUsername(userDoc.data().username || "User");
+            setFirstName(userDoc.data().firstName || "User");
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -35,7 +35,7 @@ const Home = () => {
       {/* Navbar at the top */}
       <nav className="navbar">
         <div className="nav-left">
-          <h2 className="logo">Boiler Mate</h2>
+          <h2 className="logo">BoilerMate</h2>
         </div>
         <div className="nav-right">
           <button className="nav-button" onClick={() => navigate("/profile")}>Profile</button>
@@ -51,7 +51,7 @@ const Home = () => {
 
       {/* Welcome Section */}
       <div className="welcome-container">
-        <h1 className="welcome-text">Welcome, {username}!</h1>
+        <h1 className="welcome-text">Welcome, {firstName}!</h1>
         <p>Ditch The Train Wreck.</p>
       </div>
     </div>
