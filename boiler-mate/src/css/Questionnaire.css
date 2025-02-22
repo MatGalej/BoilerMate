@@ -1,0 +1,141 @@
+/* Ensure Lato font is used (default if available in the browser) */
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+/* General Styling */
+html {
+  margin: 0;
+  padding: 0;
+  background: #555960;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  background: #555960;
+}
+
+input {
+  background-color: #6f727b; /* Light gray background */
+  color: #dedbdb;
+}
+
+select {
+  background-color: #6f727b; /* Light gray background */
+  color: #dedbdb; /* Dark text for contrast */
+  border: none;
+  padding: 10px;
+  border-radius: 8px; /* Rounded corners */
+  width: 100%; /* Same width as text fields */
+  outline: none;
+  font-size: 1rem;
+  appearance: none; /* Removes default browser styling */
+  cursor: pointer;
+}
+/* Container for progress bar and title */
+.progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 80px; /* Add bottom spacing */
+}
+
+/* Profile title styling */
+.profile-title {
+  font-size: 5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+/* Progress Bar Container */
+.progress-container {
+  height: 12px; /* Adjust thickness */
+  background-color: #6f727b; /* White bar background */
+  border-radius: 6px;
+  overflow: hidden;
+  width: 50%; /* Set to a fixed percentage of the container */
+  min-width: 200px; /* Ensure it doesn’t become too small */
+  max-width: 400px; /* Prevent it from becoming too large */
+}
+
+/* Progress Bar Filler */
+.progress-bar {
+  height: 100%;
+  background-color: #daaa00; /* Gold */
+  transition: width 0.3s ease-in-out;
+}
+
+.questionText {
+  color: #ffffff;
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Button container - flex for multi-button steps, center for single-button */
+.button-group {
+  display: flex;
+  justify-content: center; /* Align buttons side by side */
+  gap: 15px; /* Space between buttons */
+  width: 100%;
+  max-width: 400px; /* Prevent excessive stretching */
+  margin-top: 5rem;
+}
+
+/* Single-button container for first step */
+.next-button-container {
+  display: flex;
+  justify-content: center; /* Center Next button when alone */
+  width: 100%;
+  margin-top: 4rem;
+}
+
+/* Default button styling */
+.button {
+  color: white;
+  justify-content: center;
+  font-size: 1.2rem; /* Match text input font size */
+  font-weight: bold;
+  padding: 12px 0;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 50%; /* Equal size buttons */
+  max-width: 200px;
+  text-align: center;
+  height: 70%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Enabled state (yellow) */
+.button.enabled {
+  background-color: #daaa00;
+  color: white;
+}
+
+/* Disabled state (gray) */
+.button.disabled {
+  background-color: #b0b0b0;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+/* Back Button (always gray) */
+.back-button {
+  background-color: #6f727b; /* Dark gray */
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #5d6068; /* Slightly darker on hover */
+}

@@ -79,10 +79,9 @@ body, html {
   
   .welcome-text {
     font-size: 6rem;
+    color: #8E6F3E;
     font-weight: 800;
-    background: linear-gradient(to right, #8E6F3E, #DAAA00);
     -webkit-background-clip: text;
-    color: transparent;
   }
   
   .welcome-container p {
