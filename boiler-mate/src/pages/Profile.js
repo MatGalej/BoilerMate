@@ -32,24 +32,6 @@ const Profile = () => {
     fetchUserData();
   }, []);
 
-  const handleChangeUsername = async () => {
-    if (!newUsername) {
-      setError("Username cannot be empty");
-      return;
-    }
-
-    try {
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
-      await updateDoc(userDocRef, { username: newUsername });
-      setSuccess("Username updated successfully");
-      setError("");
-      setUserData((prevData) => ({ ...prevData, username: newUsername }));
-    } catch (error) {
-      setError("Error updating username: " + error.message);
-      setSuccess("");
-    }
-  };
-
   if (!userData) return <p>Loading...</p>;
 
   return (
@@ -122,22 +104,6 @@ const Profile = () => {
         <button onClick={() => auth.signOut()} className="sidebar-btn logout-btn">
           Logout
         </button>
-      </div>
-
-      {/* Change Username Section */}
-      <div className="change-username-container">
-        <h2>Change Username</h2>
-        <input
-          type="text"
-          placeholder="New Username"
-          value={newUsername}
-          onChange={(e) => setNewUsername(e.target.value)}
-        />
-        <button onClick={handleChangeUsername} className="change-username-btn">
-          Update Username
-        </button>
-        {error && <p className="error-text">{error}</p>}
-        {success && <p className="success-text">{success}</p>}
       </div>
     </div>
   );

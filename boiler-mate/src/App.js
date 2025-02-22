@@ -9,6 +9,7 @@ import Questionnaire from "./pages/Questionnaire";
 import Chat from "./pages/Chat"; 
 import Profile from "./pages/Profile";// ✅ Import Chat Page
 import ChangePassword from "./pages/ChangePassword";
+import ChangeUsername from "./pages/ChangeUsername";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
@@ -43,6 +44,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />{" "}
         <Route path="/profile" element={<Profile />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/change-username" element={<ChangeUsername />} />
         <Route path="/match" element={<PotentialMatches userId={userId} />} />
       </Routes>
     </Router>
