@@ -6,41 +6,29 @@ import {
   arrayUnion, arrayRemove, onSnapshot,
   serverTimestamp
 } from "firebase/firestore";
+import "../css/Chat.css"; // Make sure you import your new CSS
 
 const Chat = () => {
   const currentUser = auth.currentUser;
   const [friends, setFriends] = useState([]);
+  const [filteredFriends, setFilteredFriends] = useState([]);
+  const [friendSearch, setFriendSearch] = useState("");
+  const [isValidUser, setIsValidUser] = useState(false);
+
+  const [userChats, setUserChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [selectedChatName, setSelectedChatName] = useState("");
+  const [chatOwner, setChatOwner] = useState("");
+  const [chatMembers, setChatMembers] = useState([]);
+
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
 
-  const [friendSearch, setFriendSearch] = useState("");
-  const [filteredFriends, setFilteredFriends] = useState([]);
-
-  // For adding new friend to chat
   const [newFriendToAdd, setNewFriendToAdd] = useState("");
-
-  // For renaming the chat
   const [newChatName, setNewChatName] = useState("");
 
-  // Store chat members as an array of objects: [{ uid, username }, ...]
-  const [chatMembers, setChatMembers] = useState([]);
-
-  // Store chat owner as a UID
-  const [chatOwner, setChatOwner] = useState("");
-
-  // For selecting which member to remove (will be a UID)
   const [memberToRemove, setMemberToRemove] = useState("");
-
-  // For error messages
   const [errorMessage, setErrorMessage] = useState("");
-
-  // Store user's chats
-  const [userChats, setUserChats] = useState([]);
-
-  // Store the validity of the searched user
-  const [isValidUser, setIsValidUser] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -49,6 +37,7 @@ const Chat = () => {
     }
   }, [currentUser]);
 
+  // Whenever friendSearch changes, check if user exists
   useEffect(() => {
     if (friendSearch) {
       checkUserExists(friendSearch);
@@ -57,8 +46,13 @@ const Chat = () => {
     }
   }, [friendSearch]);
 
-  // 📌 Fetch Friends List (using usernames)
+  // ───────────────────────────────────────────────────────────
+  //                       DATA FETCHING
+  // ───────────────────────────────────────────────────────────
+
   const fetchFriends = async () => {
+    // ... same logic as before ...
+    // sets the "friends" array
     try {
       const userDoc = await getDocs(
         query(collection(db, "users"), where("uid", "==", currentUser.uid))
@@ -67,7 +61,6 @@ const Chat = () => {
         const userData = userDoc.docs[0].data();
         const friendIds = userData.friends || [];
 
-        // Convert each friend UID to a username
         const friendData = await Promise.all(
           friendIds.map(async (friendId) => {
             const friendSnap = await getDocs(
@@ -87,38 +80,43 @@ const Chat = () => {
     }
   };
 
-  // 📌 Fetch User's Chats
   const fetchUserChats = async () => {
+    // ... same logic as before ...
+    // sets the "userChats" array
     try {
       const chatsRef = collection(db, "chats");
       const q = query(chatsRef, where("members", "array-contains", currentUser.uid));
       const chatSnapshot = await getDocs(q);
 
-      const userChats = [];
+      const userChatsTemp = [];
       chatSnapshot.forEach((docSnap) => {
         const chatData = docSnap.data();
-        userChats.push({ id: docSnap.id, ...chatData });
+        userChatsTemp.push({ id: docSnap.id, ...chatData });
       });
 
-      // Verify that each member exists before showing the chat room
-      const verifiedChats = await Promise.all(userChats.map(async (chat) => {
-        const verifiedMembers = await Promise.all(chat.members.map(async (memberId) => {
-          const memberSnap = await getDocs(
-            query(collection(db, "users"), where("uid", "==", memberId))
+      // Verify each member
+      const verifiedChats = await Promise.all(
+        userChatsTemp.map(async (chat) => {
+          const verifiedMembers = await Promise.all(
+            chat.members.map(async (memberId) => {
+              const memberSnap = await getDocs(
+                query(collection(db, "users"), where("uid", "==", memberId))
+              );
+              return !memberSnap.empty;
+            })
           );
-          return !memberSnap.empty;
-        }));
-        return verifiedMembers.every(Boolean) ? chat : null;
-      }));
+          return verifiedMembers.every(Boolean) ? chat : null;
+        })
+      );
 
-      setUserChats(verifiedChats.filter(chat => chat !== null));
+      setUserChats(verifiedChats.filter((c) => c !== null));
     } catch (error) {
       console.error("Error fetching user chats:", error);
     }
   };
 
-  // 📌 Check if a user exists by username
   const checkUserExists = async (username) => {
+    // ... same logic as before ...
     try {
       const userSnap = await getDocs(
         query(collection(db, "users"), where("username", "==", username))
@@ -130,17 +128,21 @@ const Chat = () => {
     }
   };
 
-  // 📌 Get or Create Chat by Friend's Username
+  // ───────────────────────────────────────────────────────────
+  //             GET OR CREATE / SELECT CHAT
+  // ───────────────────────────────────────────────────────────
+
   const getOrCreateChat = async (friendUsername) => {
+    // ... same logic as before ...
+    // sets "selectedChat", "selectedChatName", "chatOwner", etc.
     try {
-      // 1) Find friend's UID
       const friendSnap = await getDocs(
         query(collection(db, "users"), where("username", "==", friendUsername))
       );
       if (friendSnap.empty) return alert("User not found!");
       const friendId = friendSnap.docs[0].data().uid;
 
-      // 2) Check if a chat with both UIDs already exists
+      // Check if existing chat
       const chatsRef = collection(db, "chats");
       const q = query(chatsRef, where("members", "array-contains", currentUser.uid));
       const chatSnapshot = await getDocs(q);
@@ -153,23 +155,20 @@ const Chat = () => {
         }
       });
 
-      // 3) If chat exists, pick it
       if (existingChat) {
         setSelectedChat(existingChat.id);
-        setSelectedChatName(existingChat.name || await getChatMembersNames(existingChat.members));
+        setSelectedChatName(existingChat.name || "Unnamed Chat");
         setChatOwner(existingChat.owner);
         fetchChatMembers(existingChat.members);
         listenForMessages(existingChat.id);
-      }
-      // 4) If not, create a new one
-      else {
-        const chatName = prompt("Enter a name for the chat room:") || await getChatMembersNames([currentUser.uid, friendId]);
+      } else {
+        const chatName = prompt("Enter a name for the chat room:") || "Unnamed Chat";
         const newChatRef = await addDoc(collection(db, "chats"), {
           createdAt: serverTimestamp(),
-          members: [currentUser.uid, friendId], // array of UIDs
+          members: [currentUser.uid, friendId],
           messages: [],
           name: chatName,
-          owner: currentUser.uid // store the owner as a UID
+          owner: currentUser.uid
         });
 
         setSelectedChat(newChatRef.id);
@@ -177,15 +176,26 @@ const Chat = () => {
         setChatOwner(currentUser.uid);
         fetchChatMembers([currentUser.uid, friendId]);
         listenForMessages(newChatRef.id);
-        fetchUserChats(); // Update chat list for both users
+        fetchUserChats();
       }
     } catch (error) {
       console.error("Error getting or creating chat:", error);
     }
   };
 
-  // 📌 Fetch Chat Members as array of { uid, username }
+  const selectChat = async (chatId, chatName) => {
+    // ... same logic as before ...
+    setSelectedChat(chatId);
+    setSelectedChatName(chatName || "Unnamed Chat");
+    listenForMessages(chatId);
+  };
+
+  // ───────────────────────────────────────────────────────────
+  //          FETCH MEMBERS / LISTEN FOR MESSAGES
+  // ───────────────────────────────────────────────────────────
+
   const fetchChatMembers = async (memberIds) => {
+    // ... same logic ...
     try {
       const membersData = await Promise.all(
         memberIds.map(async (mId) => {
@@ -205,24 +215,6 @@ const Chat = () => {
     }
   };
 
-  // 📌 Get Chat Members Names
-  const getChatMembersNames = async (memberIds) => {
-    const membersData = await Promise.all(
-      memberIds.map(async (mId) => {
-        const memberSnap = await getDocs(
-          query(collection(db, "users"), where("uid", "==", mId))
-        );
-        if (!memberSnap.empty) {
-          const memberDoc = memberSnap.docs[0].data();
-          return memberDoc.username;
-        }
-        return null;
-      })
-    );
-    return membersData.filter((name) => name !== null).join(", ");
-  };
-
-  // 📌 Listen for Messages in Real Time
   const listenForMessages = (chatId) => {
     const chatRef = doc(db, "chats", chatId);
     return onSnapshot(chatRef, async (snapshot) => {
@@ -245,7 +237,7 @@ const Chat = () => {
 
         setMessages(messagesWithNames);
 
-        // Update members & owner, in case someone else changed them
+        // Update members & owner
         if (chatData.members) {
           fetchChatMembers(chatData.members);
         }
@@ -254,7 +246,10 @@ const Chat = () => {
     });
   };
 
-  // 📌 Send a Message
+  // ───────────────────────────────────────────────────────────
+  //                 MESSAGE / CHAT ACTIONS
+  // ───────────────────────────────────────────────────────────
+
   const sendMessage = async () => {
     if (!selectedChat || !messageInput.trim()) return;
 
@@ -270,14 +265,14 @@ const Chat = () => {
       await updateDoc(chatRef, {
         messages: arrayUnion(newMessage)
       });
-      setMessageInput(""); // clear input
+      setMessageInput("");
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
 
-  // 📌 Add Friend to Existing Chat by Username
   const addFriendToChat = async () => {
+    // ... same logic ...
     if (!selectedChat || !newFriendToAdd.trim()) return;
 
     try {
@@ -296,63 +291,57 @@ const Chat = () => {
       alert("Friend added to chat!");
       setNewFriendToAdd("");
 
-      // Also update local chatMembers
       const updatedMembers = [
         ...chatMembers,
         { uid: newUserId, username: newFriendToAdd }
       ];
       setChatMembers(updatedMembers);
-      fetchUserChats(); // Update chat list for both users
+      fetchUserChats();
     } catch (error) {
       console.error("Error adding friend to chat:", error);
     }
   };
 
-  // 📌 Remove Member (with owner handoff logic)
   const removeMemberFromChat = async () => {
+    // ... same logic with the “owner handoff” ...
     if (!selectedChat || !memberToRemove) {
       setErrorMessage("Please select a member to remove.");
       return;
     }
     setErrorMessage("");
 
-    // If the user being removed is the same as the chat's owner
     const isOwnerRemovingSelf = memberToRemove === chatOwner;
 
-    // If there's only 1 member total (the owner) and they remove themselves => delete the chat
     if (chatMembers.length === 1 && isOwnerRemovingSelf) {
       try {
         await deleteDoc(doc(db, "chats", selectedChat));
         alert("Chat room deleted (the last member was the owner).");
 
-        // Reset local state
+        // reset
         setSelectedChat(null);
         setSelectedChatName("");
         setChatOwner("");
         setChatMembers([]);
         setMessages([]);
         setMemberToRemove("");
-        fetchUserChats(); // Update chat list
+        fetchUserChats();
       } catch (error) {
         console.error("Error deleting chat room:", error);
       }
       return;
     }
 
-    // Otherwise, remove the member from the 'members' array
     try {
       const chatRef = doc(db, "chats", selectedChat);
       await updateDoc(chatRef, {
         members: arrayRemove(memberToRemove)
       });
 
-      // Update local state
       const updatedMembers = chatMembers.filter(
         (m) => m.uid !== memberToRemove
       );
       setChatMembers(updatedMembers);
 
-      // If the owner left, pick the first remaining member as new owner
       if (isOwnerRemovingSelf && updatedMembers.length > 0) {
         const newOwnerUid = updatedMembers[0].uid;
         await updateDoc(chatRef, { owner: newOwnerUid });
@@ -364,7 +353,6 @@ const Chat = () => {
         alert("Member removed from chat!");
       }
 
-      // If the current user removed themselves, update the chat list
       if (memberToRemove === currentUser.uid) {
         fetchUserChats();
         setSelectedChat(null);
@@ -380,8 +368,8 @@ const Chat = () => {
     }
   };
 
-  // 📌 Update Chat Name
   const updateChatName = async () => {
+    // ... same logic ...
     if (!selectedChat || !newChatName.trim()) return;
 
     try {
@@ -395,125 +383,137 @@ const Chat = () => {
     }
   };
 
-  // 📌 Select Chat from Chat History
-  const selectChat = async (chatId, chatName) => {
-    setSelectedChat(chatId);
-    if (!chatName) {
-      const chat = userChats.find(chat => chat.id === chatId);
-      chatName = await getChatMembersNames(chat.members);
-    }
-    setSelectedChatName(chatName);
-    listenForMessages(chatId);
-  };
+  // ───────────────────────────────────────────────────────────
+  //                      RENDER
+  // ───────────────────────────────────────────────────────────
 
   return (
-    <div className="chat-container">
-      <h2>Chat</h2>
+    <div className="chat-page">
+      <h2 className="chat-header">Chat</h2>
 
-      {/* 🔍 Search Friends */}
-      <input
-        type="text"
-        placeholder="Search friends..."
-        value={friendSearch}
-        onChange={(e) => setFriendSearch(e.target.value)}
-      />
-      <div>
-        {filteredFriends.map((friendUsername) => (
-          <div key={friendUsername}>
-            <button onClick={() => getOrCreateChat(friendUsername)}>
-              Chat with {friendUsername}
-            </button>
-          </div>
-        ))}
-        {filteredFriends.length === 0 && friendSearch && isValidUser && (
-          <div>
-            <button onClick={() => getOrCreateChat(friendSearch)}>
-              Create chat with {friendSearch}
-            </button>
-          </div>
-        )}
+      {/* Top area: Search bar + button(s) if no chat selected */}
+      <div className="search-section">
+        <input
+          type="text"
+          placeholder="Search friends..."
+          value={friendSearch}
+          onChange={(e) => setFriendSearch(e.target.value)}
+        />
+        <div className="search-results">
+          {filteredFriends.map((friendUsername) => (
+            <div key={friendUsername}>
+              <button onClick={() => getOrCreateChat(friendUsername)}>
+                Chat with {friendUsername}
+              </button>
+            </div>
+          ))}
+          {filteredFriends.length === 0 && friendSearch && isValidUser && (
+            <div>
+              <button onClick={() => getOrCreateChat(friendSearch)}>
+                Create chat with {friendSearch}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* 📜 Chat History */}
+      {/* If NO chat is selected, show Chat History */}
       {!selectedChat && (
         <div className="chat-history">
           <h3>Chat History</h3>
           {userChats.map((chat) => (
             <div key={chat.id}>
               <button onClick={() => selectChat(chat.id, chat.name)}>
-                {chat.name || chat.members.map(member => member.username).join(", ")}
+                {chat.name || "Unnamed Chat"}
               </button>
             </div>
           ))}
         </div>
       )}
 
-      {/* 💬 Chat Window */}
+      {/* If a chat is selected, show the two-column layout */}
       {selectedChat && (
-        <div className="chat-box">
-          <h3>Chat Room: {selectedChatName}</h3>
-          <p>
-            <strong>Members:</strong>{" "}
-            {chatMembers.map((m) => m.username).join(", ")}
-          </p>
-          <div className="messages">
-            {messages.map((msg) => (
-              <p key={msg.messageID}>
-                <strong>{msg.senderName}:</strong> {msg.text}{" "}
-                <span>
-                  ({new Date(msg.time.seconds * 1000).toLocaleTimeString()})
-                </span>
-              </p>
-            ))}
+        <div className="chat-content">
+          {/* Left column: messages box */}
+          <div className="chat-left">
+            <div className="chat-info-top">
+              <h3>{selectedChatName}</h3>
+              <p><strong>Members:</strong> {chatMembers.map(m => m.username).join(", ")}</p>
+            </div>
+            <div className="messages">
+              {messages.map((msg) => (
+                <p key={msg.messageID} className="message-line">
+                  <strong>{msg.senderName}:</strong> {msg.text}{" "}
+                  <span className="timestamp">
+                    ({new Date(msg.time.seconds * 1000).toLocaleTimeString()})
+                  </span>
+                </p>
+              ))}
+            </div>
+            <div className="message-input">
+              <input
+                type="text"
+                placeholder="Type a message..."
+                value={messageInput}
+                onChange={(e) => setMessageInput(e.target.value)}
+              />
+              <button onClick={sendMessage}>Send</button>
+            </div>
           </div>
 
-          {/* 📩 Message Input */}
-          <input
-            type="text"
-            placeholder="Type a message..."
-            value={messageInput}
-            onChange={(e) => setMessageInput(e.target.value)}
-          />
-          <button onClick={sendMessage}>Send</button>
+          {/* Right column: Chat settings, add/remove friend, etc. */}
+          <div className="chat-right">
+            <h4>Chat Settings</h4>
 
-          {/* ➕ Add Friend to Chat */}
-          <input
-            type="text"
-            placeholder="Enter friend's username to add..."
-            value={newFriendToAdd}
-            onChange={(e) => setNewFriendToAdd(e.target.value)}
-          />
-          <button onClick={addFriendToChat}>Add Friend</button>
+            {currentUser.uid === chatOwner && (
+              <div className="owner-controls">
+                <div className="add-friend-section">
+                  <input
+                    type="text"
+                    placeholder="Enter friend's username..."
+                    value={newFriendToAdd}
+                    onChange={(e) => setNewFriendToAdd(e.target.value)}
+                  />
+                  <button onClick={addFriendToChat}>Add Friend</button>
+                </div>
+                <div className="remove-friend-section">
+                  <select
+                    value={memberToRemove}
+                    onChange={(e) => setMemberToRemove(e.target.value)}
+                  >
+                    <option value="">Select member to remove</option>
+                    {chatMembers.map((m) => (
+                      <option key={m.uid} value={m.uid}>
+                        {m.username}
+                      </option>
+                    ))}
+                  </select>
+                  <button onClick={removeMemberFromChat}>Remove</button>
+                  {errorMessage && <p className="error-message">{errorMessage}</p>}
+                </div>
+              </div>
+            )}
 
-          {/* ✏️ Update Chat Name */}
-          <input
-            type="text"
-            placeholder="Set the chat room name..."
-            value={newChatName}
-            onChange={(e) => setNewChatName(e.target.value)}
-          />
-          <button onClick={updateChatName}>Update Chat Name</button>
-
-          {/* ➖ Remove Member (owner has special rights) */}
-          {currentUser.uid === chatOwner && (
-            <div>
-              <select
-                value={memberToRemove}
-                onChange={(e) => setMemberToRemove(e.target.value)}
-              >
-                <option value="">Select member to remove</option>
-                {chatMembers.map((m) => (
-                  <option key={m.uid} value={m.uid}>
-                    {m.username}
-                  </option>
-                ))}
-              </select>
-              <button onClick={removeMemberFromChat}>Remove Member</button>
-              {errorMessage && (
-                <p className="error-message">{errorMessage}</p>
-              )}
+            <div className="rename-chat-section">
+              <input
+                type="text"
+                placeholder="New chat room name..."
+                value={newChatName}
+                onChange={(e) => setNewChatName(e.target.value)}
+              />
+              <button onClick={updateChatName}>Rename Chat</button>
             </div>
-          )}
+
+            <button onClick={() => {
+              // "Back" button, resets to chat history
+              setSelectedChat(null);
+              setSelectedChatName("");
+              setChatMembers([]);
+              setMessages([]);
+            }}>
+              Back to Chat List
+            </button>
+          </div>
         </div>
       )}
     </div>
