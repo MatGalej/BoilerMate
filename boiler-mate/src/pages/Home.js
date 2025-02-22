@@ -35,7 +35,12 @@ const Home = () => {
       {/* Navigation Bar */}
       <nav className="w-full flex justify-center space-x-6 py-4 bg-gray-700 rounded-lg shadow-lg">
         <button className="text-white text-lg font-semibold hover:underline">Profile</button>
-        <button className="text-white text-lg font-semibold hover:underline">Chat</button>
+        <button 
+          className="text-white text-lg font-semibold hover:underline" 
+          onClick={() => navigate("/chat")} // Navigates to Chat Page
+        >
+          Chat
+        </button>
         <button className="text-white text-lg font-semibold hover:underline">Match</button>
         <button 
           className="text-white text-lg font-semibold hover:underline" 
@@ -61,6 +66,14 @@ const Home = () => {
           🏠 Roommate Request Guide
         </button>
 
+        {/* 🔥 Chat Button */}
+        <button
+          className="w-60 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-green-700"
+          onClick={() => navigate("/chat")}
+        >
+          💬 Open Chat
+        </button>
+
         <button
           className="w-60 py-3 bg-gray-700 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-gray-800"
           onClick={handleLogout}
@@ -68,7 +81,7 @@ const Home = () => {
           🔐 Log Out
         </button>
 
-        {/* 🔥 Add Friends Button */}
+        {/* 🔥 Manage Friends Button */}
         <button
           className="w-60 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700"
           onClick={() => navigate("/friends")}

@@ -11,18 +11,20 @@ import RoommateRequestGuide from "./pages/RoommateRequestGuide";
 import Home from "./pages/Home";
 import Friends from "./pages/Friends";
 import Questionnaire from "./pages/Questionnaire";
+import Chat from "./pages/Chat"; // ✅ Import Chat Page
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Welcome />} /> {/* Redirect "/" to Home */}
+        <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/home" element={<Home />} />
         <Route path="/roommate-request" element={<RoommateRequestGuide />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/questionnaire" element={<Questionnaire />} />
+        <Route path="/chat" element={<Chat />} /> {/* ✅ Added Chat Page Route */}
       </Routes>
     </Router>
   );
