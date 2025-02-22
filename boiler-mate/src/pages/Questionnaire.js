@@ -237,11 +237,13 @@ const Questionnaire = () => {
 
       {/* Step 5: Cleanliness */}
       {step === 5 && (
-        <>
+        <div className="slider-container">
           <label className="questionText">
-            How clean do you keep your space? (1 = messy, 7 = very clean)
+            How clean do you keep your space?
           </label>
-          <div className="slider-container">
+
+          <div className="slider-wrapper">
+            <span className="slider-value">{formData.cleanliness}</span>
             <input
               type="range"
               name="cleanliness"
@@ -249,17 +251,10 @@ const Questionnaire = () => {
               max="7"
               value={formData.cleanliness}
               onChange={handleSliderChange}
-              className="styled-slider"
-              id="cleanlinessSlider"
+              className="custom-slider"
             />
-            <div
-              className="slider-thumb-value"
-              style={{ left: `${((formData.cleanliness - 1) / 6) * 100}%` }}
-            >
-              {formData.cleanliness}
-            </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* Step 6: Earliest Class Time */}
@@ -269,7 +264,6 @@ const Questionnaire = () => {
             name="earliestClassTime"
             value={formData.earliestClassTime}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           >
             <option value="">Select Earliest Class Time</option>
             <option value="Before 8 AM">Before 8 AM</option>
@@ -281,8 +275,8 @@ const Questionnaire = () => {
 
       {/* Step 7: Preferred Study Location (Short Answer) */}
       {step === 7 && (
-        <>
-          <label className="text-center mb-2">
+        <div className="input-group">
+          <label htmlFor="preferredStudyLocation" class="questionText">
             Where do you prefer to study?
           </label>
           <input
@@ -291,34 +285,30 @@ const Questionnaire = () => {
             placeholder="Library, dorm, café..."
             value={formData.preferredStudyLocation}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
-        </>
+        </div>
       )}
 
       {/* Step 8: Extroversion (1-7 Slider) */}
       {step === 8 && (
-        <>
-          <label className="text-center mb-2">
+        <div className="slider-container">
+          <label className="questionText">
             How extroverted are you? (1 = introvert, 7 = extrovert)
-          </label>
-          <label className="text-center mb-2">
-            How extroverted are you? (1 = introvert, 7 = extrovert)
-            <span className="ml-2 font-bold text-yellow-500">
-              {formData.extroversion}
-            </span>
           </label>
 
-          <input
-            type="range"
-            name="extroversion"
-            min="1"
-            max="7"
-            value={formData.extroversion}
-            onChange={handleSliderChange}
-            className="w-full my-2"
-          />
-        </>
+          <div className="slider-wrapper">
+            <span className="slider-value">{formData.extroversion}</span>
+            <input
+              type="range"
+              name="extroversion"
+              min="1"
+              max="7"
+              value={formData.extroversion}
+              onChange={handleSliderChange}
+              className="custom-slider"
+            />
+          </div>
+        </div>
       )}
 
       {/* Step 9: Friendship Preference (1-7 Slider) */}
