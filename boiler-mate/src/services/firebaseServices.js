@@ -1,21 +1,56 @@
-import { firestore } from "./firebaseConfig";
+import { firestore } from "../firebaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
 
 /**
- * Creates a user profile in Firestore.
- * @param {string} userID - The unique user ID from Firebase Authentication.
- * @param {object} userData - The user's profile data.
+ * Creates a new user profile with only known information, leaving other fields blank for setup.
+ * @param {string} userID - The Firebase Authentication UID.
+ * @param {string} email - The user's email.
+ * @param {string} username - The chosen username.
  */
-export const createUserProfile = async (userID, userData) => {
+export const createUserProfile = async (userID, email, username) => {
   try {
-    const userRef = doc(firestore, "users", userID);
-    await setDoc(userRef, {
-      ...userData,
-      matches: [], // Initialize matches as an empty array
-    });
-    console.log("User profile created successfully!");
+    await setDoc(
+      doc(firestore, "users", userID),
+      {
+        uid: userID,
+        email: email,
+        username: username,
+        createdAt: serverTimestamp(), // Timestamp for account creation
+
+        // User profile fields (Left blank for later completion)
+        firstName: "",
+        lastName: "",
+        major: "",
+        graduationYear: "",
+        roomType: "",
+        chats: [],
+        hobbies: [],
+        smokeDrinkWeed: "",
+        sleepSchedule: "",
+        earliestClassTime: "",
+        sleepTime: "",
+        extroversion: "",
+        peopleOver: "",
+        studyPreference: "",
+        activityLevel: "",
+        cleanliness: "",
+        friendshipPreference: "",
+        musicPreference: "",
+        hasSO: "",
+        okWithSOInRoom: "",
+        allergiesDiet: "",
+        roomDecorations: "",
+        carOnCampus: "",
+        shareCleaningSupplies: "",
+        matches: [],
+      },
+      { merge: true }
+    );
+
+    console.log("✅ User profile initialized successfully!");
   } catch (error) {
-    console.error("Error creating user profile:", error);
+    console.error("❌ Error initializing user profile:", error);
   }
 };
 

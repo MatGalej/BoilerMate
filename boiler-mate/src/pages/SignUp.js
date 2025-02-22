@@ -1,13 +1,11 @@
-// src/pages/SignUp.js
 import React, { useState } from "react";
-import { firestore } from "../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
+import { createUserProfile } from "../services/firebaseServices"; // ✅ Import Firestore function
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -37,18 +35,8 @@ function SignUp() {
       // ✅ Send email verification
       await sendEmailVerification(user);
 
-      // ✅ Save user profile to Firestore
-      await setDoc(doc(firestore, "users", user.uid), {
-        uid: user.uid,
-        email: email,
-        username: username,
-        name: "", // To be filled in Profile Setup
-        birth_gender: "",
-        grade: "",
-        hobbies: [],
-        sleep_schedule: "",
-        createdAt: serverTimestamp(),
-      });
+      // ✅ Save user profile to Firestore (using firebaseServices.js)
+      await createUserProfile(user.uid, email, username);
 
       setMessage(
         "A verification email has been sent. Please check your inbox or spam folder."
