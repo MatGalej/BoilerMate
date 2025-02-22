@@ -87,6 +87,7 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
+          {!formData.firstName.trim() && <p className="text-red-500">First Name is required</p>}
           <input
             type="text"
             name="lastName"
@@ -95,9 +96,16 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
+          {!formData.lastName.trim() && <p className="text-red-500">Last Name is required</p>}
+
           <button
             onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
+            disabled={!formData.firstName.trim() || !formData.lastName.trim()} // Disable if empty
+            className={`p-2 rounded w-full mt-2 ${
+              !formData.firstName.trim() || !formData.lastName.trim()
+                ? "bg-gray-400 cursor-not-allowed" // Disabled style
+                : "bg-yellow-500 text-black" // Enabled style
+            }`}
           >
             Next
           </button>
