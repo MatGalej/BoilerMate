@@ -5,9 +5,10 @@ import { doc, getDoc } from "firebase/firestore";
 import "../css/Profile.css";
 
 const Profile = () => {
+  const navigate = useNavigate(); // ✅ Define navigate
+
   const [userData, setUserData] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
