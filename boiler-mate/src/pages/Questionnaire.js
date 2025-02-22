@@ -529,7 +529,7 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Button Group (handles both Next & Back dynamically) */}
+      {/* Button Group (Ensures Back and Next are side by side) */}
       <div className="button-group">
         {/* Back button (only show if step > 1) */}
         {step > 1 && (
