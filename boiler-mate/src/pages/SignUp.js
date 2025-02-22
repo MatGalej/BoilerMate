@@ -6,6 +6,7 @@ import {
 import { auth } from "../firebaseConfig";
 import { createUserProfile } from "../services/firebaseServices"; // ✅ Import Firestore function
 import { useNavigate } from "react-router-dom";
+import "../css/signup.css";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -50,39 +51,43 @@ function SignUp() {
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSignUp}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Purdue Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Sign Up</button>
-      </form>
-      <p>{message}</p>
-      <p>
-        Already have an account?{" "}
-        <button type="button" onClick={() => navigate("/login")}>
-          Login
-        </button>
-      </p>
+    <div className="background">
+      <div className="login-panel-background">
+        <div className="login-container">
+          <h1>Sign up</h1>
+          <form onSubmit={handleSignUp}>
+            <input
+              className="input"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              className="input"
+              type="email"
+              placeholder="Purdue Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              className="input"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit">Register</button>
+          </form>
+          <p>{message}</p>
+          <p>
+            <a href="/login">Already have an account?</a>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
