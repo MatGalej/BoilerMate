@@ -7,8 +7,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SignUp />} /> {/* Redirect "/" to Home */}
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} /> {/* Redirect "/" to Home */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
