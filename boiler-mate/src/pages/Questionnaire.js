@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { firestore, auth } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 //import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 import ProfilePictureUpload from "../services/profilePictureUpload"; // ✅ Import profile picture upload component
+import "../css/Questionnaire.css";
 
 const Questionnaire = () => {
   //const location = useLocation();
@@ -18,21 +19,22 @@ const Questionnaire = () => {
     graduationYear: "",
     roomType: "",
     hobbies: "",
-    cleanliness: 4,
+    cleanliness: "",
     earliestClassTime: "",
     preferredStudyLocation: "",
-    extroversion: 4,
-    friendshipPreference: 4,
+    extroversion: "",
+    friendshipPreference: "",
     musicPreference: "",
     dietaryRestrictions: "",
     overnightStay: "",
     guestsThroughoutDay: 4,
     sharedCleaningSupplies: "",
+    roomDecorations: "",
     sleepTime: "",
     smokeDrinkWeed: "",
-    activityLevel: 4,
+    activityLevel: "",
   });
-
+  const totalFields = Object.keys(formData).length; // Total number of fields
   // ✅ Fetch authenticated user
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -47,6 +49,15 @@ const Questionnaire = () => {
   }, [navigate]);
 
   if (!userID) return <p>Loading...</p>; // Prevent blank screen if userID is missing
+
+  // Calculate the number of fields completed
+  const completedFields = Object.values(formData).filter((value) =>
+    typeof value === "string"
+      ? value.trim() !== ""
+      : value !== null && value !== ""
+  ).length;
+
+  const progressPercentage = (completedFields / totalFields) * 100; // Completion percentage
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -69,12 +80,84 @@ const Questionnaire = () => {
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
 
+  const getIsNextDisabled = () => {
+    switch (step) {
+      case 1:
+        return !formData.firstName.trim() || !formData.lastName.trim();
+
+      case 2:
+        return !formData.major.trim() || !formData.graduationYear.trim();
+
+      case 3:
+        return !formData.roomType.trim();
+
+      case 4:
+        return !formData.hobbies.trim();
+
+      case 5:
+        return formData.cleanliness === ""; // Ensure cleanliness is selected
+
+      case 6:
+        return !formData.earliestClassTime.trim();
+
+      case 7:
+        return !formData.preferredStudyLocation.trim();
+
+      case 8:
+        return formData.extroversion === ""; // Ensure extroversion is selected
+
+      case 9:
+        return formData.friendshipPreference === ""; // Ensure friendship preference is selected
+
+      case 10:
+        return !formData.musicPreference.trim();
+
+      case 11:
+        return !formData.dietaryRestrictions.trim();
+
+      case 12:
+        return !formData.overnightStay.trim();
+
+      case 13:
+        return formData.guestsThroughoutDay === ""; // Ensure guests throughout the day is selected
+
+      case 14:
+        return !formData.sharedCleaningSupplies.trim();
+
+      case 15:
+        return !formData.sleepTime.trim();
+
+      case 16:
+        return formData.smokeDrinkWeed.length === 0; // Ensure at least one checkbox is selected
+
+      case 17:
+        return formData.activityLevel === ""; // Ensure activity level is selected
+
+      case 18:
+        return !formData.roomDecorations.trim(); // Ensure room decorations preference is entered
+
+      case 19:
+        return false; // Profile picture upload step, no validation needed
+
+      default:
+        return false;
+    }
+  };
+
   return (
     <div className="flex flex-col items-center bg-gray-800 text-white p-6 rounded-lg w-full max-w-md">
-      <h2 className="text-3xl font-bold mb-4 italic">
-        Profile
-        <div className="h-1 w-24 bg-yellow-500 mt-2"></div>
-      </h2>
+      <div className="progress-wrapper">
+        {/* Profile Title */}
+        <h2 className="profile-title">Profile</h2>
+
+        {/* Progress Bar (now auto-sized by CSS) */}
+        <div className="progress-container">
+          <div
+            className="progress-bar"
+            style={{ width: `${progressPercentage}%` }}
+          ></div>
+        </div>
+      </div>
 
       {/* Step 1: First Name & Last Name */}
       {step === 1 && (
@@ -87,7 +170,6 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
-          {!formData.firstName.trim() && <p className="text-red-500">First Name is required</p>}
           <input
             type="text"
             name="lastName"
@@ -96,19 +178,6 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
-          {!formData.lastName.trim() && <p className="text-red-500">Last Name is required</p>}
-
-          <button
-            onClick={nextStep}
-            disabled={!formData.firstName.trim() || !formData.lastName.trim()} // Disable if empty
-            className={`p-2 rounded w-full mt-2 ${
-              !formData.firstName.trim() || !formData.lastName.trim()
-                ? "bg-gray-400 cursor-not-allowed" // Disabled style
-                : "bg-yellow-500 text-black" // Enabled style
-            }`}
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -135,12 +204,6 @@ const Questionnaire = () => {
             <option value="2028">2028</option>
             <option value="2029">2029</option>
           </select>
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -159,12 +222,6 @@ const Questionnaire = () => {
             <option value="Quad">Quad</option>
             <option value="Apartment/Suite">Apartment/Suite</option>
           </select>
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -178,12 +235,6 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white h-24"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -209,12 +260,6 @@ const Questionnaire = () => {
             onChange={handleSliderChange}
             className="w-full my-2"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -232,12 +277,6 @@ const Questionnaire = () => {
             <option value="8-10 AM">8-10 AM</option>
             <option value="10 AM - 12 PM">10 AM - 12 PM</option>
           </select>
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -255,12 +294,6 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -286,12 +319,6 @@ const Questionnaire = () => {
             onChange={handleSliderChange}
             className="w-full my-2"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -319,12 +346,6 @@ const Questionnaire = () => {
             onChange={handleSliderChange}
             className="w-full my-2"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -341,12 +362,6 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white h-24"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -363,12 +378,6 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white h-24"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -388,12 +397,6 @@ const Questionnaire = () => {
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -401,8 +404,8 @@ const Questionnaire = () => {
       {step === 13 && (
         <>
           <label className="text-center mb-2">
-            How often do you have guests over during the day? (1 = never, 7 =
-            very often)
+            How comfortable with you having guests over? (1 = never, 7 = very
+            often)
           </label>
           <input
             type="range"
@@ -413,12 +416,6 @@ const Questionnaire = () => {
             onChange={handleSliderChange}
             className="w-full my-2"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -438,12 +435,6 @@ const Questionnaire = () => {
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -460,12 +451,6 @@ const Questionnaire = () => {
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -499,13 +484,6 @@ const Questionnaire = () => {
               </label>
             ))}
           </div>
-
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
@@ -524,37 +502,51 @@ const Questionnaire = () => {
             onChange={handleSliderChange}
             className="w-full my-2"
           />
-          <button
-            onClick={nextStep}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Next
-          </button>
         </>
       )}
 
-      {/* Step 18: Profile Picture Upload */}
+      {/* Step 18: Preferred Study Location (Short Answer) */}
       {step === 18 && (
         <>
-          <ProfilePictureUpload userID={userID} />
-          <button
-            onClick={handleSubmit}
-            className="bg-yellow-500 text-black p-2 rounded w-full mt-2"
-          >
-            Submit
-          </button>
+          <label className="text-center mb-2">
+            Do you care about room decorations?
+          </label>
+          <input
+            type="text"
+            name="preferredStudyLocation"
+            placeholder="Level of, type, etc."
+            value={formData.roomDecorations}
+            onChange={handleChange}
+            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
+          />
         </>
       )}
 
-      {/* Navigation Buttons */}
-      {step > 1 && (
-        <button
-          onClick={prevStep}
-          className="bg-gray-600 text-white p-2 rounded w-full mt-2"
-        >
-          Back
-        </button>
+      {/* Step 19: Profile Picture Upload */}
+      {step === 19 && (
+        <>
+          <ProfilePictureUpload userID={userID} />
+        </>
       )}
+
+      {/* Button Group (handles both Next & Back dynamically) */}
+      <div className="button-group">
+        {/* Back button (only show if step > 1) */}
+        {step > 1 && (
+          <button onClick={prevStep} className="button back-button">
+            Back
+          </button>
+        )}
+
+        {/* Next/Submit button (conditionally disabled) */}
+        <button
+          onClick={step === 19 ? handleSubmit : nextStep}
+          disabled={getIsNextDisabled()} // Calls function to check if button should be disabled
+          className={`button ${getIsNextDisabled() ? "disabled" : "enabled"}`}
+        >
+          {step === 19 ? "Submit" : "Next"}
+        </button>
+      </div>
     </div>
   );
 };
