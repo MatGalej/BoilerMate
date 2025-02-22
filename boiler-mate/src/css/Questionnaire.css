@@ -14,31 +14,57 @@ html {
 }
 
 body {
-  font-family: "Lato", sans-serif;
   background: #555960;
+  justify-content: center;
 }
 
-input {
+/* Input Fields */
+input,
+select,
+textarea {
   background-color: #6f727b; /* Light gray background */
-  color: #dedbdb;
+  color: #dedbdb; /* Light text */
+  border: none;
+  padding: 12px; /* Consistent padding */
+  border-radius: 8px; /* Rounded corners */
+  width: 90%; /* Ensure consistent width */
+  max-width: 400px; /* Prevent excessive stretching */
+  outline: none;
+  font-size: 1rem;
+  box-sizing: border-box; /* Prevents width issues */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: monospace;
 }
 
-input::placeholder {
+/* Placeholder Text */
+input::placeholder,
+textarea::placeholder {
   color: #b0b0b0 !important; /* Lighter gray */
   opacity: 1;
 }
 
+/* Dropdown Menu */
 select {
-  background-color: #6f727b; /* Light gray background */
-  color: #dedbdb; /* Dark text for contrast */
-  border: none;
-  padding: 10px;
-  border-radius: 8px; /* Rounded corners */
-  width: 100%; /* Same width as text fields */
-  outline: none;
-  font-size: 1rem;
-  appearance: none; /* Removes default browser styling */
+  appearance: none; /* Removes default dropdown styling */
   cursor: pointer;
+}
+
+/* Ensure Textareas are the Same Width */
+textarea {
+  height: 100px; /* Set a consistent height */
+  resize: none; /* Prevent manual resizing */
+  justify-content: center;
+}
+
+/* Ensure All Form Elements Align */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 450px; /* Keeps it aligned with buttons */
 }
 
 /* Container for progress bar and title */
@@ -83,7 +109,7 @@ select {
 
 .questionText {
   color: #ffffff;
-  font-family: "Lato", sans-serif;
+  font-family: monospace;
   font-size: 1rem;
   margin-bottom: 1rem;
 }
@@ -119,6 +145,7 @@ select {
   cursor: pointer;
   flex: 1; /* Make both buttons take equal width */
   width: 100%;
+  min-width: 150px;
   height: 50px;
   text-align: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
@@ -148,4 +175,54 @@ select {
 
 .back-button:hover {
   background-color: #5d6068; /* Slightly darker on hover */
+}
+
+/* Center slider with proper spacing */
+input[type="range"] {
+  -webkit-appearance: none; /* Remove default browser styles */
+  appearance: none;
+  width: 90%; /* Matches text fields */
+  max-width: 400px; /* Keeps it in sync with input fields */
+  margin: 16px auto; /* Centers automatically */
+  display: block;
+  background: transparent; /* Remove default background */
+}
+
+/* Thicker Custom Track */
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px; /* Increased thickness */
+  background: #6f727b; /* Match input background */
+  border-radius: 5px; /* Rounded edges */
+}
+
+/* Thicker Custom Thumb (Slider Handle) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px; /* Larger for better grip */
+  height: 24px;
+  background: #daaa00; /* Gold thumb */
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -7px; /* Centers thumb on track */
+}
+
+/* Firefox Thumb */
+input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: #daaa00; /* Gold thumb */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Focus Outline */
+input[type="range"]:focus {
+  outline: none;
+}
+
+/* Active State (While Dragging) */
+input[type="range"]::-webkit-slider-thumb:active {
+  background: #b38f00; /* Darker gold when clicked */
 }

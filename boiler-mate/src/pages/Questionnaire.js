@@ -168,7 +168,6 @@ const Questionnaire = () => {
             placeholder="First Name"
             value={formData.firstName}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
           <input
             type="text"
@@ -176,7 +175,6 @@ const Questionnaire = () => {
             placeholder="Last Name"
             value={formData.lastName}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           />
         </>
       )}
@@ -214,7 +212,7 @@ const Questionnaire = () => {
             name="roomType"
             value={formData.roomType}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
+            className="p-2 mb-3 rounded bg-gray-600 text-white"
           >
             <option value="">Select Room Type</option>
             <option value="Double">Double</option>
@@ -233,7 +231,6 @@ const Questionnaire = () => {
             placeholder="List your hobbies"
             value={formData.hobbies}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white h-24"
           />
         </>
       )}
@@ -241,16 +238,12 @@ const Questionnaire = () => {
       {/* Step 5: Cleanliness */}
       {step === 5 && (
         <>
-          <label className="text-center mb-2">
-            Rate your cleanliness (1-7)
-          </label>
-          <label className="text-center mb-2">
+          <label className="questionText">
             How clean do you keep your space? (1 = messy, 7 = very clean)
             <span className="ml-2 font-bold text-yellow-500">
               {formData.cleanliness}
             </span>
           </label>
-
           <input
             type="range"
             name="cleanliness"
@@ -258,7 +251,6 @@ const Questionnaire = () => {
             max="7"
             value={formData.cleanliness}
             onChange={handleSliderChange}
-            className="w-full my-2"
           />
         </>
       )}
@@ -505,7 +497,7 @@ const Questionnaire = () => {
         </>
       )}
 
-      {/* Step 18: Preferred Study Location (Short Answer) */}
+      {/* Step 18: Room decorations */}
       {step === 18 && (
         <>
           <label className="text-center mb-2">
@@ -513,8 +505,8 @@ const Questionnaire = () => {
           </label>
           <input
             type="text"
-            name="preferredStudyLocation"
-            placeholder="Level of, type, etc."
+            name="roomDecorations"
+            placeholder="Aesthetic, minimal, etc."
             value={formData.roomDecorations}
             onChange={handleChange}
             className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
