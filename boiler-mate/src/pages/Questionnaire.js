@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { firestore } from "../firebase";
+import { firestore, auth, storage } from "../firebaseConfig"; // ✅ Ensure correct file name
 import { doc, setDoc } from "firebase/firestore";
+import ProfilePictureUpload from "../services/profilePictureUpload";
 
 const Questionnaire = ({ userID }) => {
   const [step, setStep] = useState(1);
