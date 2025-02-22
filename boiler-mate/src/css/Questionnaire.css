@@ -183,7 +183,7 @@ input[type="range"] {
   appearance: none;
   width: 90%; /* Matches text fields */
   max-width: 400px; /* Keeps it in sync with input fields */
-  margin: 16px auto; /* Centers automatically */
+  margin: 16px auto 30px auto; /* Centers automatically */
   display: block;
   background: transparent; /* Remove default background */
 }
@@ -225,4 +225,63 @@ input[type="range"]:focus {
 /* Active State (While Dragging) */
 input[type="range"]::-webkit-slider-thumb:active {
   background: #b38f00; /* Darker gold when clicked */
+}
+
+/* Container for the slider */
+.slider-container {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  margin: 16px auto;
+  text-align: center;
+}
+
+/* Style the slider */
+.styled-slider {
+  width: 100%;
+  appearance: none;
+  height: 10px;
+  background: #6f727b; /* Gray track */
+  border-radius: 5px;
+  outline: none;
+  position: relative;
+}
+
+/* Customize the slider knob */
+.styled-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 40px; /* Larger thumb */
+  height: 40px;
+  background: #daaa00; /* Gold */
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+/* Firefox */
+.styled-slider::-moz-range-thumb {
+  width: 40px;
+  height: 40px;
+  background: #daaa00;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Number Inside the Slider Knob */
+.slider-thumb-value {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: none; /* Transparent */
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  line-height: 40px; /* Center text */
+  pointer-events: none; /* Prevent interaction */
+  z-index: 3;
 }

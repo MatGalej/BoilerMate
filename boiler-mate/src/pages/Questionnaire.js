@@ -240,18 +240,25 @@ const Questionnaire = () => {
         <>
           <label className="questionText">
             How clean do you keep your space? (1 = messy, 7 = very clean)
-            <span className="ml-2 font-bold text-yellow-500">
-              {formData.cleanliness}
-            </span>
           </label>
-          <input
-            type="range"
-            name="cleanliness"
-            min="1"
-            max="7"
-            value={formData.cleanliness}
-            onChange={handleSliderChange}
-          />
+          <div className="slider-container">
+            <input
+              type="range"
+              name="cleanliness"
+              min="1"
+              max="7"
+              value={formData.cleanliness}
+              onChange={handleSliderChange}
+              className="styled-slider"
+              id="cleanlinessSlider"
+            />
+            <div
+              className="slider-thumb-value"
+              style={{ left: `${((formData.cleanliness - 1) / 6) * 100}%` }}
+            >
+              {formData.cleanliness}
+            </div>
+          </div>
         </>
       )}
 
