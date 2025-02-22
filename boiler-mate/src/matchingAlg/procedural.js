@@ -3,6 +3,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  updateDoc,
   collection,
   setDoc,
   serverTimestamp,
