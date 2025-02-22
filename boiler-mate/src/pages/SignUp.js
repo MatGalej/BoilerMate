@@ -84,6 +84,12 @@ function SignUp() {
           </form>
           <p>{message}</p>
           <p className="signup-link">Already have an account? <button type="button" onClick={() => navigate("/login")} className="back-button">Log in</button></p>
+          <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="back-button">
+          Back
+        </button>
         </div>
       </div>
     </div>

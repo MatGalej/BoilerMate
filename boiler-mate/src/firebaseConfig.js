@@ -4,6 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
 
 // Firebase configuration (Ensure credentials are stored securely)
 const firebaseConfig = {
@@ -25,6 +26,7 @@ export const analytics =
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const realtimeDb = getDatabase(app); // Renamed to avoid duplicate `db` declarations
-export const db = getFirestore(app);  // Rename this export to match what is expected in Home.js
+export const db = getFirestore(app);
+export const storage = getStorage(app);  // Rename this export to match what is expected in Home.js
 
 export default app;

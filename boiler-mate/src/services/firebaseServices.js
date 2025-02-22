@@ -41,6 +41,8 @@ export const createUserProfile = async (userID, email, username) => {
         allergiesDiet: "",
         roomDecorations: "",
         shareCleaningSupplies: "",
+        profilePic: "",
+        friends: [],
         matches: [],
       },
       { merge: true }
