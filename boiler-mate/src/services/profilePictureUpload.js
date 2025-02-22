@@ -18,6 +18,7 @@ const ProfilePictureUpload = ({ userID }) => {
   const handleUpload = async () => {
     if (!image) return alert("Please select an image first!");
 
+    // ✅ Fixed template literal syntax
     const storageRef = ref(storage, `profile_pictures/${userID}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
 
