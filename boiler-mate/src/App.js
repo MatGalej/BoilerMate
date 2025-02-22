@@ -22,7 +22,7 @@ function App() {
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/chat" element={<Chat />} />{" "}
         <Route path="/profile" element={<Profile />} />
-        <Route path="/401" element={<Navigate to="/" />} />
+        
         {/* ✅ Added Chat Page Route */}
       </Routes>
     </Router>
