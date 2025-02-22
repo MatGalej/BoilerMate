@@ -1,9 +1,13 @@
 // src/pages/SignUp.js
 import React, { useState } from "react";
-import { auth, db } from "../firebaseConfig";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { firestore } from "../firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -23,14 +27,18 @@ function SignUp() {
 
     try {
       // ✅ Create user with email & password
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       // ✅ Send email verification
       await sendEmailVerification(user);
 
       // ✅ Save user profile to Firestore
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(firestore, "users", user.uid), {
         uid: user.uid,
         email: email,
         username: username,
@@ -42,11 +50,12 @@ function SignUp() {
         createdAt: serverTimestamp(),
       });
 
-      setMessage("A verification email has been sent. Please check your inbox or spam folder.");
-      
+      setMessage(
+        "A verification email has been sent. Please check your inbox or spam folder."
+      );
+
       // ✅ Redirect to login page after 3 seconds
       setTimeout(() => navigate("/login"), 3000);
-      
     } catch (error) {
       setMessage(error.message);
     }
@@ -56,13 +65,36 @@ function SignUp() {
     <div>
       <h2>Sign Up</h2>
       <form onSubmit={handleSignUp}>
-        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        <input type="email" placeholder="Purdue Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Purdue Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         <button type="submit">Sign Up</button>
       </form>
       <p>{message}</p>
-      <p>Already have an account? <button type="button" onClick={() => navigate("/login")}>Login</button></p>
+      <p>
+        Already have an account?{" "}
+        <button type="button" onClick={() => navigate("/login")}>
+          Login
+        </button>
+      </p>
     </div>
   );
 }
