@@ -1,3 +1,41 @@
+/* Disable scrolling on the entire page */
+body,
+html {
+  overflow: hidden; /* Prevents both vertical & horizontal scrolling */
+  height: 100%; /* Ensure full height to avoid unexpected overflow */
+  margin: 0; /* Remove any default margin */
+  padding: 0;
+}
+
+/* ✅ Flash Effect for Swiping Right (Green) */
+.green-flash {
+  animation: flash-green 0.5s ease-in-out;
+}
+
+/* ✅ Flash Effect for Swiping Left (Red) */
+.red-flash {
+  animation: flash-red 0.5s ease-in-out;
+}
+
+/* Flash Animations */
+@keyframes flash-green {
+  0% {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes flash-red {
+  0% {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
 /* Full container to center content vertically & horizontally */
 .matches-container {
   display: flex;
