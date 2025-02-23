@@ -33,7 +33,7 @@ const Home = () => {
   };
 
   return (
-    <div className="background">
+    <div className="welcome-background">
       {/* Navbar at the top */}
       <nav className="navbar">
         <div className="nav-left">
@@ -53,7 +53,7 @@ const Home = () => {
 
       {/* Welcome Section */}
       <div className="welcome-container">
-        <h1 className="welcome-text">Welcome, {firstName}!</h1>
+        <h1 className="welcome-text-home">Welcome, {firstName}!</h1>
         <p>Ditch The Train Wreck.</p>
       </div>
     </div>
