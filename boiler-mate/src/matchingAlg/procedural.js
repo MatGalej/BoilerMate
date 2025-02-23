@@ -6,7 +6,7 @@ import {
   updateDoc,
   collection,
 } from "firebase/firestore";
-import {getSimilarity} from "./aiMatching";
+import { getSimilarity } from "./loadModel"; // AI Model
 
 const WEIGHTS = {
   cleanliness: 3,
@@ -49,23 +49,19 @@ const computeMatchScore = async (user1, user2) => {
   let score = 0;
 
 
-  /*
+ 
   score += await getSimilarity(user1.major, user2.major);
-  */
-
-  console.log(await getSimilarity("Computer Science", "Computer Science"));
-  /*
-  score += getSimilarity(user1.hobbies, user2.hobbies) * AI_WEIGHTS.hobbies;
+  
+  score += await getSimilarity(user1.hobbies, user2.hobbies) * AI_WEIGHTS.hobbies;
   console.log(score);
-  score += getSimilarity(user1.studyPreference, user2.studyPreference) * AI_WEIGHTS.studyPreference;
+  score += await getSimilarity(user1.studyPreference, user2.studyPreference) * AI_WEIGHTS.studyPreference;
   console.log(score);
-  score += getSimilarity(user1.dietaryRestrictions, user2.dietaryRestrictions) * AI_WEIGHTS.dietaryRestrictions;
+  score += await getSimilarity(user1.dietaryRestrictions, user2.dietaryRestrictions) * AI_WEIGHTS.dietaryRestrictions;
   console.log(score);
-  score += getSimilarity(user1.musicInRoom, user2.musicInRoom) * AI_WEIGHTS.musicInRoom;
+  score += await getSimilarity(user1.musicInRoom, user2.musicInRoom) * AI_WEIGHTS.musicInRoom;
   console.log(score);
-  score += getSimilarity(user1.roomDecorations, user2.roomDecorations) * AI_WEIGHTS.roomDecorations;
+  score += await getSimilarity(user1.roomDecorations, user2.roomDecorations) * AI_WEIGHTS.roomDecorations;
   console.log(score);
-  */
 
   score += calculateSimilarity(user1.graduationYear, user2.graduationYear, true) * WEIGHTS.graduationYear;
   score += calculateSimilarity(user1.cleanliness, user2.cleanliness) * WEIGHTS.cleanliness;
@@ -78,7 +74,7 @@ const computeMatchScore = async (user1, user2) => {
   score += calculateSimilarity(user1.sleepTime, user2.sleepTime, true) * WEIGHTS.sleepTime;
   score += calculateSimilarity(user1.smokeDrinkWeed, user2.smokeDrinkWeed, true) * WEIGHTS.smokeDrinkWeed;
   score += calculateSimilarity(user1.activityLevel, user2.activityLevel) * WEIGHTS.activityLevel;
-
+  console.log("Fianl Score: ", score);
   return score;
 };
 

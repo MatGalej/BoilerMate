@@ -1,4 +1,5 @@
 import { pipeline, env } from "@xenova/transformers";
+import { env } from "@xenova/transformers";
 
 // Load the model once and reuse it
 async function loadModel() {
@@ -7,8 +8,12 @@ async function loadModel() {
 }
 
 export async function getSimilarity(word1, word2) {
-  env.useBrowserCache = true; // Allows the model to be stored in cache
-  env.allowLocalModels = true; // Allows local model loading
+    
+
+    env.useBrowserCache = true;   // Enable local cache
+    env.allowLocalModels = true;  // Force local models
+    env.remoteModels = true;     // Disable online fetching
+    // Allows local model loading
     try {
         const extractor = await loadModel();
 
