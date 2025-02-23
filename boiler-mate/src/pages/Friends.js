@@ -3,8 +3,15 @@ import React, { useState, useEffect } from "react";
 import { auth, db } from "../firebaseConfig";
 import "../css/Friends.css";
 import {
-  collection, query, where, getDocs, doc, getDoc, updateDoc,
-  arrayUnion, arrayRemove
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +21,10 @@ const Friends = () => {
   const [friendRequests, setFriendRequests] = useState([]);
   const [friendsList, setFriendsList] = useState([]);
   const [blockedFriends, setBlockedFriends] = useState([]);
+
+  // For selecting a pending request in the dropdown
+  const [selectedRequest, setSelectedRequest] = useState("");
+
   const currentUser = auth.currentUser;
   const navigate = useNavigate();
 
@@ -44,6 +55,7 @@ const Friends = () => {
       const querySnapshot = await getDocs(q);
       let results = [];
       querySnapshot.forEach((docSnap) => {
+        // Skip self & blocked users
         if (
           docSnap.id !== currentUser.uid &&
           !blockedFriends.includes(docSnap.id)
@@ -102,7 +114,9 @@ const Friends = () => {
           })
         );
         setFriendsList(
-          friendsData.filter((f) => f !== null && !blockedFriends.includes(f.id))
+          friendsData.filter(
+            (f) => f !== null && !blockedFriends.includes(f.id)
+          )
         );
       }
     } catch (error) {
@@ -151,6 +165,7 @@ const Friends = () => {
 
   // ✅ Accept Friend Request
   const acceptFriendRequest = async (userId) => {
+    if (!userId) return alert("No user selected!");
     if (!currentUser) return;
 
     const userRef = doc(db, "users", currentUser.uid);
@@ -168,6 +183,7 @@ const Friends = () => {
       });
 
       setFriendRequests(friendRequests.filter((u) => u.id !== userId));
+      setSelectedRequest("");
       fetchFriendsList();
       alert("Friend request accepted! You are now friends.");
     } catch (error) {
@@ -175,40 +191,23 @@ const Friends = () => {
     }
   };
 
-  // ❌ Decline Friend Request
-  const declineFriendRequest = async (userId) => {
-    if (!currentUser) return;
-
-    const userRef = doc(db, "users", currentUser.uid);
-    const senderRef = doc(db, "users", userId);
-
-    try {
-      await updateDoc(userRef, {
-        friendRequestReceived: arrayRemove(userId),
-      });
-      await updateDoc(senderRef, {
-        friendRequestSent: arrayRemove(currentUser.uid),
-      });
-
-      setFriendRequests(friendRequests.filter((u) => u.id !== userId));
-      alert("Friend request declined.");
-    } catch (error) {
-      console.error("Error declining friend request:", error);
-    }
-  };
-
-  // 🚫 Block Friend
+  // 🚫 Block Friend (instead of decline)
   const blockFriend = async (userId) => {
+    if (!userId) return alert("No user selected!");
     if (!currentUser) return;
 
     const userRef = doc(db, "users", currentUser.uid);
 
     try {
+      // Remove from friend requests and add to blocked
       await updateDoc(userRef, {
         blockedFriends: arrayUnion(userId),
         friends: arrayRemove(userId),
+        friendRequestReceived: arrayRemove(userId), // Also remove from requests
       });
 
+      setFriendRequests(friendRequests.filter((u) => u.id !== userId));
+      setSelectedRequest("");
       setFriendsList(friendsList.filter((f) => f.id !== userId));
       setBlockedFriends([...blockedFriends, userId]);
       alert("User blocked.");
@@ -229,17 +228,33 @@ const Friends = () => {
         {/* Left Column: Friend Requests */}
         <div className="friends-left">
           <h3>Friend Requests</h3>
-          {friendRequests.length > 0 ? (
-            friendRequests.map((user) => (
-              <div key={user.id} className="friend-request-card">
-                <p>{user.username}</p>
-                <button onClick={() => acceptFriendRequest(user.id)}>✅ Accept</button>
-                <button onClick={() => declineFriendRequest(user.id)}>❌ Decline</button>
-              </div>
-            ))
-          ) : (
-            <p>No pending friend requests</p>
-          )}
+          <div className="pending-requests-box">
+            {friendRequests.length > 0 ? (
+              <>
+                <select
+                  value={selectedRequest}
+                  onChange={(e) => setSelectedRequest(e.target.value)}
+                >
+                  <option value="">Select user</option>
+                  {friendRequests.map((u) => (
+                    <option key={u.id} value={u.id}>
+                      {u.username}
+                    </option>
+                  ))}
+                </select>
+                <div className="request-actions">
+                  <button onClick={() => acceptFriendRequest(selectedRequest)}>
+                    Add
+                  </button>
+                  <button onClick={() => blockFriend(selectedRequest)}>
+                    Block
+                  </button>
+                </div>
+              </>
+            ) : (
+              <p>No pending friend requests</p>
+            )}
+          </div>
         </div>
 
         {/* Middle Column: Search */}
@@ -255,23 +270,25 @@ const Friends = () => {
           <button onClick={() => navigate("/home")}>Back</button>
 
           <h3>Search Results</h3>
-          {searchResults.length > 0 ? (
-            searchResults.map((user) => (
-              <div key={user.id} className="friend-card">
-                <p>{user.username}</p>
-                {user.isFriend ? (
-                  <p>✅ Already your friend</p>
-                ) : (
-                  <button onClick={() => sendFriendRequest(user.id)}>
-                    ➕ Friend Request
-                  </button>
-                )}
-                <button onClick={() => blockFriend(user.id)}>🚫 Block</button>
-              </div>
-            ))
-          ) : (
-            <p>No users found</p>
-          )}
+          <div className="search-results-box">
+            {searchResults.length > 0 ? (
+              searchResults.map((user) => (
+                <div key={user.id} className="friend-card">
+                  <p>{user.username}</p>
+                  {user.isFriend ? (
+                    <p>✅ Already your friend</p>
+                  ) : (
+                    <button onClick={() => sendFriendRequest(user.id)}>
+                      ➕ Friend Request
+                    </button>
+                  )}
+                  <button onClick={() => blockFriend(user.id)}>🚫 Block</button>
+                </div>
+              ))
+            ) : (
+              <p>No users found</p>
+            )}
+          </div>
         </div>
 
         {/* Right Column: Your Friends */}
