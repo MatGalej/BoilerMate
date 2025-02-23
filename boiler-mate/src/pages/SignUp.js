@@ -24,6 +24,12 @@ function SignUp() {
       return;
     }
 
+    // ✅ Check username length
+    if (username.length > 20) {
+      setMessage("Username cannot exceed 20 characters.");
+      return;
+    }
+
     try {
       // ✅ Create user with email & password
       const userCredential = await createUserWithEmailAndPassword(
@@ -92,6 +98,7 @@ function SignUp() {
             >
               Log in
             </button>
+            <button onClick={() => navigate("/")} className="back-button">Back</button>
           </p>
         </div>
       </div>

@@ -87,6 +87,7 @@ const Login = () => {
           >
             Sign Up
           </button>
+          <button onClick={() => navigate("/")} className="back-button">Back</button>
         </p>
       </div>
     </div>

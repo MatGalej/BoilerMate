@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import "../css/changeUsername.css";
 
 const ChangeUsername = () => {
   const [userData, setUserData] = useState(null);
@@ -32,7 +33,8 @@ const ChangeUsername = () => {
   };
 
   return (
-    <div className="change-username-container">
+    <div className="welcome-background">
+      <div className="change-username-container">
       <h2>Change Username</h2>
       <input
         type="text"
@@ -48,6 +50,7 @@ const ChangeUsername = () => {
       <button onClick={() => navigate("/profile")} className="back-btn">
         Back to Profile
       </button>
+    </div>
     </div>
   );
 };
