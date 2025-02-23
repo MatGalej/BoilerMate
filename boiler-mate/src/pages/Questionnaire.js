@@ -145,7 +145,7 @@ const Questionnaire = () => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-800 text-white p-6 rounded-lg w-full max-w-md">
+    <div className="questionnaire-container">
       <div className="progress-wrapper">
         {/* Profile Title */}
         <h2 className="profile-title">Profile</h2>
