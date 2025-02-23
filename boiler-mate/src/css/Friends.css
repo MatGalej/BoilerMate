@@ -1,11 +1,3 @@
-/* Example color variables (update if needed) */
-:root {
-  --Dust: #EBD99F;
-  --Steel: #555960;
-  --White: #ffffff;
-  --Rush: #DAAA00;
-}
-
 /* Overall Page */
 .friends-page {
   background-color: var(--Dust); /* match your site background */
@@ -13,6 +5,10 @@
   padding: 2rem;
   font-family: Arial, sans-serif;
   color: var(--White);
+  display: flex;
+  align-items: center;      /* vertical centering */
+  justify-content: center;
+  flex-direction: column;  /* horizontal centering */
 }
 
 /* Main Header */
@@ -27,6 +23,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
+  width: 100%; /* Adjust as needed */
 }
 
 /* Left, Middle, Right columns share similar styling */
@@ -55,14 +52,19 @@
   border-radius: 8px;
   margin-top: 1rem;
 }
+
+/* Updated select styling for better contrast */
 .pending-requests-box select {
   width: 100%;
   padding: 0.5rem;
   border-radius: 6px;
   border: none;
   margin-bottom: 1rem;
-  color: #333;
+  background-color: var(--White); /* white background for clarity */
+  color: var(--Steel);            /* dark text for contrast */
 }
+
+/* Actions under pending box */
 .request-actions {
   display: flex;
   gap: 0.5rem;

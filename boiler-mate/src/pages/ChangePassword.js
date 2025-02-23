@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../firebaseConfig";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import "../css/changePassword.css";
 
 const ChangePassword = () => {
   const [emailSent, setEmailSent] = useState(false);
@@ -26,16 +27,21 @@ const ChangePassword = () => {
   }, [navigate]);
 
   return (
-    <div style={{ textAlign: "center", padding: "50px" }}>
-      <h2>Change Password</h2>
-      {emailSent ? (
-        <p>A password reset email has been sent to your registered email.</p>
-      ) : (
-        <p>Sending password reset email...</p>
-      )}
-      <button onClick={() => navigate("/profile")} className="sidebar-btn">
-        Back to Profile
-      </button>
+    <div className="welcome-background">
+      <div className="change-password-container">
+        <h2>Change Password</h2>
+        {emailSent ? (
+          <p>
+            An email has been sent to your email address with instructions on
+            how to reset your password.
+          </p>
+        ) : (
+          <p>Sending email...</p>
+        )}
+        <button onClick={() => navigate("/profile")} className="back-btn">
+          Back to Profile
+        </button>
+      </div>
     </div>
   );
 };
