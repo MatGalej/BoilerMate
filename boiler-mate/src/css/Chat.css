@@ -44,11 +44,19 @@
 
 /* Chat History (when no chat is selected) */
 .chat-history {
+  /* Panel styling similar to your other columns */
+  background-color: #4a4a4a;   /* Dark gray background, matching .chat-left/.chat-right */
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* Centering and width constraints */
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 2rem auto; /* 2rem space below for breathing room */
   text-align: center;
 }
 
+/* Buttons inside the chat history panel */
 .chat-history button {
   display: block;
   width: 100%;

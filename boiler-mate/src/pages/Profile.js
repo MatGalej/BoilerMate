@@ -53,6 +53,9 @@ const Profile = () => {
   };
   return (
     <div className="welcome-background">
+      <span className="close-btn" onClick={() => navigate("/home")}>
+        ✖
+      </span>
       <div className="profile-container">
         {/* Profile Card with Flip Function */}
         <div className={`profile-card ${isFlipped ? "flipped" : ""}`}>
@@ -156,9 +159,6 @@ const Profile = () => {
           </button>
           <button onClick={() => navigate("/change-username")} className="sidebar-btn">
             Change Username
-          </button>
-          <button onClick={() => navigate("/home")} className="sidebar-btn back-btn">
-            Back
           </button>
           <button onClick={handleLogout} className="sidebar-btn logout-btn">
             Logout

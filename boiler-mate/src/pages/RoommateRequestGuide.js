@@ -17,6 +17,9 @@ const RoommateRequestGuide = () => {
 
   return (
     <div className="welcome-background">
+      <span className="close-btn" onClick={() => navigate("/home")}>
+        ✖
+      </span>
       <div className="guide-container">
         {/* Header */}
         <h2>Roommate Request Guide</h2>
@@ -80,9 +83,6 @@ const RoommateRequestGuide = () => {
           <a href="mailto:housing@purdue.edu">
             <button className="cta-button">✉️ Email Purdue Housing</button>
           </a>
-          <button onClick={() => navigate("/home")} className="back-button">
-            🔙 Back to Home
-          </button>
         </div>
       </div>
     </div>
