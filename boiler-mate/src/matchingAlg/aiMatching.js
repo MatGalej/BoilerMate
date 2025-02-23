@@ -1,24 +1,28 @@
-// npm i @xenova/transformers
-import { pipeline, dot, env} from '@xenova/transformers';
+import { pipeline, env } from "@xenova/transformers";
 
-export async function aiMatching(text1, text2) {
-  env.allowLocalModels = false;
-  env.useBrowserCache = false;
+// Load the model once and reuse it
+async function loadModel() {
+    console.log("🚀 Loading AI Model...");
+    return await pipeline("feature-extraction", "Xenova/all-MiniLM-L6-v2");
+}
 
-  // Create feature extraction pipeline
-  const extractor = await pipeline('feature-extraction', 'Alibaba-NLP/gte-base-en-v1.5', {
-      quantized: false, // Comment out this line to use the quantized version
-  });
+export async function getSimilarity(word1, word2) {
+  env.useBrowserCache = true; // Allows the model to be stored in cache
+  env.allowLocalModels = true; // Allows local model loading
+    try {
+        const extractor = await loadModel();
 
-  // Generate sentence embeddings
-  const sentences = [
-    text1,
-    text2
-  ]
-  const output = await extractor(sentences, { normalize: true, pooling: 'cls' });
+        // Generate embeddings
+        const output = await extractor([word1, word2], { normalize: true, pooling: "cls" });
+        const [vec1, vec2] = output.tolist();
 
-  // Compute similarity scores
-  const [source_embeddings, ...document_embeddings ] = output.tolist();
-  const similarities = document_embeddings.map(x => 100 * dot(source_embeddings, x));
-  console.log(similarities); // [34.504930869007296, 64.03973265120138, 19.520042686034362]
+        // Compute cosine similarity
+        const similarity = vec1.reduce((sum, v, i) => sum + v * vec2[i], 0);
+       
+        console.log(`🔢 Similarity between "${word1}" and "${word2}":`, similarity.toFixed(4));
+        return similarity;
+    } catch (error) {
+        console.error("❌ AI Matching Error:", error);
+        return 0;
+    }
 }
