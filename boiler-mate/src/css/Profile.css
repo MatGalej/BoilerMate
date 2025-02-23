@@ -1,7 +1,7 @@
 /* Profile Page Layout */
 .profile-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center ;
   align-items: center;
   padding: 50px;
   width: 80%;
@@ -85,6 +85,10 @@
   transition: 0.3s;
 }
 
+.flip-btn:first-of-type {
+  margin-top: 30px;
+}
+
 .back-btn {
   background-color: #daaa00 !important;
 }
@@ -98,16 +102,6 @@
 
 .flip-btn:hover {
   background-color: #555960;
-}
-
-/* Sidebar */
-.profile-sidebar {
-  width: 40%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .sidebar-btn {

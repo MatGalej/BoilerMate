@@ -70,11 +70,11 @@ const Profile = () => {
               {userData.firstName} {userData.lastName}
             </h2>
             <p className="card-text">Major: {userData.major}</p>
+            <p className="card-text">Graduation Year: {userData.graduationYear}</p>
             <p className="card-text">Sleep Time: {userData.sleepTime}</p>
-            <p className="card-text">Smoking/Drinking: {userData.smokeDrinkWeed}</p>
             <p className="card-text">Personality: {userData.extroversion}</p>
 
-            <button onClick={() => setIsFlipped(true)} className="flip-btn small-btn">
+            <button onClick={() => setIsFlipped(true)} className="flip-btn">
               More Info
             </button>
             <button onClick={() => navigate("/questionnaire")} className="edit-btn">
@@ -102,27 +102,12 @@ const Profile = () => {
             </p>
             <p className="card-text">
               <strong>Extroversion:</strong> {userData.extroversion}
-            </p>
-            <p className="card-text">
-              <strong>Friendship Preference:</strong> {userData.friendshipPreference}
-            </p>
-            <p className="card-text">
-              <strong>Graduation Year:</strong> {userData.graduationYear}
-            </p>
-            <p className="card-text">
-              <strong>Guests Throughout Day:</strong> {userData.guestsThroughoutDay}
-            </p>
+            </p>  
             <p className="card-text">
               <strong>Hobbies:</strong> {userData.hobbies}
             </p>
             <p className="card-text">
-              <strong>Music Preference:</strong> {userData.musicPreference}
-            </p>
-            <p className="card-text">
               <strong>Overnight Stay:</strong> {userData.overnightStay}
-            </p>
-            <p className="card-text">
-              <strong>People Over:</strong> {userData.peopleOver}
             </p>
             <p className="card-text">
               <strong>Preferred Study Location:</strong> {userData.preferredStudyLocation}
@@ -133,36 +118,16 @@ const Profile = () => {
             <p className="card-text">
               <strong>Room Type:</strong> {userData.roomType}
             </p>
-            <p className="card-text">
-              <strong>Share Cleaning Supplies:</strong> {userData.shareCleaningSupplies}
-            </p>
-            <p className="card-text">
-              <strong>Sleep Time:</strong> {userData.sleepTime}
-            </p>
-            <p className="card-text">
-              <strong>Smoking/Drinking:</strong> {userData.smokeDrinkWeed}
-            </p>
-            <p className="card-text">
-              <strong>Study Preference:</strong> {userData.studyPreference}
-            </p>
-
+            <button onClick={() => navigate("/change-password")} className="flip-btn small-btn">
+              Change Password
+            </button>
+            <button onClick={() => navigate("/change-username")} className="flip-btn small-btn">
+              Change Username
+            </button>
             <button onClick={() => setIsFlipped(false)} className="flip-btn small-btn">
               Back
             </button>
           </div>
-        </div>
-
-        {/* Sidebar */}
-        <div className="profile-sidebar">
-          <button onClick={() => navigate("/change-password")} className="sidebar-btn">
-            Change Password
-          </button>
-          <button onClick={() => navigate("/change-username")} className="sidebar-btn">
-            Change Username
-          </button>
-          <button onClick={handleLogout} className="sidebar-btn logout-btn">
-            Logout
-          </button>
         </div>
       </div>
     </div>
