@@ -1,3 +1,4 @@
+// src/pages/Profile.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebaseConfig";
@@ -20,9 +21,12 @@ const Profile = () => {
           const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
           if (userDoc.exists()) {
             const data = userDoc.data();
-            if (data.profilePic) {
+            // Check if profilePic exists and is not empty
+            if (data.profilePic && data.profilePic.trim() !== "") {
               data.profilePic = `data:image/jpeg;base64,${data.profilePic}`;
-              console.log(data.profilePic);
+            } else {
+              data.profilePic = null;
+              console.log("No profile picture found for user:", auth.currentUser.uid);
             }
             setUserData(data);
           }
@@ -37,63 +41,104 @@ const Profile = () => {
   if (!userData) return <p>Loading...</p>;
 
   const handleLogout = async () => {
-      await signOut(auth);
-      navigate("/");
-    };
+    await signOut(auth);
+    navigate("/");
+  };
 
   return (
     <div className="welcome-background">
-        <div className="profile-container">
+      <div className="profile-container">
         {/* Profile Card with Flip Function */}
         <div className={`profile-card ${isFlipped ? "flipped" : ""}`}>
-          
           {/* Front Side */}
           <div className="profile-front">
-            <img 
-              src={userData.profilePic || "https://via.placeholder.com/150"} 
+            <img
+              src={userData.profilePic || "https://via.placeholder.com/150"}
               alt=""
               className="profile-pic"
             />
-            <h2 className="profile-name text-gray">{userData.firstName} {userData.lastName}</h2>
+            <h2 className="profile-name text-gray">
+              {userData.firstName} {userData.lastName}
+            </h2>
             <p className="card-text">Major: {userData.major}</p>
             <p className="card-text">Sleep Time: {userData.sleepTime}</p>
             <p className="card-text">Smoking/Drinking: {userData.smokeDrinkWeed}</p>
             <p className="card-text">Personality: {userData.extroversion}</p>
-            
+
             <button onClick={() => setIsFlipped(true)} className="flip-btn small-btn">
-              More Info 🔄
+              More Info
             </button>
             <button onClick={() => navigate("/questionnaire")} className="edit-btn">
-              Edit Info ✏️
+              Edit Info
             </button>
           </div>
 
           {/* Back Side */}
           <div className="profile-back">
             <h2 className="profile-back-title">More Info</h2>
-            <p className="card-text"><strong>Email:</strong> {userData.email}</p>
-            <p className="card-text"><strong>Activity Level:</strong> {userData.activityLevel}</p>
-            <p className="card-text"><strong>Cleanliness:</strong> {userData.cleanliness}</p>
-            <p className="card-text"><strong>Dietary Restrictions:</strong> {userData.dietaryRestrictions}</p>
-            <p className="card-text"><strong>Earliest Class Time:</strong> {userData.earliestClassTime}</p>
-            <p className="card-text"><strong>Extroversion:</strong> {userData.extroversion}</p>
-            <p className="card-text"><strong>Friendship Preference:</strong> {userData.friendshipPreference}</p>
-            <p className="card-text"><strong>Graduation Year:</strong> {userData.graduationYear}</p>
-            <p className="card-text"><strong>Guests Throughout Day:</strong> {userData.guestsThroughoutDay}</p>
-            <p className="card-text"><strong>Hobbies:</strong> {userData.hobbies}</p>
-            <p className="card-text"><strong>Music Preference:</strong> {userData.musicPreference}</p>
-            <p className="card-text"><strong>Overnight Stay:</strong> {userData.overnightStay}</p>
-            <p className="card-text"><strong>People Over:</strong> {userData.peopleOver}</p>
-            <p className="card-text"><strong>Preferred Study Location:</strong> {userData.preferredStudyLocation}</p>
-            <p className="card-text"><strong>Room Decorations:</strong> {userData.roomDecorations}</p>
-            <p className="card-text"><strong>Room Type:</strong> {userData.roomType}</p>
-            <p className="card-text"><strong>Share Cleaning Supplies:</strong> {userData.shareCleaningSupplies}</p>
-            <p className="card-text"><strong>Sleep Time:</strong> {userData.sleepTime}</p>
-            <p className="card-text"><strong>Smoking/Drinking:</strong> {userData.smokeDrinkWeed}</p>
-            <p className="card-text"><strong>Study Preference:</strong> {userData.studyPreference}</p>
-            
+            <p className="card-text">
+              <strong>Email:</strong> {userData.email}
+            </p>
+            <p className="card-text">
+              <strong>Activity Level:</strong> {userData.activityLevel}
+            </p>
+            <p className="card-text">
+              <strong>Cleanliness:</strong> {userData.cleanliness}
+            </p>
+            <p className="card-text">
+              <strong>Dietary Restrictions:</strong> {userData.dietaryRestrictions}
+            </p>
+            <p className="card-text">
+              <strong>Earliest Class Time:</strong> {userData.earliestClassTime}
+            </p>
+            <p className="card-text">
+              <strong>Extroversion:</strong> {userData.extroversion}
+            </p>
+            <p className="card-text">
+              <strong>Friendship Preference:</strong> {userData.friendshipPreference}
+            </p>
+            <p className="card-text">
+              <strong>Graduation Year:</strong> {userData.graduationYear}
+            </p>
+            <p className="card-text">
+              <strong>Guests Throughout Day:</strong> {userData.guestsThroughoutDay}
+            </p>
+            <p className="card-text">
+              <strong>Hobbies:</strong> {userData.hobbies}
+            </p>
+            <p className="card-text">
+              <strong>Music Preference:</strong> {userData.musicPreference}
+            </p>
+            <p className="card-text">
+              <strong>Overnight Stay:</strong> {userData.overnightStay}
+            </p>
+            <p className="card-text">
+              <strong>People Over:</strong> {userData.peopleOver}
+            </p>
+            <p className="card-text">
+              <strong>Preferred Study Location:</strong> {userData.preferredStudyLocation}
+            </p>
+            <p className="card-text">
+              <strong>Room Decorations:</strong> {userData.roomDecorations}
+            </p>
+            <p className="card-text">
+              <strong>Room Type:</strong> {userData.roomType}
+            </p>
+            <p className="card-text">
+              <strong>Share Cleaning Supplies:</strong> {userData.shareCleaningSupplies}
+            </p>
+            <p className="card-text">
+              <strong>Sleep Time:</strong> {userData.sleepTime}
+            </p>
+            <p className="card-text">
+              <strong>Smoking/Drinking:</strong> {userData.smokeDrinkWeed}
+            </p>
+            <p className="card-text">
+              <strong>Study Preference:</strong> {userData.studyPreference}
+            </p>
+
             <button onClick={() => setIsFlipped(false)} className="flip-btn small-btn">
-              Back 🔄
+              Back
             </button>
           </div>
         </div>
