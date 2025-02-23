@@ -4,10 +4,24 @@ import { db } from "../firebaseConfig";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { findBestMatch } from "./procedural"; // Or wherever your matching logic is
 import "../css/PotentialMatches.css"; // Import the CSS file
+import { useNavigate } from "react-router-dom";
 
 function PotentialMatches({ userId }) {
   const [matches, setMatches] = useState([]);
   const [flashColor, setFlashColor] = useState(""); // Controls screen flash color
+  const navigate = useNavigate();
+
+  // Listen for Escape key to close the match screen
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        navigate("/home"); // ✅ Go back to home when Escape is pressed
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [navigate]);
 
   // Fetch matches from your custom matching logic + Firestore
   useEffect(() => {
@@ -108,7 +122,15 @@ function PotentialMatches({ userId }) {
 
   return (
     <div className={`matches-container ${flashColor}`}>
-      <h2 className="title">Potential Matches</h2>
+      {/* Close button in top-right corner */}
+      <span className="close-btn" onClick={() => navigate("/home")}>
+        ✖
+      </span>
+      <h2 className="title">Suggested Roomates</h2>
+
+      {/* Low-Opacity Arrows */}
+      <span className="swipe-arrow left-arrow">⬅</span>
+      <span className="swipe-arrow right-arrow">➡</span>
 
       <div className="card-container">
         {matches.length > 0 ? (
@@ -134,7 +156,7 @@ function PotentialMatches({ userId }) {
             </TinderCard>
           ))
         ) : (
-          <p className="no-matches">No potential matches found.</p>
+          <p className="no-matches">Loading matches...</p>
         )}
       </div>
     </div>

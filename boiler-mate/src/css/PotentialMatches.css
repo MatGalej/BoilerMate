@@ -116,3 +116,57 @@ html {
   margin-top: 20px;
   text-align: center;
 }
+
+.default-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555; /* Darker gray */
+  text-align: center;
+}
+
+/* Close button in top-right corner */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 28px;
+  color: #333; /* Dark gray */
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-weight: bold;
+  transition: opacity 0.3s ease, transform 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.close-btn:hover {
+  opacity: 0.6;
+  transform: scale(1.2);
+}
+
+/* Active click effect */
+.close-btn:active {
+  transform: scale(0.9);
+}
+
+/* Arrow Styling */
+.swipe-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 180px; /* Increase size */
+  color: rgba(218, 170, 0, 0.4); /* Matching opacity */
+  cursor: default; /* No interaction */
+  user-select: none; /* Prevents selection */
+  font-weight: bold;
+}
+
+/* Left Arrow */
+.left-arrow {
+  left: 2%;
+}
+
+/* Right Arrow */
+.right-arrow {
+  right: 2%;
+}
