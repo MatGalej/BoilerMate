@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 import "../css/Profile.css";
 
 const Profile = () => {
@@ -34,6 +35,11 @@ const Profile = () => {
 
   if (!userData) return <p>Loading...</p>;
 
+  const handleLogout = async () => {
+      await signOut(auth);
+      navigate("/");
+    };
+
   return (
     <div className="profile-container">
       {/* Profile Card with Flip Function */}
@@ -43,7 +49,7 @@ const Profile = () => {
         <div className="profile-front">
           <img 
             src={userData.profilePic || "https://via.placeholder.com/150"} 
-            alt="Profile"
+            alt=""
             className="profile-pic"
           />
           <h2 className="profile-name text-gray">{userData.firstName} {userData.lastName}</h2>
@@ -101,7 +107,7 @@ const Profile = () => {
         <button onClick={() => navigate("/policy")} className="sidebar-btn">
           Policy Page
         </button>
-        <button onClick={() => auth.signOut()} className="sidebar-btn logout-btn">
+        <button onClick={handleLogout} className="sidebar-btn logout-btn">
           Logout
         </button>
       </div>
