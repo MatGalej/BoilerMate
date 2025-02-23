@@ -22,6 +22,7 @@ const Profile = () => {
             const data = userDoc.data();
             if (data.profilePic) {
               data.profilePic = `data:image/jpeg;base64,${data.profilePic}`;
+              console.log(data.profilePic);
             }
             setUserData(data);
           }
