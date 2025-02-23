@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Welcome from "./pages/welcome";
+import Welcome from "./pages/Welcome";
 import RoommateRequestGuide from "./pages/RoommateRequestGuide";
 import Home from "./pages/Home";
 import Friends from "./pages/Friends";
