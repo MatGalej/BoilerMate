@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { firestore, auth } from "../firebaseConfig"; // ✅ Import auth
+import { firestore, auth } from "../firebaseConfig";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import "../css/Questionnaire.css";
 
 const ProfilePictureUpload = () => {
-  const [image, setImage] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [profilePicURL, setProfilePicURL] = useState(null);
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("");
 
-  // ✅ Check if user is authenticated
-  const userID = auth.currentUser ? auth.currentUser.uid : null;
+  const userID = auth.currentUser?.uid;
 
   useEffect(() => {
+    if (!userID) return; // ✅ Prevent unnecessary calls
+
     const fetchUserData = async () => {
-      if (userID) {
+      try {
         const userDoc = await getDoc(doc(firestore, "users", userID));
         if (userDoc.exists()) {
           const data = userDoc.data();
-          const base64String = data.profilePic;
-          setProfilePicURL(`data:image/jpeg;base64,${base64String}`);
+          setProfilePicURL(
+            data.profilePic ? `data:image/jpeg;base64,${data.profilePic}` : null
+          );
           setUserName(`${data.firstName} ${data.lastName}`);
         }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
     };
 
@@ -29,100 +32,67 @@ const ProfilePictureUpload = () => {
   }, [userID]);
 
   if (!userID) {
-    return <p className="text-red-500">You must be logged in to upload a profile picture.</p>;
+    return (
+      <p className="text-red-500">
+        You must be logged in to upload a profile picture.
+      </p>
+    );
   }
 
-  // ✅ Handle file selection
-  const handleFileChange = (e) => {
-    if (e.target.files[0]) {
-      const file = e.target.files[0];
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicURL(reader.result); // Show preview before uploading
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
 
-  // ✅ Handle Upload
-  const handleUpload = async () => {
-    if (!image) return alert("Please select an image first!");
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file.");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      alert("File size must be under 2MB.");
+      return;
+    }
+
     setLoading(true);
 
-    try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const base64String = reader.result.split(",")[1];
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64String = reader.result.split(",")[1];
 
-        // ✅ Update Firestore with new profile picture Base64 string
+      try {
         await updateDoc(doc(firestore, "users", userID), {
           profilePic: base64String,
         });
-
-        alert("Profile picture updated successfully!");
+        setProfilePicURL(reader.result);
+      } catch (error) {
+        console.error("Error uploading profile picture:", error);
+      } finally {
         setLoading(false);
-      };
-      reader.readAsDataURL(image);
-    } catch (error) {
-      console.error("Error uploading profile picture:", error);
-      setLoading(false);
-    }
+      }
+    };
+
+    reader.readAsDataURL(file);
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-800 text-white p-4 rounded-lg w-full max-w-md">
-      <h2 className="text-2xl font-bold mb-4">Upload Profile Picture</h2>
+    <div className="flex flex-col items-center bg-gray-800 text-white p-5 rounded-lg w-full max-w-md shadow-md">
+      <h2 className="questionText">Profile Picture</h2>
 
-      {/* ✅ Show User Name */}
-      <p className="text-lg mb-4">{userName}</p>
-
-      {/* ✅ Show Image Preview */}
-      {profilePicURL ? (
-        <img
-          src={profilePicURL}
-          alt="Profile Preview"
-          className="w-32 h-32 rounded-full mb-3 border-2 border-yellow-500"
-        />
-      ) : (
-        <p className="text-gray-400">No image selected</p>
-      )}
-
+      {/* Custom File Upload Button */}
+      <label
+        htmlFor="file-upload"
+        className={`custom-file-upload ${loading ? "disabled" : ""}`}
+        aria-label="Upload a profile picture"
+      >
+        {loading ? "Uploading..." : "Choose File"}
+      </label>
       <input
+        id="file-upload"
         type="file"
         accept="image/*"
         onChange={handleFileChange}
-        className="mb-3"
-      />
-
-      {/* ✅ Show Upload Progress */}
-      {uploadProgress > 0 && uploadProgress < 100 && (
-        <p className="text-yellow-500">Uploading: {Math.round(uploadProgress)}%</p>
-      )}
-
-      <button
-        onClick={handleUpload}
-        className="bg-yellow-500 text-black p-2 rounded w-full"
+        className="hidden-file-input"
         disabled={loading}
-      >
-        {loading ? "Uploading..." : "Upload"}
-      </button>
-
-      {/* Additional Buttons */}
-      <div className="mt-4 w-full flex flex-col gap-2">
-        <button className="bg-blue-500 text-white p-2 rounded w-full">
-          Change Password
-        </button>
-        <button className="bg-green-500 text-white p-2 rounded w-full">
-          Change Username
-        </button>
-        <button className="bg-gray-500 text-white p-2 rounded w-full">
-          Edit Profile
-        </button>
-        <button className="bg-red-500 text-white p-2 rounded w-full mt-4">
-          Logout
-        </button>
-      </div>
+      />
     </div>
   );
 };
