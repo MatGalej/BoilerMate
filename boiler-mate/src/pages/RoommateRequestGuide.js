@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 import "../css/request.css";
 
 const RoommateRequestGuide = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+          const checkUserLoggedIn = () => {
+                if (!auth.currentUser) {
+                  navigate("/");
+                }
+              };
+          checkUserLoggedIn();
+  }, []);
 
   return (
     <div className="welcome-background">

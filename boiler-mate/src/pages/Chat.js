@@ -386,6 +386,15 @@ const Chat = () => {
     }
   };
 
+  useEffect(() => {
+        const checkUserLoggedIn = () => {
+              if (!auth.currentUser) {
+                navigate("/");
+              }
+            };
+        checkUserLoggedIn();
+  }, []);
+
   // ───────────────────────────────────────────────────────────
   //                      RENDER
   // ───────────────────────────────────────────────────────────

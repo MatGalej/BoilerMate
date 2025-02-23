@@ -32,6 +32,15 @@ const ChangeUsername = () => {
     }
   };
 
+  useEffect(() => {
+      const checkUserLoggedIn = () => {
+            if (!auth.currentUser) {
+              navigate("/");
+            }
+          };
+      checkUserLoggedIn();
+    }, []);
+    
   return (
     <div className="welcome-background">
       <div className="change-username-container">

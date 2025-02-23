@@ -34,6 +34,15 @@ const Friends = () => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+        const checkUserLoggedIn = () => {
+              if (!auth.currentUser) {
+                navigate("/");
+              }
+            };
+        checkUserLoggedIn();
+  }, []);
+
   // 🔍 Optimized User Search with Range Query (now includes blocked users)
   const handleSearch = async () => {
     if (!searchTerm.trim()) return;
