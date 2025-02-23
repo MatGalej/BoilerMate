@@ -4,13 +4,14 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 50px;
+  width: 80%;
   height: 100vh;
 }
 
 /* Profile Card Flip Effect */
 .profile-card {
-  width: 300px;
-  height: 380px;
+  width: 50%;
+  height: 80%;
   position: relative;
   perspective: 1000px;
 }
