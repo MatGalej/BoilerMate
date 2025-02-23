@@ -1,21 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Welcome from "./pages/welcome";
+import Welcome from "./pages/Welcome";
 import RoommateRequestGuide from "./pages/RoommateRequestGuide";
 import Home from "./pages/Home";
 import Friends from "./pages/Friends";
 import Questionnaire from "./pages/Questionnaire";
-import Chat from "./pages/Chat"; 
-import Profile from "./pages/Profile";// ✅ Import Chat Page
+import Chat from "./pages/Chat";
+import Profile from "./pages/Profile"; // ✅ Import Chat Page
 import ChangePassword from "./pages/ChangePassword";
 import ChangeUsername from "./pages/ChangeUsername";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 import PotentialMatches from "./matchingAlg/PotentialMatches";
-
-
 
 function App() {
   const [userId, setUserId] = useState(null);

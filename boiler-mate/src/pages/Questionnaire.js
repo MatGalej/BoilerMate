@@ -241,9 +241,8 @@ const Questionnaire = () => {
           <label className="questionText">
             How clean do you keep your space?
           </label>
-
           <div className="slider-wrapper">
-            <span className="slider-value">{formData.cleanliness}</span>
+            <span className="slider-label left-label">Messy</span>
             <input
               type="range"
               name="cleanliness"
@@ -253,13 +252,19 @@ const Questionnaire = () => {
               onChange={handleSliderChange}
               className="custom-slider"
             />
+            <span className="slider-label right-label">Neat Freak</span>
           </div>
+          <div className="slider-value">{formData.cleanliness}</div>{" "}
+          {/* Number below slider */}
         </div>
       )}
 
       {/* Step 6: Earliest Class Time */}
       {step === 6 && (
         <>
+          <label className="questionText">
+            What is your earliest class time?
+          </label>
           <select
             name="earliestClassTime"
             value={formData.earliestClassTime}
@@ -292,12 +297,9 @@ const Questionnaire = () => {
       {/* Step 8: Extroversion (1-7 Slider) */}
       {step === 8 && (
         <div className="slider-container">
-          <label className="questionText">
-            How extroverted are you? (1 = introvert, 7 = extrovert)
-          </label>
-
+          <label className="questionText">How social are you?</label>
           <div className="slider-wrapper">
-            <span className="slider-value">{formData.extroversion}</span>
+            <span className="slider-label left-label">Introvert</span>
             <input
               type="range"
               name="extroversion"
@@ -307,41 +309,41 @@ const Questionnaire = () => {
               onChange={handleSliderChange}
               className="custom-slider"
             />
+            <span className="slider-label right-label">Extrovert</span>
           </div>
+          <div className="slider-value">{formData.extroversion}</div>{" "}
+          {/* Number below slider */}
         </div>
       )}
 
       {/* Step 9: Friendship Preference (1-7 Slider) */}
       {step === 9 && (
-        <>
-          <label className="text-center mb-2">
-            How social do you want to be with your roommate? (1 = distant, 7 =
-            best friends)
+        <div className="slider-container">
+          <label className="questionText">
+            How close do you want to be with your roomate?
           </label>
-          <label className="text-center mb-2">
-            How close do you want to be with your roommate? (1 = distant, 7 =
-            best friends)
-            <span className="ml-2 font-bold text-yellow-500">
-              {formData.friendshipPreference}
-            </span>
-          </label>
-
-          <input
-            type="range"
-            name="friendshipPreference"
-            min="1"
-            max="7"
-            value={formData.friendshipPreference}
-            onChange={handleSliderChange}
-            className="w-full my-2"
-          />
-        </>
+          <div className="slider-wrapper">
+            <span className="slider-label left-label">Distant</span>
+            <input
+              type="range"
+              name="friendshipPreference"
+              min="1"
+              max="7"
+              value={formData.friendshipPreference}
+              onChange={handleSliderChange}
+              className="custom-slider"
+            />
+            <span className="slider-label right-label">Best Friends</span>
+          </div>
+          <div className="slider-value">{formData.friendshipPreference}</div>{" "}
+          {/* Number below slider */}
+        </div>
       )}
 
       {/* Step 10: Music Preference (Short Answer) */}
       {step === 10 && (
         <>
-          <label className="text-center mb-2">
+          <label className="questionText">
             What are your music preferences? (Speakers, instrument usage, etc.)
           </label>
           <textarea
@@ -349,7 +351,6 @@ const Questionnaire = () => {
             placeholder="Headphones only, speakers okay, plays guitar..."
             value={formData.musicPreference}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white h-24"
           />
         </>
       )}
@@ -357,7 +358,7 @@ const Questionnaire = () => {
       {/* Step 11: Dietary Restrictions (Short Answer) */}
       {step === 11 && (
         <>
-          <label className="text-center mb-2">
+          <label className="questionText">
             Do you have any dietary restrictions or allergies?
           </label>
           <textarea
@@ -365,7 +366,6 @@ const Questionnaire = () => {
             placeholder="Vegetarian, peanut allergy, etc."
             value={formData.dietaryRestrictions}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white h-24"
           />
         </>
       )}
@@ -373,14 +373,13 @@ const Questionnaire = () => {
       {/* Step 12: Guests Overnight Stay (Dropdown) */}
       {step === 12 && (
         <>
-          <label className="text-center mb-2">
+          <label className="questionText">
             Are you comfortable with overnight guests?
           </label>
           <select
             name="overnightStay"
             value={formData.overnightStay}
             onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
           >
             <option value="">Select</option>
             <option value="Yes">Yes</option>
