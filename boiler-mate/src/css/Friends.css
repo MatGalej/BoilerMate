@@ -1,85 +1,114 @@
-/* Friends.css - Specific styling for the Friends page */
+/* Overall page background & font */
 .friends-page {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #EBD99F; /* Dust */
-    color: #555960; /* Steel */
-    font-family: Arial, sans-serif;
-  }
-  
-  .friends-container {
-    width: 65%;
-    background-color: #DDB945; /* Field */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .friends-container h2 {
-    color: #8E6F3E; /* Aged */
-    margin-bottom: 15px;
-  }
-  
-  .friends-container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #9D9795; /* Railway Gray */
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .friends-container button {
-    background-color: #DAAA00; /* Rush */
-    border: none;
-    padding: 10px 15px;
-    margin: 5px 5px 5px 0;
-    border-radius: 5px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .friends-container button:hover {
-    background-color: #C4BFC0; /* Steam */
-  }
-  
-  .friend-card,
-  .friend-request,
-  .friend-item {
-    border-bottom: 1px solid #9D9795; /* Railway Gray */
-    padding: 10px 0;
-  }
-  
-  .friends-list-container {
-    width: 30%;
-    background-color: #EBD99F; /* Dust */
-    border-left: 1px solid #9D9795; /* Railway Gray */
-    padding-left: 20px;
-    border-radius: 10px;
-  }
-  
-  .friends-list-container h3 {
-    color: #8E6F3E; /* Aged */
-    margin-bottom: 15px;
-  }
-  
-  .friends-list {
-    max-height: 400px;
-    overflow-y: auto;
-    background-color: #DDB945; /* Field */
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .friend-item p {
-    margin: 0;
-    padding: 5px 0;
-    border-bottom: 1px dashed #6F727B; /* Cool Gray */
-  }
-  
-  .friend-item:last-child p {
-    border-bottom: none;
-  }
-  
+  color: #555960; /* Steel */
+  font-family: "Raleway", sans-serif;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Main Header at top */
+.friends-header {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--Aged); /* Aged */
+  margin-bottom: 2rem;
+}
+
+/* Container for 3 columns */
+.friends-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 equal columns */
+  gap: 2rem;
+}
+
+/* Column: Left (Friend Requests) */
+.friends-left {
+  background-color: #DDB945; /* Field */
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Column: Middle (Search) */
+.friends-middle {
+  background-color: #DDB945; /* Field */
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Column: Right (Your Friends) */
+.friends-right {
+  background-color: #DDB945; /* Field */
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Titles inside columns */
+.friends-left h3,
+.friends-middle h3,
+.friends-right h3 {
+  color: #8E6F3E; /* Aged */
+  margin-bottom: 1rem;
+}
+
+/* Friend Requests */
+.friend-request-card {
+  border-bottom: 1px solid #9D9795; /* Railway Gray */
+  padding: 0.5rem 0;
+}
+
+/* Search Input & Button */
+.friends-middle input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border: 1px solid #9D9795; /* Railway Gray */
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Buttons (in all columns) */
+.friends-left button,
+.friends-middle button,
+.friends-right button {
+  background-color: #DAAA00; /* Rush */
+  border: none;
+  padding: 8px 12px;
+  margin: 5px 5px 5px 0;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.friends-left button:hover,
+.friends-middle button:hover,
+.friends-right button:hover {
+  background-color: #C4BFC0; /* Steam */
+}
+
+/* Search Results */
+.friend-card {
+  border-bottom: 1px solid #9D9795; /* Railway Gray */
+  padding: 0.5rem 0;
+}
+
+/* Right Column: Friend List */
+.friends-list {
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #EBD99F; /* Dust */
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.friend-item {
+  border-bottom: 1px dashed #6F727B; /* Cool Gray */
+  padding: 0.5rem 0;
+}
+
+.friend-item:last-child {
+  border-bottom: none;
+}
