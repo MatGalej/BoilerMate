@@ -388,134 +388,138 @@ const Chat = () => {
   // ───────────────────────────────────────────────────────────
 
   return (
-    <div className="chat-page">
-      <h2 className="chat-header">Chat</h2>
+    <div className="welcome-background">
+      <div className="chat-page">
+        {!selectedChat && <h2 className="chat-header">Chat</h2>}
 
-      {/* Top area: Search bar + button(s) if no chat selected */}
-      <div className="search-section">
-        <input
-          type="text"
-          placeholder="Search friends..."
-          value={friendSearch}
-          onChange={(e) => setFriendSearch(e.target.value)}
-        />
-        <div className="search-results">
-          {filteredFriends.map((friendUsername) => (
-            <div key={friendUsername}>
-              <button onClick={() => getOrCreateChat(friendUsername)}>
-                Chat with {friendUsername}
-              </button>
-            </div>
-          ))}
-          {filteredFriends.length === 0 && friendSearch && isValidUser && (
-            <div>
-              <button onClick={() => getOrCreateChat(friendSearch)}>
-                Create chat with {friendSearch}
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* If NO chat is selected, show Chat History */}
-      {!selectedChat && (
-        <div className="chat-history">
-          <h3>Chat History</h3>
-          {userChats.map((chat) => (
-            <div key={chat.id}>
-              <button onClick={() => selectChat(chat.id, chat.name)}>
-                {chat.name || "Unnamed Chat"}
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* If a chat is selected, show the two-column layout */}
-      {selectedChat && (
-        <div className="chat-content">
-          {/* Left column: messages box */}
-          <div className="chat-left">
-            <div className="chat-info-top">
-              <h3>{selectedChatName}</h3>
-              <p><strong>Members:</strong> {chatMembers.map(m => m.username).join(", ")}</p>
-            </div>
-            <div className="messages">
-              {messages.map((msg) => (
-                <p key={msg.messageID} className="message-line">
-                  <strong>{msg.senderName}:</strong> {msg.text}{" "}
-                  <span className="timestamp">
-                    ({new Date(msg.time.seconds * 1000).toLocaleTimeString()})
-                  </span>
-                </p>
+        {/* Top area: Search bar + button(s) if no chat selected */}
+        {!selectedChat && (
+          <div className="search-section">
+            <input
+              type="text"
+              placeholder="Search friends..."
+              value={friendSearch}
+              onChange={(e) => setFriendSearch(e.target.value)}
+            />
+            <div className="search-results">
+              {filteredFriends.map((friendUsername) => (
+                <div key={friendUsername}>
+                  <button onClick={() => getOrCreateChat(friendUsername)}>
+                    Chat with {friendUsername}
+                  </button>
+                </div>
               ))}
-            </div>
-            <div className="message-input">
-              <input
-                type="text"
-                placeholder="Type a message..."
-                value={messageInput}
-                onChange={(e) => setMessageInput(e.target.value)}
-              />
-              <button onClick={sendMessage}>Send</button>
+              {filteredFriends.length === 0 && friendSearch && isValidUser && (
+                <div>
+                  <button onClick={() => getOrCreateChat(friendSearch)}>
+                    Create chat with {friendSearch}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
+        )}
 
-          {/* Right column: Chat settings, add/remove friend, etc. */}
-          <div className="chat-right">
-            <h4>Chat Settings</h4>
-
-            {currentUser.uid === chatOwner && (
-              <div className="owner-controls">
-                <div className="add-friend-section">
-                  <input
-                    type="text"
-                    placeholder="Enter friend's username..."
-                    value={newFriendToAdd}
-                    onChange={(e) => setNewFriendToAdd(e.target.value)}
-                  />
-                  <button onClick={addFriendToChat}>Add Friend</button>
-                </div>
-                <div className="remove-friend-section">
-                  <select
-                    value={memberToRemove}
-                    onChange={(e) => setMemberToRemove(e.target.value)}
-                  >
-                    <option value="">Select member to remove</option>
-                    {chatMembers.map((m) => (
-                      <option key={m.uid} value={m.uid}>
-                        {m.username}
-                      </option>
-                    ))}
-                  </select>
-                  <button onClick={removeMemberFromChat}>Remove</button>
-                  {errorMessage && <p className="error-message">{errorMessage}</p>}
-                </div>
+        {/* If NO chat is selected, show Chat History */}
+        {!selectedChat && (
+          <div className="chat-history">
+            <h3>Chat History</h3>
+            {userChats.map((chat) => (
+              <div key={chat.id}>
+                <button onClick={() => selectChat(chat.id, chat.name)}>
+                  {chat.name || "Unnamed Chat"}
+                </button>
               </div>
-            )}
+            ))}
+          </div>
+        )}
 
-            <div className="rename-chat-section">
-              <input
-                type="text"
-                placeholder="New chat room name..."
-                value={newChatName}
-                onChange={(e) => setNewChatName(e.target.value)}
-              />
-              <button onClick={updateChatName}>Rename Chat</button>
+        {/* If a chat is selected, show the two-column layout */}
+        {selectedChat && (
+          <div className="chat-content">
+            {/* Left column: messages box */}
+            <div className="chat-left">
+              <div className="chat-info-top">
+                <h3>{selectedChatName}</h3>
+                <p><strong>Members:</strong> {chatMembers.map(m => m.username).join(", ")}</p>
+              </div>
+              <div className="messages">
+                {messages.map((msg) => (
+                  <p key={msg.messageID} className="message-line">
+                    <strong>{msg.senderName}:</strong> {msg.text}{" "}
+                    <span className="timestamp">
+                      ({new Date(msg.time.seconds * 1000).toLocaleTimeString()})
+                    </span>
+                  </p>
+                ))}
+              </div>
+              <div className="message-input">
+                <input
+                  type="text"
+                  placeholder="Type a message..."
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                />
+                <button onClick={sendMessage}>Send</button>
+              </div>
             </div>
 
-            <button onClick={() => {
-              // "Back" button, resets to chat history
-              setSelectedChat(null);
-              setSelectedChatName("");
-              setChatMembers([]);
-              setMessages([]);
-            }}>
-              Back to Chat List
-            </button>
+            {/* Right column: Chat settings, add/remove friend, etc. */}
+            <div className="chat-right">
+              <h4>Chat Settings</h4>
+
+              {currentUser.uid === chatOwner && (
+                <div className="owner-controls">
+                  <div className="add-friend-section">
+                    <input
+                      type="text"
+                      placeholder="Enter friend's username..."
+                      value={newFriendToAdd}
+                      onChange={(e) => setNewFriendToAdd(e.target.value)}
+                    />
+                    <button onClick={addFriendToChat}>Add Friend</button>
+                  </div>
+                  <div className="remove-friend-section">
+                    <select
+                      value={memberToRemove}
+                      onChange={(e) => setMemberToRemove(e.target.value)}
+                    >
+                      <option value="">Select member to remove</option>
+                      {chatMembers.map((m) => (
+                        <option key={m.uid} value={m.uid}>
+                          {m.username}
+                        </option>
+                      ))}
+                    </select>
+                    <button onClick={removeMemberFromChat}>Remove</button>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                  </div>
+                </div>
+              )}
+
+              <div className="rename-chat-section">
+                <input
+                  type="text"
+                  placeholder="New chat room name..."
+                  value={newChatName}
+                  onChange={(e) => setNewChatName(e.target.value)}
+                />
+                <button onClick={updateChatName}>Rename Chat</button>
+              </div>
+
+              <button onClick={() => {
+                // "Back" button, resets to chat history
+                setSelectedChat(null);
+                setSelectedChatName("");
+                setChatMembers([]);
+                setMessages([]);
+              }}>
+                Back to Chat List
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
