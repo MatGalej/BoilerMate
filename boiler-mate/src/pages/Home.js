@@ -26,6 +26,21 @@ const Home = () => {
     fetchUserData();
   }, []);
 
+  // ✅ Listen for Esc key to close the navigation menu
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape" && navOpen) {
+        setNavOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navOpen]); // Only runs when `navOpen` changes
+
   const handleLogout = async () => {
     await signOut(auth);
     navigate("/");
@@ -74,7 +89,7 @@ const Home = () => {
               Request Guide
             </button>
             <button className="logout-btn" onClick={handleLogout}>
-              🔐 Log Out
+              Log Out
             </button>
           </div>
         </div>
