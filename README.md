@@ -4,6 +4,8 @@
 
 It was created as part of the 2025 Boilermake Hackathon at Purdue University.
 
+Our main inspiration for this project stems from a combination of the current housing crises at Purdue, the pain and frustration that the roommate questionnaire forms, and the overall difficulty of finding a good roommate going into college. With BoilerMates, we hope to be able to alleviate a part of the issue, by providing a user-friendly, convenient, and tailored platform, to make this part of the college experience that much easier.
+
 ## Table of Contents
 
 ## Features
@@ -12,14 +14,14 @@ It was created as part of the 2025 Boilermake Hackathon at Purdue University.
 - **Profile Management:** Create and update your profile with personal details and living preferences.
 - **Roommate Matching:** Find compatible roommates based on mutual preferences and habits.
 - **Chat & Friend Management:** Connect with potential roommates via real-time chat, send friend requests, and manage blocked users.
-- **User Questionare** Extensive user questionaire used to guage the best potential matches in roomates
+- **User Questionnaire** Extensive user questionnaire used to gauge the best potential matches in roommates.
 
 ## Tech Stack
 
 - **React** for the front-end
 - **Firebase** (Authentication, Firestore Database)
 - **React Router** for navigation
-- **Xenova all-MiniLM** for Natural Language Processing (NLP) of user's questionare data
+- **Xenova all-MiniLM** for Natural Language Processing (NLP) of user's questionnaire data
 
 ## Prerequisites
 - **Node.js** (v14+ recommended)
@@ -28,7 +30,7 @@ It was created as part of the 2025 Boilermake Hackathon at Purdue University.
 - **Xenova all-MiniLM** for NLP
 
 ## Installation Steps
-1. Fork, then cLone the repository
+1. Fork, then clone the repository
 2. install the mentioned dependencies via ```npm install```
 3. Run the program with ```cd .\boiler-mate\ && npm start```
 4. Enjoy :)
