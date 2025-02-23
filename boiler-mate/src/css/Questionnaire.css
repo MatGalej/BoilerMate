@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-width: 500px;
+  min-width: 600px;
   font-family: monospace;
 }
 
@@ -279,9 +279,8 @@
 .slider-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers everything horizontally */
   width: 100%;
-  max-width: 500px; /* Matches the main container width */
+  max-width: 600; /* Matches the main container width */
   gap: 8px; /* Adds equal spacing */
 }
 
@@ -297,8 +296,68 @@
   display: flex;
   align-items: center;
   justify-content: space-between; /* Keeps labels at both ends */
-  gap: 12px; /* Space between elements */
   width: 100%;
-  max-width: 400px; /* Prevents labels from squeezing in */
   flex-wrap: nowrap; /* Prevents labels from stacking */
+}
+
+/* Container for horizontal checkboxes */
+.checkbox-container {
+  display: flex;
+  justify-content: center; /* Centers checkboxes horizontally */
+  gap: 20px; /* Adds spacing between checkboxes */
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px; /* Adjusted width for better horizontal layout */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Individual checkbox label */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom checkbox styling */
+.checkbox-label input {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #ffcc00;
+  border-radius: 6px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom check effect when clicked */
+.checkbox-label input:checked {
+  background: #ffcc00;
+  border-color: #ffcc00;
+}
+
+/* Hover Effect */
+.checkbox-label:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth hover effect on the container */
+.checkbox-container:hover {
+  box-shadow: 0 6px 10px rgba(255, 165, 0, 0.4);
+}
+
+/* 🟡 Overall Section Container */
+.checkbox-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
 }
