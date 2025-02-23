@@ -5,10 +5,8 @@ import {
   getDocs,
   updateDoc,
   collection,
-  setDoc,
-  serverTimestamp,
 } from "firebase/firestore";
-import {aiMatching} from "./aiMatching";
+import {getSimilarity} from "./aiMatching";
 
 const WEIGHTS = {
   cleanliness: 3,
@@ -49,15 +47,26 @@ const calculateSimilarity = (value1, value2, isCategorical = false) => {
  */
 const computeMatchScore = async (user1, user2) => {
   let score = 0;
+
+
   /*
-  console.log("WHAT", aiMatching("HELLO", "HI THERE") * AI_WEIGHTS.major);
-  score += ;
-  score += aiTextSimilarity(user1.hobbies, user2.hobbies) * AI_WEIGHTS.hobbies;
-  score += aiTextSimilarity(user1.studyPreference, user2.studyPreference) * AI_WEIGHTS.studyPreference;
-  score += aiTextSimilarity(user1.dietaryRestrictions, user2.dietaryRestrictions) * AI_WEIGHTS.dietaryRestrictions;
-  score += aiTextSimilarity(user1.musicInRoom, user2.musicInRoom) * AI_WEIGHTS.musicInRoom;
-  score += aiTextSimilarity(user1.roomDecorations, user2.roomDecorations) * AI_WEIGHTS.roomDecorations;
+  score += await getSimilarity(user1.major, user2.major);
   */
+
+  console.log(await getSimilarity("Computer Science", "Computer Science"));
+  /*
+  score += getSimilarity(user1.hobbies, user2.hobbies) * AI_WEIGHTS.hobbies;
+  console.log(score);
+  score += getSimilarity(user1.studyPreference, user2.studyPreference) * AI_WEIGHTS.studyPreference;
+  console.log(score);
+  score += getSimilarity(user1.dietaryRestrictions, user2.dietaryRestrictions) * AI_WEIGHTS.dietaryRestrictions;
+  console.log(score);
+  score += getSimilarity(user1.musicInRoom, user2.musicInRoom) * AI_WEIGHTS.musicInRoom;
+  console.log(score);
+  score += getSimilarity(user1.roomDecorations, user2.roomDecorations) * AI_WEIGHTS.roomDecorations;
+  console.log(score);
+  */
+
   score += calculateSimilarity(user1.graduationYear, user2.graduationYear, true) * WEIGHTS.graduationYear;
   score += calculateSimilarity(user1.cleanliness, user2.cleanliness) * WEIGHTS.cleanliness;
   score += calculateSimilarity(user1.earliestClassTime, user2.earliestClassTime, true) * WEIGHTS.earliestClassTime;
@@ -119,10 +128,4 @@ export const findBestMatch = async (userID) => {
       console.error("❌ Error storing match:", error);
     }
   return sortedKeys;
-};
-
-/**
- * Stores the best roommate match in Firestore.
- */
-export const storeMatch = async (user1ID, user2ID, score) => {
 };
