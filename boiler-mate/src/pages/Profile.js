@@ -70,7 +70,7 @@ const Profile = () => {
 
           {/* Back Side */}
           <div className="profile-back">
-            <h2>More Info</h2>
+            <h2 className="profile-back-title">More Info</h2>
             <p className="card-text"><strong>Email:</strong> {userData.email}</p>
             <p className="card-text"><strong>Activity Level:</strong> {userData.activityLevel}</p>
             <p className="card-text"><strong>Cleanliness:</strong> {userData.cleanliness}</p>
