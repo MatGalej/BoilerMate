@@ -145,406 +145,400 @@ const Questionnaire = () => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-800 text-white p-6 rounded-lg w-full max-w-md">
-      <div className="progress-wrapper">
-        {/* Profile Title */}
-        <h2 className="profile-title">Profile</h2>
+    <div className="questionnaire-page">
+      <div className="questionnaire-container">
+        <div className="progress-wrapper">
+          {/* Profile Title */}
+          <h2 className="profile-title">Profile</h2>
 
-        {/* Progress Bar (now auto-sized by CSS) */}
-        <div className="progress-container">
-          <div
-            className="progress-bar"
-            style={{ width: `${progressPercentage}%` }}
-          ></div>
-        </div>
-      </div>
-
-      {/* Step 1: First Name & Last Name */}
-      {step === 1 && (
-        <>
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-        </>
-      )}
-
-      {/* Step 2: Major & Graduation Year */}
-      {step === 2 && (
-        <>
-          <input
-            type="text"
-            name="major"
-            placeholder="Major"
-            value={formData.major}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          />
-          <select
-            name="graduationYear"
-            value={formData.graduationYear}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          >
-            <option value="">Select Graduation Year</option>
-            <option value="2026">2026</option>
-            <option value="2027">2027</option>
-            <option value="2028">2028</option>
-            <option value="2029">2029</option>
-          </select>
-        </>
-      )}
-
-      {/* Step 3: Room Type */}
-      {step === 3 && (
-        <>
-          <select
-            name="roomType"
-            value={formData.roomType}
-            onChange={handleChange}
-            className="p-2 mb-3 rounded bg-gray-600 text-white"
-          >
-            <option value="">Select Room Type</option>
-            <option value="Double">Double</option>
-            <option value="Triple">Triple</option>
-            <option value="Quad">Quad</option>
-            <option value="Apartment/Suite">Apartment/Suite</option>
-          </select>
-        </>
-      )}
-
-      {/* Step 4: Hobbies */}
-      {step === 4 && (
-        <>
-          <textarea
-            name="hobbies"
-            placeholder="List your hobbies"
-            value={formData.hobbies}
-            onChange={handleChange}
-          />
-        </>
-      )}
-
-      {/* Step 5: Cleanliness */}
-      {step === 5 && (
-        <>
-          <label className="questionText">
-            How clean do you keep your space? (1 = messy, 7 = very clean)
-          </label>
-          <div className="slider-container">
-            <input
-              type="range"
-              name="cleanliness"
-              min="1"
-              max="7"
-              value={formData.cleanliness}
-              onChange={handleSliderChange}
-              className="styled-slider"
-              id="cleanlinessSlider"
-            />
+          {/* Progress Bar (now auto-sized by CSS) */}
+          <div className="progress-container">
             <div
-              className="slider-thumb-value"
-              style={{ left: `${((formData.cleanliness - 1) / 6) * 100}%` }}
-            >
-              {formData.cleanliness}
-            </div>
+              className="progress-bar"
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
           </div>
-        </>
-      )}
+        </div>
 
-      {/* Step 6: Earliest Class Time */}
-      {step === 6 && (
-        <>
-          <select
-            name="earliestClassTime"
-            value={formData.earliestClassTime}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          >
-            <option value="">Select Earliest Class Time</option>
-            <option value="Before 8 AM">Before 8 AM</option>
-            <option value="8-10 AM">8-10 AM</option>
-            <option value="10 AM - 12 PM">10 AM - 12 PM</option>
-          </select>
-        </>
-      )}
-
-      {/* Step 7: Preferred Study Location (Short Answer) */}
-      {step === 7 && (
-        <>
-          <label className="text-center mb-2">
-            Where do you prefer to study?
-          </label>
-          <input
-            type="text"
-            name="preferredStudyLocation"
-            placeholder="Library, dorm, café..."
-            value={formData.preferredStudyLocation}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          />
-        </>
-      )}
-
-      {/* Step 8: Extroversion (1-7 Slider) */}
-      {step === 8 && (
-        <>
-          <label className="text-center mb-2">
-            How extroverted are you? (1 = introvert, 7 = extrovert)
-          </label>
-          <label className="text-center mb-2">
-            How extroverted are you? (1 = introvert, 7 = extrovert)
-            <span className="ml-2 font-bold text-yellow-500">
-              {formData.extroversion}
-            </span>
-          </label>
-
-          <input
-            type="range"
-            name="extroversion"
-            min="1"
-            max="7"
-            value={formData.extroversion}
-            onChange={handleSliderChange}
-            className="w-full my-2"
-          />
-        </>
-      )}
-
-      {/* Step 9: Friendship Preference (1-7 Slider) */}
-      {step === 9 && (
-        <>
-          <label className="text-center mb-2">
-            How social do you want to be with your roommate? (1 = distant, 7 =
-            best friends)
-          </label>
-          <label className="text-center mb-2">
-            How close do you want to be with your roommate? (1 = distant, 7 =
-            best friends)
-            <span className="ml-2 font-bold text-yellow-500">
-              {formData.friendshipPreference}
-            </span>
-          </label>
-
-          <input
-            type="range"
-            name="friendshipPreference"
-            min="1"
-            max="7"
-            value={formData.friendshipPreference}
-            onChange={handleSliderChange}
-            className="w-full my-2"
-          />
-        </>
-      )}
-
-      {/* Step 10: Music Preference (Short Answer) */}
-      {step === 10 && (
-        <>
-          <label className="text-center mb-2">
-            What are your music preferences? (Speakers, instrument usage, etc.)
-          </label>
-          <textarea
-            name="musicPreference"
-            placeholder="Headphones only, speakers okay, plays guitar..."
-            value={formData.musicPreference}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white h-24"
-          />
-        </>
-      )}
-
-      {/* Step 11: Dietary Restrictions (Short Answer) */}
-      {step === 11 && (
-        <>
-          <label className="text-center mb-2">
-            Do you have any dietary restrictions or allergies?
-          </label>
-          <textarea
-            name="dietaryRestrictions"
-            placeholder="Vegetarian, peanut allergy, etc."
-            value={formData.dietaryRestrictions}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white h-24"
-          />
-        </>
-      )}
-
-      {/* Step 12: Guests Overnight Stay (Dropdown) */}
-      {step === 12 && (
-        <>
-          <label className="text-center mb-2">
-            Are you comfortable with overnight guests?
-          </label>
-          <select
-            name="overnightStay"
-            value={formData.overnightStay}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          >
-            <option value="">Select</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </>
-      )}
-
-      {/* Step 13: Guests Throughout Day (1-7 Slider) */}
-      {step === 13 && (
-        <>
-          <label className="text-center mb-2">
-            How comfortable with you having guests over? (1 = never, 7 = very
-            often)
-          </label>
-          <input
-            type="range"
-            name="guestsThroughoutDay"
-            min="1"
-            max="7"
-            value={formData.guestsThroughoutDay}
-            onChange={handleSliderChange}
-            className="w-full my-2"
-          />
-        </>
-      )}
-
-      {/* Step 14: Shared Cleaning Supplies (Yes/No Dropdown) */}
-      {step === 14 && (
-        <>
-          <label className="text-center mb-2">
-            Would you be okay with sharing cleaning supplies?
-          </label>
-          <select
-            name="sharedCleaningSupplies"
-            value={formData.sharedCleaningSupplies}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          >
-            <option value="">Select</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </>
-      )}
-
-      {/* Step 15: Sleep Time (Time Select) */}
-      {step === 15 && (
-        <>
-          <label className="text-center mb-2">
-            What time do you usually go to bed?
-          </label>
-          <input
-            type="time"
-            name="sleepTime"
-            value={formData.sleepTime}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          />
-        </>
-      )}
-
-      {/* Step 16: Smoke, Drink, Weed (Checkbox Input) */}
-      {step === 16 && (
-        <>
-          <label className="text-center mb-2">
-            Do you smoke, drink, or use weed? (Select all that apply)
-          </label>
-
-          <div className="flex flex-col space-y-2">
-            {["Smoke", "Drink", "Weed", "None"].map((option) => (
-              <label key={option} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  name="smokeDrinkWeed"
-                  value={option}
-                  checked={formData.smokeDrinkWeed.includes(option)}
-                  onChange={(e) => {
-                    const { value, checked } = e.target;
-                    setFormData((prev) => ({
-                      ...prev,
-                      smokeDrinkWeed: checked
-                        ? [...prev.smokeDrinkWeed, value] // Add option if checked
-                        : prev.smokeDrinkWeed.filter((item) => item !== value), // Remove if unchecked
-                    }));
-                  }}
-                  className="h-5 w-5 text-yellow-500"
-                />
-                <span>{option}</span>
-              </label>
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* Step 17: Activity Level (1-7 Slider) */}
-      {step === 17 && (
-        <>
-          <label className="text-center mb-2">
-            How active are you? (1 = sedentary, 7 = very active)
-          </label>
-          <input
-            type="range"
-            name="activityLevel"
-            min="1"
-            max="7"
-            value={formData.activityLevel}
-            onChange={handleSliderChange}
-            className="w-full my-2"
-          />
-        </>
-      )}
-
-      {/* Step 18: Room decorations */}
-      {step === 18 && (
-        <>
-          <label className="text-center mb-2">
-            Do you care about room decorations?
-          </label>
-          <input
-            type="text"
-            name="roomDecorations"
-            placeholder="Aesthetic, minimal, etc."
-            value={formData.roomDecorations}
-            onChange={handleChange}
-            className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
-          />
-        </>
-      )}
-
-      {/* Step 19: Profile Picture Upload */}
-      {step === 19 && (
-        <>
-          <ProfilePictureUpload userID={userID} />
-        </>
-      )}
-
-      {/* Button Group (Ensures Back and Next are side by side) */}
-      <div className="button-group">
-        {/* Back button (only show if step > 1) */}
-        {step > 1 && (
-          <button onClick={prevStep} className="button back-button">
-            Back
-          </button>
+        {/* Step 1: First Name & Last Name */}
+        {step === 1 && (
+          <>
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              value={formData.firstName}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              value={formData.lastName}
+              onChange={handleChange}
+            />
+          </>
         )}
 
-        {/* Next/Submit button (conditionally disabled) */}
-        <button
-          onClick={step === 19 ? handleSubmit : nextStep}
-          disabled={getIsNextDisabled()} // Calls function to check if button should be disabled
-          className={`button ${getIsNextDisabled() ? "disabled" : "enabled"}`}
-        >
-          {step === 19 ? "Submit" : "Next"}
-        </button>
+        {/* Step 2: Major & Graduation Year */}
+        {step === 2 && (
+          <>
+            <input
+              type="text"
+              name="major"
+              placeholder="Major"
+              value={formData.major}
+              onChange={handleChange}
+              className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
+            />
+            <select
+              name="graduationYear"
+              value={formData.graduationYear}
+              onChange={handleChange}
+              className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
+            >
+              <option value="">Select Graduation Year</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+            </select>
+          </>
+        )}
+
+        {/* Step 3: Room Type */}
+        {step === 3 && (
+          <>
+            <select
+              name="roomType"
+              value={formData.roomType}
+              onChange={handleChange}
+              className="p-2 mb-3 rounded bg-gray-600 text-white"
+            >
+              <option value="">Select Room Type</option>
+              <option value="Double">Double</option>
+              <option value="Triple">Triple</option>
+              <option value="Quad">Quad</option>
+              <option value="Apartment/Suite">Apartment/Suite</option>
+            </select>
+          </>
+        )}
+
+        {/* Step 4: Hobbies */}
+        {step === 4 && (
+          <>
+            <textarea
+              name="hobbies"
+              placeholder="List your hobbies"
+              value={formData.hobbies}
+              onChange={handleChange}
+            />
+          </>
+        )}
+
+        {/* Step 5: Cleanliness */}
+        {step === 5 && (
+          <div className="slider-container">
+            <label className="questionText">
+              How clean do you keep your space?
+            </label>
+            <div className="slider-wrapper">
+              <span className="slider-label left-label">Messy</span>
+              <input
+                type="range"
+                name="cleanliness"
+                min="1"
+                max="7"
+                value={formData.cleanliness}
+                onChange={handleSliderChange}
+                className="custom-slider"
+              />
+              <span className="slider-label right-label">Neat Freak</span>
+            </div>
+            <div className="slider-value">{formData.cleanliness}</div>{" "}
+            {/* Number below slider */}
+          </div>
+        )}
+
+        {/* Step 6: Earliest Class Time */}
+        {step === 6 && (
+          <>
+            <label className="questionText">
+              What is your earliest class time?
+            </label>
+            <select
+              name="earliestClassTime"
+              value={formData.earliestClassTime}
+              onChange={handleChange}
+            >
+              <option value="">Select Earliest Class Time</option>
+              <option value="Before 8 AM">Before 8 AM</option>
+              <option value="8-10 AM">8-10 AM</option>
+              <option value="10 AM - 12 PM">10 AM - 12 PM</option>
+            </select>
+          </>
+        )}
+
+        {/* Step 7: Preferred Study Location (Short Answer) */}
+        {step === 7 && (
+          <div className="input-group">
+            <label htmlFor="preferredStudyLocation" class="questionText">
+              Where do you prefer to study?
+            </label>
+            <input
+              type="text"
+              name="preferredStudyLocation"
+              placeholder="Library, dorm, café..."
+              value={formData.preferredStudyLocation}
+              onChange={handleChange}
+            />
+          </div>
+        )}
+
+        {/* Step 8: Extroversion (1-7 Slider) */}
+        {step === 8 && (
+          <div className="slider-container">
+            <label className="questionText">How social are you?</label>
+            <div className="slider-wrapper">
+              <span className="slider-label left-label">Introvert</span>
+              <input
+                type="range"
+                name="extroversion"
+                min="1"
+                max="7"
+                value={formData.extroversion}
+                onChange={handleSliderChange}
+                className="custom-slider"
+              />
+              <span className="slider-label right-label">Extrovert</span>
+            </div>
+            <div className="slider-value">{formData.extroversion}</div>{" "}
+            {/* Number below slider */}
+          </div>
+        )}
+
+        {/* Step 9: Friendship Preference (1-7 Slider) */}
+        {step === 9 && (
+          <div className="slider-container">
+            <label className="questionText">
+              How close do you want to be with your roomate?
+            </label>
+            <div className="slider-wrapper">
+              <span className="slider-label left-label">Distant</span>
+              <input
+                type="range"
+                name="friendshipPreference"
+                min="1"
+                max="7"
+                value={formData.friendshipPreference}
+                onChange={handleSliderChange}
+                className="custom-slider"
+              />
+              <span className="slider-label right-label">Best Friends</span>
+            </div>
+            <div className="slider-value">{formData.friendshipPreference}</div>{" "}
+            {/* Number below slider */}
+          </div>
+        )}
+
+        {/* Step 10: Music Preference (Short Answer) */}
+        {step === 10 && (
+          <>
+            <label className="questionText">
+              What are your music preferences? (Speakers, instrument usage,
+              etc.)
+            </label>
+            <textarea
+              name="musicPreference"
+              placeholder="Headphones only, speakers okay, plays guitar..."
+              value={formData.musicPreference}
+              onChange={handleChange}
+            />
+          </>
+        )}
+
+        {/* Step 11: Dietary Restrictions (Short Answer) */}
+        {step === 11 && (
+          <>
+            <label className="questionText">
+              Do you have any dietary restrictions or allergies?
+            </label>
+            <textarea
+              name="dietaryRestrictions"
+              placeholder="Vegetarian, peanut allergy, etc."
+              value={formData.dietaryRestrictions}
+              onChange={handleChange}
+            />
+          </>
+        )}
+
+        {/* Step 12: Guests Overnight Stay (Dropdown) */}
+        {step === 12 && (
+          <>
+            <label className="questionText">
+              Are you comfortable with overnight guests?
+            </label>
+            <select
+              name="overnightStay"
+              value={formData.overnightStay}
+              onChange={handleChange}
+            >
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </>
+        )}
+
+        {/* Step 13: Guests Throughout Day (1-7 Slider) */}
+        {step === 13 && (
+          <>
+            <label className="text-center mb-2">
+              How comfortable with you having guests over? (1 = never, 7 = very
+              often)
+            </label>
+            <input
+              type="range"
+              name="guestsThroughoutDay"
+              min="1"
+              max="7"
+              value={formData.guestsThroughoutDay}
+              onChange={handleSliderChange}
+              className="w-full my-2"
+            />
+          </>
+        )}
+
+        {/* Step 14: Shared Cleaning Supplies (Yes/No Dropdown) */}
+        {step === 14 && (
+          <>
+            <label className="text-center mb-2">
+              Would you be okay with sharing cleaning supplies?
+            </label>
+            <select
+              name="sharedCleaningSupplies"
+              value={formData.sharedCleaningSupplies}
+              onChange={handleChange}
+              className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
+            >
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </>
+        )}
+
+        {/* Step 15: Sleep Time (Time Select) */}
+        {step === 15 && (
+          <>
+            <label className="text-center mb-2">
+              What time do you usually go to bed?
+            </label>
+            <input
+              type="time"
+              name="sleepTime"
+              value={formData.sleepTime}
+              onChange={handleChange}
+              className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
+            />
+          </>
+        )}
+
+        {/* Step 16: Smoke, Drink, Weed (Checkbox Input) */}
+        {step === 16 && (
+          <>
+            <label className="text-center mb-2">
+              Do you smoke, drink, or use weed? (Select all that apply)
+            </label>
+
+            <div className="flex flex-col space-y-2">
+              {["Smoke", "Drink", "Weed", "None"].map((option) => (
+                <label key={option} className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    name="smokeDrinkWeed"
+                    value={option}
+                    checked={formData.smokeDrinkWeed.includes(option)}
+                    onChange={(e) => {
+                      const { value, checked } = e.target;
+                      setFormData((prev) => ({
+                        ...prev,
+                        smokeDrinkWeed: checked
+                          ? [...prev.smokeDrinkWeed, value] // Add option if checked
+                          : prev.smokeDrinkWeed.filter(
+                              (item) => item !== value
+                            ), // Remove if unchecked
+                      }));
+                    }}
+                    className="h-5 w-5 text-yellow-500"
+                  />
+                  <span>{option}</span>
+                </label>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Step 17: Activity Level (1-7 Slider) */}
+        {step === 17 && (
+          <>
+            <label className="text-center mb-2">
+              How active are you? (1 = sedentary, 7 = very active)
+            </label>
+            <input
+              type="range"
+              name="activityLevel"
+              min="1"
+              max="7"
+              value={formData.activityLevel}
+              onChange={handleSliderChange}
+              className="w-full my-2"
+            />
+          </>
+        )}
+
+        {/* Step 18: Room decorations */}
+        {step === 18 && (
+          <>
+            <label className="text-center mb-2">
+              Do you care about room decorations?
+            </label>
+            <input
+              type="text"
+              name="roomDecorations"
+              placeholder="Aesthetic, minimal, etc."
+              value={formData.roomDecorations}
+              onChange={handleChange}
+              className="p-2 mb-3 w-full rounded bg-gray-600 text-white"
+            />
+          </>
+        )}
+
+        {/* Step 19: Profile Picture Upload */}
+        {step === 19 && (
+          <>
+            <ProfilePictureUpload userID={userID} />
+          </>
+        )}
+
+        {/* Button Group (Ensures Back and Next are side by side) */}
+        <div className="button-group">
+          {/* Back button (only show if step > 1) */}
+          {step > 1 && (
+            <button onClick={prevStep} className="button back-button">
+              Back
+            </button>
+          )}
+
+          {/* Next/Submit button (conditionally disabled) */}
+          <button
+            onClick={step === 19 ? handleSubmit : nextStep}
+            disabled={getIsNextDisabled()} // Calls function to check if button should be disabled
+            className={`button ${getIsNextDisabled() ? "disabled" : "enabled"}`}
+          >
+            {step === 19 ? "Submit" : "Next"}
+          </button>
+        </div>
       </div>
     </div>
   );

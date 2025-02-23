@@ -6,7 +6,6 @@ import {
 import { auth } from "../firebaseConfig";
 import { createUserProfile } from "../services/firebaseServices"; // ✅ Import Firestore function
 import { useNavigate } from "react-router-dom";
-import "../css/signup.css";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -51,7 +50,7 @@ function SignUp() {
   };
 
   return (
-    <div className="background">
+    <div className="welcome-background">
       <div className="login-panel-background">
         <div className="login-container">
           <h2>Sign up</h2>

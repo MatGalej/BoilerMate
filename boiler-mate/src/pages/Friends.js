@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "../firebaseConfig";
-import { collection, query, where, getDocs, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import "../css/Friends.css";
+
+import { 
+    collection, query, where, getDocs, doc, getDoc, updateDoc, 
+    arrayUnion, arrayRemove 
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 const Friends = () => {
@@ -8,6 +13,7 @@ const Friends = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
     const [friendsList, setFriendsList] = useState([]);
+    const [blockedFriends, setBlockedFriends] = useState([]);
     const currentUser = auth.currentUser;
     const navigate = useNavigate();
 
@@ -15,22 +21,31 @@ const Friends = () => {
         if (currentUser) {
             fetchFriendRequests();
             fetchFriendsList();
+            fetchBlockedFriends();
         }
     }, [currentUser]);
 
-    // 🔍 Search Users
+    // 🔍 Optimized User Search with Range Query
     const handleSearch = async () => {
         if (!searchTerm.trim()) return;
 
         const usersRef = collection(db, "users");
-        const q = query(usersRef, where("username", "==", searchTerm));
+        const q = query(
+            usersRef,
+            where("username", ">=", searchTerm),
+            where("username", "<=", searchTerm + "\uf8ff")
+        );
 
         try {
             const querySnapshot = await getDocs(q);
             let results = [];
             querySnapshot.forEach((doc) => {
-                if (doc.id !== currentUser.uid) {
-                    const userData = { id: doc.id, ...doc.data(), isFriend: friendsList.some(friend => friend.id === doc.id) };
+                if (doc.id !== currentUser.uid && !blockedFriends.includes(doc.id)) {
+                    const userData = { 
+                        id: doc.id, 
+                        ...doc.data(), 
+                        isFriend: friendsList.some(friend => friend.id === doc.id) 
+                    };
                     results.push(userData);
                 }
             });
@@ -53,7 +68,7 @@ const Friends = () => {
             });
 
             await updateDoc(receiverRef, {
-                friendRequestRecived: arrayUnion(currentUser.uid)
+                friendRequestReceived: arrayUnion(currentUser.uid)
             });
 
             alert("Friend request sent!");
@@ -69,7 +84,7 @@ const Friends = () => {
         try {
             const userDoc = await getDoc(doc(db, "users", currentUser.uid));
             if (userDoc.exists()) {
-                const requestIds = userDoc.data().friendRequestRecived || [];
+                const requestIds = userDoc.data().friendRequestReceived || [];
                 const requestUsers = await Promise.all(requestIds.map(async (userId) => {
                     const userSnap = await getDoc(doc(db, "users", userId));
                     return userSnap.exists() ? { id: userId, username: userSnap.data().username } : null;
@@ -81,7 +96,7 @@ const Friends = () => {
         }
     };
 
-    // ✅ Accept Friend Request (Adds both users as friends)
+    // ✅ Accept Friend Request
     const acceptFriendRequest = async (userId) => {
         if (!currentUser) return;
 
@@ -91,7 +106,7 @@ const Friends = () => {
         try {
             await updateDoc(userRef, {
                 friends: arrayUnion(userId),
-                friendRequestRecived: arrayRemove(userId)
+                friendRequestReceived: arrayRemove(userId)
             });
 
             await updateDoc(senderRef, {
@@ -100,7 +115,7 @@ const Friends = () => {
             });
 
             setFriendRequests(friendRequests.filter((user) => user.id !== userId));
-            fetchFriendsList(); // Refresh friends list
+            fetchFriendsList();
             alert("Friend request accepted! You are now friends.");
         } catch (error) {
             console.error("Error accepting friend request:", error);
@@ -116,7 +131,7 @@ const Friends = () => {
 
         try {
             await updateDoc(userRef, {
-                friendRequestRecived: arrayRemove(userId)
+                friendRequestReceived: arrayRemove(userId)
             });
 
             await updateDoc(senderRef, {
@@ -124,14 +139,13 @@ const Friends = () => {
             });
 
             setFriendRequests(friendRequests.filter((user) => user.id !== userId));
-
             alert("Friend request declined.");
         } catch (error) {
             console.error("Error declining friend request:", error);
         }
     };
 
-    // 👫 Fetch Friends List (Now Shows Usernames Instead of IDs)
+    // 👫 Fetch Friends List
     const fetchFriendsList = async () => {
         if (!currentUser) return;
 
@@ -143,80 +157,113 @@ const Friends = () => {
                     const friendSnap = await getDoc(doc(db, "users", friendId));
                     return friendSnap.exists() ? { id: friendId, username: friendSnap.data().username } : null;
                 }));
-                setFriendsList(friendsData.filter(friend => friend !== null));
+                setFriendsList(friendsData.filter(friend => friend !== null && !blockedFriends.includes(friend.id)));
             }
         } catch (error) {
             console.error("Error fetching friends list:", error);
         }
     };
 
+    // 🚫 Block Friend
+    const blockFriend = async (userId) => {
+        if (!currentUser) return;
+
+        const userRef = doc(db, "users", currentUser.uid);
+
+        try {
+            await updateDoc(userRef, {
+                blockedFriends: arrayUnion(userId),
+                friends: arrayRemove(userId)
+            });
+
+            setFriendsList(friendsList.filter((friend) => friend.id !== userId));
+            setBlockedFriends([...blockedFriends, userId]);
+            alert("User blocked.");
+        } catch (error) {
+            console.error("Error blocking user:", error);
+        }
+    };
+
+    // 🛑 Fetch Blocked Friends
+    const fetchBlockedFriends = async () => {
+        if (!currentUser) return;
+
+        try {
+            const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+            if (userDoc.exists()) {
+                setBlockedFriends(userDoc.data().blockedFriends || []);
+            }
+        } catch (error) {
+            console.error("Error fetching blocked friends:", error);
+        }
+    };
+
     return (
-        <div className="friends-container">
-            <h2>Find Friends</h2>
-            <input
-                type="text"
-                placeholder="Search by username"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <button onClick={handleSearch}>Search</button>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {/* Left Side - Friend Requests and Search */}
+            <div className="friends-container" style={{ width: "65%" }}>
+                <h2>Find Friends</h2>
 
-            {/* 🔍 Search Results */}
-            <h3>Search Results:</h3>
-            <div>
-                {searchResults.length > 0 ? (
-                    searchResults.map((user) => (
-                        <div key={user.id} className="friend-card">
-                            <p>{user.username} ({user.email})</p>
-                            {user.isFriend ? (
-                                <p>✅ Already your friend</p>
-                            ) : (
-                                <button onClick={() => sendFriendRequest(user.id)}>➕ Send Friend Request</button>
-                            )}
-                        </div>
-                    ))
-                ) : (
-                    <p>No users found</p>
-                )}
+                {/* Friend Requests Review Section */}
+                <div className="friend-requests-section">
+                    <h3>Friend Requests</h3>
+                    {friendRequests.length > 0 ? (
+                        friendRequests.map((user) => (
+                            <div key={user.id} className="friend-request-card">
+                                <p>{user.username}</p>
+                                <button onClick={() => acceptFriendRequest(user.id)}>✅ Accept</button>
+                                <button onClick={() => declineFriendRequest(user.id)}>❌ Decline</button>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No pending friend requests</p>
+                    )}
+                </div>
+
+                {/* Friend Search Section */}
+                <div className="friend-search-section">
+                    <input
+                        type="text"
+                        placeholder="Search by username"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button onClick={handleSearch}>Search</button>
+
+                    <h3>Search Results:</h3>
+                    {searchResults.length > 0 ? (
+                        searchResults.map((user) => (
+                            <div key={user.id} className="friend-card">
+                                <p>{user.username}</p>
+                                {user.isFriend ? (
+                                    <p>✅ Already your friend</p>
+                                ) : (
+                                    <button onClick={() => sendFriendRequest(user.id)}>➕ Send Friend Request</button>
+                                )}
+                                <button onClick={() => blockFriend(user.id)}>🚫 Block</button>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No users found</p>
+                    )}
+                </div>
             </div>
 
-            {/* 📥 Friend Requests Received */}
-            <h3>Friend Requests Received:</h3>
-            <div>
-                {friendRequests.length > 0 ? (
-                    friendRequests.map((user) => (
-                        <div key={user.id} className="friend-request">
-                            <p>{user.username}</p>
-                            <button onClick={() => acceptFriendRequest(user.id)}>✅ Accept</button>
-                            <button onClick={() => declineFriendRequest(user.id)}>❌ Decline</button>
-                        </div>
-                    ))
-                ) : (
-                    <p>No pending requests</p>
-                )}
+            {/* Right Side - Friends List */}
+            <div className="friends-list-container" style={{ width: "30%", borderLeft: "1px solid #ccc", paddingLeft: "20px" }}>
+                <h3>Your Friends</h3>
+                <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+                    {friendsList.length > 0 ? (
+                        friendsList.map((friend) => (
+                            <div key={friend.id} className="friend-item">
+                                <p>{friend.username}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No friends yet</p>
+                    )}
+                </div>
             </div>
-
-            {/* 👫 Friends List */}
-            <h3>Your Friends:</h3>
-            <div>
-                {friendsList.length > 0 ? (
-                    friendsList.map((friend) => (
-                        <div key={friend.id} className="friend-item">
-                            <p>{friend.username}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>No friends yet</p>
-                )}
-            </div>
-
-            {/* 🏠 Back to Home Button */}
-            <button
-                className="w-40 py-2 mt-6 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-800"
-                onClick={() => navigate("/home")}
-            >
-                ⬅️ Back to Home
-            </button>
         </div>
     );
 };

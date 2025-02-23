@@ -56,7 +56,7 @@ const Login = () => {
   };
 
   return (
-    <div className="overlay">
+    <div className="welcome-background">
       <div className="login-container">
         <h2>Login</h2>
         <form onSubmit={handleLogin}>
