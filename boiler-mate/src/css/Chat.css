@@ -91,7 +91,8 @@
   margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 4px;
-  overflow-y: auto;
+  max-height: 500px; /* Fixed height */
+  overflow-y: scroll; /* Enable vertical scrolling */
 }
 
 .message-line {
