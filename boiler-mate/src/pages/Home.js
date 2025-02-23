@@ -49,7 +49,7 @@ const Home = () => {
   return (
     <div className="home-container">
       {/* Welcome Section */}
-      <h1 className="welcome-text-home">BoilerMate</h1>
+      <h1 className="welcome-text-home">BoilerMates</h1>
       <p className="welcome-message">Hello, {firstName}</p>
 
       {/* Purdue Seal (Click to Open Nav) */}
