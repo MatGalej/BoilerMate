@@ -2,7 +2,7 @@
 .profile-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   padding: 50px;
   width: 80%;
   height: 100vh;
@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Center content horizontally */
+  align-items: center; 
   transition: transform 0.6s;
 }
 
@@ -40,6 +40,10 @@
 .profile-card .profile-back {
   transform: rotateY(180deg);
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
 }
@@ -54,8 +58,8 @@
 
 /* Profile Picture */
 .profile-pic {
-  width: 100px;
-  height: 100px;
+  width: 40%;
+  height: 40%;
   border-radius: 50%;
   border: 3px solid #DAAA00;
   margin-bottom: 10px;
@@ -82,16 +86,27 @@
   transition: 0.3s;
 }
 
+.back-btn {
+  background-color: #DAAA00 !important;
+}
+
+.card-text {
+  font-family: "Lato", sans-serif;
+  color: var(--Steel); 
+}
+
 .flip-btn:hover {
   background-color: #555960;
 }
 
 /* Sidebar */
 .profile-sidebar {
-  width: 25%;
+  width: 40%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .sidebar-btn {
