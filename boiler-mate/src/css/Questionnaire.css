@@ -1,6 +1,3 @@
-/* Ensure Lato font is used (default if available in the browser) */
-@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
-
 /* General Styling */
 .questionnaire-container {
   background: #555960;
