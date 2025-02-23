@@ -6,6 +6,7 @@ import {
   arrayUnion, arrayRemove, onSnapshot,
   serverTimestamp
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import "../css/Chat.css"; // Make sure you import your new CSS
 
 const Chat = () => {
@@ -29,6 +30,8 @@ const Chat = () => {
 
   const [memberToRemove, setMemberToRemove] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser) {
@@ -417,6 +420,9 @@ const Chat = () => {
                 </div>
               )}
             </div>
+            <button onClick={() => navigate("/home")}>
+              Back
+            </button>
           </div>
         )}
 
