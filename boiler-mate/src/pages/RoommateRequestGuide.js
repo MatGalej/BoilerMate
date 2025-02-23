@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/request.css';
 
 const RoommateRequestGuide = () => {
   const navigate = useNavigate(); // ✅ Replace useHistory with useNavigate
@@ -9,16 +10,16 @@ const RoommateRequestGuide = () => {
   };
 
   return (
-    <div className="">
+    <div className="welcome-background">
       {/* Content Section */}
       <div className="">
         <h2 className="">Roommate Request Guide</h2>
 
-        <p className="">
+        <p className="guide-text">
           Follow these steps to successfully request a roommate through Purdue's Housing Portal.
         </p>
 
-        <ol className="">
+        <ul className="guide-text">
           <li>
             <strong>Verify the Purdue Alias:</strong> Ensure you have your roommate's <b>Purdue alias</b> (the part before "@purdue.edu").
           </li>
@@ -34,10 +35,10 @@ const RoommateRequestGuide = () => {
           <li>
             <strong>Confirm & Assign Roommate:</strong> Once accepted, you <b>must assign them</b> to your selected room in the portal.
           </li>
-        </ol>
+        </ul>
 
         {/* Contact Information */}
-        <div className="mt-4">
+        <div className="guide-text">
           <h3 className="">Need Help?</h3>
           <ul className="">
             <li>📞 Call: <a href="tel:7654941000" className="text-blue-600 font-medium">(765) 494-1000</a></li>
@@ -46,7 +47,7 @@ const RoommateRequestGuide = () => {
         </div>
 
         {/* Call-to-Action Buttons */}
-        <div className="">
+        <div className="guide-text">
           <a href="https://purdue.starrezhousing.com/StarRezPortalX/DB36B528/1/1/Home-Home?UrlToken=AC026A12" target="_blank" rel="noopener noreferrer">
             <button className="">
               🚀 Go to Housing Portal

@@ -1,0 +1,10 @@
+.guide-text {
+    font-family: "Lato", sans-serif;
+    text-align: center;
+    color: var(--Steel);
+    margin-bottom: 10px;
+}
+
+.guide-text > ul {
+    list-style-type: none;
+}
