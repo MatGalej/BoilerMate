@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebaseConfig";
 import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import "../css/Home.css"; // Import the updated CSS
+import "../css/Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("User");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false); // Control Navigation Overlay
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -32,45 +32,53 @@ const Home = () => {
   };
 
   return (
-    <div className={`home-container ${menuOpen ? "menu-active" : ""}`}>
-      {/* Main Content */}
-      <div className="main-content">
-        <h1 className="logo-text">
-          <span className="bold">Boiler</span>Mate
-        </h1>
-        <p className="welcome-text">Hello, {firstName}</p>
+    <div className="home-container">
+      {/* Welcome Section */}
+      <h1 className="welcome-text-home">BoilerMate</h1>
+      <p className="welcome-message">Hello, {firstName}</p>
 
-        {/* Purdue Seal as Navigation Trigger */}
-        <img
-          src="/assets/purdue-seal.png" // Change this path to match your assets folder
-          alt="Purdue Seal"
-          className="purdue-seal"
-          onClick={() => setMenuOpen(true)}
-        />
-      </div>
+      {/* Purdue Seal (Click to Open Nav) */}
+      <img
+        src="/purdueSeal.png"
+        alt="Purdue Seal"
+        className="purdue-seal"
+        onClick={() => setNavOpen(true)}
+      />
 
-      {/* Fullscreen Navigation Overlay */}
-      {menuOpen && (
-        <div className="fullscreen-menu">
-          <div className="menu-content">
-            <button className="close-btn" onClick={() => setMenuOpen(false)}>
-              ✕
+      {/* NAVIGATION OVERLAY */}
+      <div className={`nav-overlay ${navOpen ? "active" : ""}`}>
+        <div className="navbar">
+          {/* Close Button */}
+          <span className="close-nav" onClick={() => setNavOpen(false)}>
+            ✖
+          </span>
+
+          {/* Navigation Links */}
+          <div className="nav-button-container">
+            <button className="nav-button" onClick={() => navigate("/profile")}>
+              Profile
             </button>
-            <nav className="nav-links">
-              <button onClick={() => navigate("/profile")}>Profile</button>
-              <button onClick={() => navigate("/match")}>Match</button>
-              <button onClick={() => navigate("/friends")}>Friends</button>
-              <button onClick={() => navigate("/chat")}>Chat</button>
-              <button onClick={() => navigate("/roommate-request")}>
-                Request Guide
-              </button>
-              <button className="logout-btn" onClick={handleLogout}>
-                🔐 Log Out
-              </button>
-            </nav>
+            <button className="nav-button" onClick={() => navigate("/match")}>
+              Match
+            </button>
+            <button className="nav-button" onClick={() => navigate("/friends")}>
+              Friends
+            </button>
+            <button className="nav-button" onClick={() => navigate("/chat")}>
+              Chat
+            </button>
+            <button
+              className="nav-button"
+              onClick={() => navigate("/roommate-request")}
+            >
+              Request Guide
+            </button>
+            <button className="logout-btn" onClick={handleLogout}>
+              🔐 Log Out
+            </button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -1,45 +1,49 @@
+/* Root Variables */
+:root {
+  --gold: #daaa00;
+  --dark-gold: #8e6f3e;
+  --gray: #555960;
+  --light-gray: #9d9795;
+  --background: #d2b98f;
+}
+
 /* General Page Styling */
+body {
+  background: var(--background);
+  margin: 0;
+}
+
+.welcome-message {
+  font-size: 2rem;
+  color: var(--gray);
+  font-family: monospace;
+  font-style: normal;
+  margin-bottom: 40px;
+}
+
+/* Full Page Container */
 .home-container {
-  background-color: #d2b887; /* Purdue gold */
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  height: 100vh;
   text-align: center;
-  transition: background 0.5s ease-in-out;
-  position: relative;
+  flex-direction: column;
 }
 
-/* Darken background when menu is open */
-.menu-active {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* BoilerMate Logo Text */
-.logo-text {
-  font-size: 4rem;
-  font-weight: bold;
-  color: #ffcc00;
+/* Welcome Text */
+.welcome-text-home {
+  font-size: 6rem;
+  color: var(--gold);
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  margin-bottom: 10px;
   font-style: italic;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-.bold {
-  font-weight: 900;
-}
-
-.welcome-text {
-  font-size: 1.5rem;
-  color: white;
-  margin-top: -10px;
+  font-family: "Raleway";
 }
 
 /* Purdue Seal */
 .purdue-seal {
-  width: 100px;
-  height: 100px;
-  margin-top: 20px;
+  width: 120px;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
 }
@@ -48,73 +52,83 @@
   transform: scale(1.1);
 }
 
-/* Fullscreen Navigation Menu */
-.fullscreen-menu {
+/* NAVIGATION MENU (Hidden Initially) */
+.nav-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Dark background */
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  display: none; /* Hidden by default */
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+.nav-overlay.active {
+  display: flex;
+}
+
+/* NAVBAR - Removed White Background */
+.navbar {
+  width: 100%;
   text-align: center;
-  z-index: 100;
 }
 
-/* Close Button */
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.close-btn:hover {
-  color: #ffcc00;
-}
-
-/* Navigation Links */
-.nav-links {
+/* Navigation Buttons */
+.nav-button-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 20px; /* Space between buttons */
+  align-items: center;
 }
 
-.nav-links button {
-  font-size: 1.5rem;
-  padding: 10px 20px;
-  background: transparent;
+.nav-button {
+  background: none;
   border: none;
-  color: white;
+  font-size: 24px;
+  font-weight: 600;
+  color: white; /* Ensures visibility on dark overlay */
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: color 0.3s ease-in-out;
 }
 
-.nav-links button:hover {
-  color: #ffcc00;
+.nav-button:hover {
+  color: var(--gold);
   transform: scale(1.1);
 }
 
 /* Logout Button */
 .logout-btn {
-  margin-top: 20px;
-  font-size: 1.3rem;
-  background: #ffcc00;
+  background-color: var(--gold);
   color: black;
   padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: bold;
+  border-radius: 10px;
+  font-weight: 700;
+  border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.3s;
+  margin-top: 20px;
 }
 
 .logout-btn:hover {
-  background: #e6b800;
+  background-color: var(--dark-gold);
+}
+
+/* CLOSE NAV ICON */
+.close-nav {
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  top: 40px;
+  right: 50px;
+  transition: 0.3s;
+}
+
+.close-nav:hover {
+  opacity: 0.7;
 }
