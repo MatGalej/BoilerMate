@@ -1,23 +1,28 @@
-/* Disable scrolling on the entire page */
-body,
-html {
-  overflow: hidden; /* Prevents both vertical & horizontal scrolling */
-  height: 100%; /* Ensure full height to avoid unexpected overflow */
-  margin: 0; /* Remove any default margin */
+/****************************************************************************
+ * GLOBAL RESETS & DISABLE SCROLL
+ ****************************************************************************/
+html,
+body {
+  margin: 0;
   padding: 0;
+  overflow: hidden; /* Prevent both vertical & horizontal scrolling */
+  height: 100%; /* Ensure full height to avoid overflow issues */
+  font-family: monospace;
 }
 
-/* ✅ Flash Effect for Swiping Right (Green) */
+/****************************************************************************
+ * FLASH ANIMATIONS FOR SCREEN FEEDBACK
+ ****************************************************************************/
+/* Right (Green) */
 .green-flash {
   animation: flash-green 0.5s ease-in-out;
 }
 
-/* ✅ Flash Effect for Swiping Left (Red) */
+/* Left (Red) */
 .red-flash {
   animation: flash-red 0.5s ease-in-out;
 }
 
-/* Flash Animations */
 @keyframes flash-green {
   0% {
     background-color: rgba(0, 255, 0, 0.5);
@@ -36,59 +41,55 @@ html {
   }
 }
 
-/* Full container to center content vertically & horizontally */
+/****************************************************************************
+ * MATCHES CONTAINER LAYOUT
+ ****************************************************************************/
 .matches-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vh; /* Fills the screen exactly */
+  height: 100vh; /* Fills entire screen */
   background: #f8f1e1; /* Soft background color */
   padding: 20px;
-  margin: 0; /* Remove default body margin if needed */
+  margin: 0; /* Remove default margin */
 }
 
-/* Title styling */
+/****************************************************************************
+ * TITLE
+ ****************************************************************************/
 .title {
-  font-size: 2rem;
+  font-size: 4rem;
   font-weight: bold;
   color: #2a2a2a;
   margin-bottom: 30px;
   text-align: center;
 }
 
-/* Container for Tinder cards */
+/****************************************************************************
+ * TINDER CARDS CONTAINER
+ ****************************************************************************/
 .card-container {
+  position: relative; /* So stacked cards (absolute) work */
   width: 100%;
   max-width: 400px;
   height: 600px;
-  position: relative; /* For absolute-positioned cards */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Each Tinder card (absolute to stack) */
+/****************************************************************************
+ * INDIVIDUAL TINDER CARD (absolute stacking)
+ ****************************************************************************/
 .swipe {
   position: absolute;
 }
 
-/* Card background & layout */
-.card {
-  width: 100%;
-  height: 550px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: flex-end; /* Push card-info to bottom */
-  justify-content: center;
-  transition: transform 0.5s ease-in-out;
-}
-
-/* Info at the bottom of the card */
+/****************************************************************************
+ * CARD INFO OVERLAY (for front face)
+ ****************************************************************************/
 .card-info {
   width: 100%;
   min-width: 300px;
@@ -109,7 +110,9 @@ html {
   opacity: 0.9;
 }
 
-/* No matches message */
+/****************************************************************************
+ * NO MATCHES TEXT
+ ****************************************************************************/
 .no-matches {
   font-size: 1.2rem;
   color: #666;
@@ -117,20 +120,25 @@ html {
   text-align: center;
 }
 
+/****************************************************************************
+ * DEFAULT TEXT (if no pic)
+ ****************************************************************************/
 .default-text {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #555; /* Darker gray */
+  color: #555;
   text-align: center;
 }
 
-/* Close button in top-right corner */
+/****************************************************************************
+ * CLOSE BUTTON (Top-right corner "✖")
+ ****************************************************************************/
 .close-btn {
   position: absolute;
   top: 20px;
   right: 25px;
   font-size: 28px;
-  color: #333; /* Dark gray */
+  color: #333;
   cursor: pointer;
   background: none;
   border: none;
@@ -138,27 +146,27 @@ html {
   transition: opacity 0.3s ease, transform 0.2s ease-in-out;
 }
 
-/* Hover effect */
 .close-btn:hover {
   opacity: 0.6;
   transform: scale(1.2);
 }
 
-/* Active click effect */
 .close-btn:active {
   transform: scale(0.9);
 }
 
-/* Arrow Styling */
+/****************************************************************************
+ * SWIPE ARROWS (Left & Right)
+ ****************************************************************************/
 .swipe-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 180px; /* Increase size */
-  color: rgba(218, 170, 0, 0.4); /* Matching opacity */
-  cursor: default; /* No interaction */
-  user-select: none; /* Prevents selection */
-  font-weight: bold;
+  width: 200px; /* Adjust size as needed */
+  height: auto;
+  opacity: 0.5; /* Lower opacity */
+  cursor: default;
+  user-select: none;
 }
 
 /* Left Arrow */
@@ -169,4 +177,96 @@ html {
 /* Right Arrow */
 .right-arrow {
   right: 2%;
+}
+
+.left-arrow {
+  left: 2%;
+}
+
+.right-arrow {
+  right: 2%;
+}
+
+/****************************************************************************
+ * FLIP CARD STYLES
+ ****************************************************************************/
+/* Flip Container */
+.flip-card {
+  width: 100%;
+  max-width: 400px; /* Increase to your liking (e.g., 450px) */
+  min-width: 300px; /* Ensures it never goes too narrow */
+  height: 550px;
+  perspective: 1000px;
+  position: relative;
+}
+
+/* Flip states */
+.flip-card.flipped .flip-front {
+  transform: rotateY(180deg);
+}
+.flip-card.flipped .flip-back {
+  transform: rotateY(0deg);
+}
+
+/* Front & Back Faces */
+.flip-front,
+.flip-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: transform 0.6s ease-in-out;
+}
+
+/* Flip FRONT */
+.flip-front {
+  transform: rotateY(0deg);
+  background-size: cover;
+  background-position: center;
+  justify-content: flex-end;
+}
+
+/* Flip BACK */
+.flip-back {
+  transform: rotateY(180deg);
+  background: #f8f1e1;
+}
+
+/* Center the name and add spacing */
+.flip-back h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px; /* ⬅ Adds spacing below the name */
+  width: 100%;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* Optional separator */
+  padding-bottom: 10px;
+}
+
+.flip-back p {
+  margin-bottom: 10px;
+}
+
+/* Info on each side */
+.flip-info {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 20px;
+  border-radius: 0 0 12px 12px;
+  /* etc. */
+}
+
+/* FLIPPED STATE */
+.card.flipped .card-front {
+  transform: rotateY(180deg);
+}
+
+.card.flipped .card-back {
+  transform: rotateY(0);
 }
