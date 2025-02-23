@@ -138,3 +138,7 @@
 .text-gray {
   color: gray;
 }
+
+.profile-back-title {
+  color: var(--Steel);
+}
