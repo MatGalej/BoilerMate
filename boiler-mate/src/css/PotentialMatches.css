@@ -4,7 +4,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; /* Fills the screen */
+  width: 100vw;
+  height: 100vh; /* Fills the screen exactly */
   background: #f8f1e1; /* Soft background color */
   padding: 20px;
   margin: 0; /* Remove default body margin if needed */

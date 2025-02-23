@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TinderCard from "react-tinder-card";
-import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { findBestMatch } from "./procedural"; // Or wherever your matching logic is
 import "../css/PotentialMatches.css"; // Import the CSS file
 
@@ -47,9 +47,33 @@ function PotentialMatches({ userId }) {
   }, [userId]);
 
   // Called when a card is swiped
-  const swiped = (direction, uid) => {
-    console.log(`Swiped ${direction} on ${uid}`);
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+  const swiped = async (direction, match) => {
+    if (!userId || !match || !match.uid) return; // Ensure valid user and match data
+
+    console.log(`Swiped ${direction} on ${match.name}`);
+
+    const userRef = doc(db, "users", userId);
+
+    try {
+      if (direction === "right") {
+        // ✅ Add match to "friends" list
+        await updateDoc(userRef, {
+          friends: arrayUnion(match.uid),
+        });
+        console.log(`${match.name} added to friends`);
+      } else if (direction === "left") {
+        // ✅ Add match to "denied" list
+        await updateDoc(userRef, {
+          denied: arrayUnion(match.uid),
+        });
+        console.log(`${match.name} added to denied`);
+      }
+
+      // ✅ Move to the next card
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    } catch (error) {
+      console.error("Error updating lists:", error);
+    }
   };
 
   // Called when a card leaves the screen
@@ -67,7 +91,7 @@ function PotentialMatches({ userId }) {
             <TinderCard
               className="swipe"
               key={match.uid}
-              onSwipe={(dir) => swiped(dir, match.uid)}
+              onSwipe={(dir) => swiped(dir, match)}
               onCardLeftScreen={() => outOfFrame(match.name)}
               preventSwipe={["up", "down"]} // Only left/right swipes
             >
