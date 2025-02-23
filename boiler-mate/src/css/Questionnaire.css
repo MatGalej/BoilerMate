@@ -8,6 +8,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  min-width: 500px;
+  font-family: monospace;
 }
 
 .questionnaire-page {
@@ -209,66 +211,94 @@
   background-color: #5d6068; /* Slightly darker on hover */
 }
 
-/* General Slider Styling */
 .custom-slider {
   -webkit-appearance: none;
-  appearance: none;
   width: 100%;
-  max-width: 400px; /* Keeps in sync with text fields */
+  min-width: 300px;
   height: 12px;
-  margin: 16px auto;
-  background: #6f727b; /* Match input background */
+  background: #6f727b;
   border-radius: 6px;
   outline: none;
+  margin-bottom: 8px; /* Adds spacing before the label */
+  align-items: center;
 }
 
-/* Slider Track */
+/* Custom Track */
 .custom-slider::-webkit-slider-runnable-track {
   width: 100%;
-  height: 10px;
-  background: #6f727b;
-  border-radius: 5px;
+  height: 12px;
+  background: #6f727b; /* Dark gray track */
+  border-radius: 6px;
 }
 
-/* Slider Thumb (Handle) */
+/* Custom Yellow Knob */
 .custom-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 24px; /* Restored size */
+  width: 24px; /* Adjust size */
   height: 24px;
-  background: #daaa00; /* Restored gold */
+  background: #daaa00; /* Gold thumb */
   border-radius: 50%;
   cursor: pointer;
-  margin-top: -7px; /* Centers thumb on track */
+  margin-top: -6px; /* Center thumb on track */
 }
 
-/* Active State (While Dragging) */
-.custom-slider::-webkit-slider-thumb:active {
-  background: #b38f00; /* Darker gold when clicked */
+/* Custom Yellow Knob for Firefox */
+.custom-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: #daaa00; /* Gold thumb */
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-/* Slider Layout */
+/* Focus Outline Removal */
+.custom-slider:focus {
+  outline: none;
+}
+
+/* Labels for 1 (Messy) and 7 (Neat Freak) */
+.slider-label {
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0; /* Prevents labels from resizing */
+  width: 80px; /* Ensures both labels take up equal space */
+  text-align: center;
+}
+
+/* Left (Messy) label */
+.left-label {
+  text-align: left;
+}
+
+/* Right (Neat Freak) label */
+.right-label {
+  text-align: right;
+}
+
 .slider-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Centers everything horizontally */
   width: 100%;
-  max-width: 600px;
+  max-width: 500px; /* Matches the main container width */
+  gap: 8px; /* Adds equal spacing */
 }
 
-/* Ensures number and slider are inline */
-.slider-wrapper {
-  display: flex;
-  align-items: center; /* ✅ Ensures vertical alignment */
-  gap: 12px; /* ✅ Adds space between number and slider */
-  width: 100%;
-}
-
-/* Number Display */
+/* Centers the label below the slider */
 .slider-value {
   font-size: 1.2rem;
-  font-weight: bold;
   color: white;
-  min-width: 20px; /* ✅ Keeps the number aligned */
-  text-align: right;
+  text-align: center;
+}
+
+/* Ensures labels and slider are inline */
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Keeps labels at both ends */
+  gap: 12px; /* Space between elements */
+  width: 100%;
+  max-width: 400px; /* Prevents labels from squeezing in */
+  flex-wrap: nowrap; /* Prevents labels from stacking */
 }
