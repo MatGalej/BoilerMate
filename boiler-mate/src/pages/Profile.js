@@ -42,75 +42,80 @@ const Profile = () => {
     };
 
   return (
-    <div className="profile-container">
-      {/* Profile Card with Flip Function */}
-      <div className={`profile-card ${isFlipped ? "flipped" : ""}`}>
-        
-        {/* Front Side */}
-        <div className="profile-front">
-          <img 
-            src={userData.profilePic || "https://via.placeholder.com/150"} 
-            alt=""
-            className="profile-pic"
-          />
-          <h2 className="profile-name text-gray">{userData.firstName} {userData.lastName}</h2>
-          <p><strong>Major:</strong> {userData.major}</p>
-          <p><strong>Sleep Time:</strong> {userData.sleepTime}</p>
-          <p><strong>Smoking/Drinking:</strong> {userData.smokeDrinkWeed}</p>
-          <p><strong>Personality:</strong> {userData.extroversion}</p>
+    <div className="welcome-background">
+        <div className="profile-container">
+        {/* Profile Card with Flip Function */}
+        <div className={`profile-card ${isFlipped ? "flipped" : ""}`}>
           
-          <button onClick={() => setIsFlipped(true)} className="flip-btn small-btn">
-            More Info 🔄
-          </button>
-          <button onClick={() => navigate("/questionnaire")} className="edit-btn">
-            Edit Info ✏️
-          </button>
+          {/* Front Side */}
+          <div className="profile-front">
+            <img 
+              src={userData.profilePic || "https://via.placeholder.com/150"} 
+              alt=""
+              className="profile-pic"
+            />
+            <h2 className="profile-name text-gray">{userData.firstName} {userData.lastName}</h2>
+            <p className="card-text">Major: {userData.major}</p>
+            <p className="card-text">Sleep Time: {userData.sleepTime}</p>
+            <p className="card-text">Smoking/Drinking: {userData.smokeDrinkWeed}</p>
+            <p className="card-text">Personality: {userData.extroversion}</p>
+            
+            <button onClick={() => setIsFlipped(true)} className="flip-btn small-btn">
+              More Info 🔄
+            </button>
+            <button onClick={() => navigate("/questionnaire")} className="edit-btn">
+              Edit Info ✏️
+            </button>
+          </div>
+
+          {/* Back Side */}
+          <div className="profile-back">
+            <h2>More Info</h2>
+            <p className="card-text"><strong>Email:</strong> {userData.email}</p>
+            <p className="card-text"><strong>Activity Level:</strong> {userData.activityLevel}</p>
+            <p className="card-text"><strong>Cleanliness:</strong> {userData.cleanliness}</p>
+            <p className="card-text"><strong>Dietary Restrictions:</strong> {userData.dietaryRestrictions}</p>
+            <p className="card-text"><strong>Earliest Class Time:</strong> {userData.earliestClassTime}</p>
+            <p className="card-text"><strong>Extroversion:</strong> {userData.extroversion}</p>
+            <p className="card-text"><strong>Friendship Preference:</strong> {userData.friendshipPreference}</p>
+            <p className="card-text"><strong>Graduation Year:</strong> {userData.graduationYear}</p>
+            <p className="card-text"><strong>Guests Throughout Day:</strong> {userData.guestsThroughoutDay}</p>
+            <p className="card-text"><strong>Hobbies:</strong> {userData.hobbies}</p>
+            <p className="card-text"><strong>Music Preference:</strong> {userData.musicPreference}</p>
+            <p className="card-text"><strong>Overnight Stay:</strong> {userData.overnightStay}</p>
+            <p className="card-text"><strong>People Over:</strong> {userData.peopleOver}</p>
+            <p className="card-text"><strong>Preferred Study Location:</strong> {userData.preferredStudyLocation}</p>
+            <p className="card-text"><strong>Room Decorations:</strong> {userData.roomDecorations}</p>
+            <p className="card-text"><strong>Room Type:</strong> {userData.roomType}</p>
+            <p className="card-text"><strong>Share Cleaning Supplies:</strong> {userData.shareCleaningSupplies}</p>
+            <p className="card-text"><strong>Sleep Time:</strong> {userData.sleepTime}</p>
+            <p className="card-text"><strong>Smoking/Drinking:</strong> {userData.smokeDrinkWeed}</p>
+            <p className="card-text"><strong>Study Preference:</strong> {userData.studyPreference}</p>
+            
+            <button onClick={() => setIsFlipped(false)} className="flip-btn small-btn">
+              Back 🔄
+            </button>
+          </div>
         </div>
 
-        {/* Back Side */}
-        <div className="profile-back">
-          <h2>More Info</h2>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>Activity Level:</strong> {userData.activityLevel}</p>
-          <p><strong>Cleanliness:</strong> {userData.cleanliness}</p>
-          <p><strong>Dietary Restrictions:</strong> {userData.dietaryRestrictions}</p>
-          <p><strong>Earliest Class Time:</strong> {userData.earliestClassTime}</p>
-          <p><strong>Extroversion:</strong> {userData.extroversion}</p>
-          <p><strong>Friendship Preference:</strong> {userData.friendshipPreference}</p>
-          <p><strong>Graduation Year:</strong> {userData.graduationYear}</p>
-          <p><strong>Guests Throughout Day:</strong> {userData.guestsThroughoutDay}</p>
-          <p><strong>Hobbies:</strong> {userData.hobbies}</p>
-          <p><strong>Music Preference:</strong> {userData.musicPreference}</p>
-          <p><strong>Overnight Stay:</strong> {userData.overnightStay}</p>
-          <p><strong>People Over:</strong> {userData.peopleOver}</p>
-          <p><strong>Preferred Study Location:</strong> {userData.preferredStudyLocation}</p>
-          <p><strong>Room Decorations:</strong> {userData.roomDecorations}</p>
-          <p><strong>Room Type:</strong> {userData.roomType}</p>
-          <p><strong>Share Cleaning Supplies:</strong> {userData.shareCleaningSupplies}</p>
-          <p><strong>Sleep Time:</strong> {userData.sleepTime}</p>
-          <p><strong>Smoking/Drinking:</strong> {userData.smokeDrinkWeed}</p>
-          <p><strong>Study Preference:</strong> {userData.studyPreference}</p>
-          
-          <button onClick={() => setIsFlipped(false)} className="flip-btn small-btn">
-            Back 🔄
+        {/* Sidebar */}
+        <div className="profile-sidebar">
+          <button onClick={() => navigate("/change-password")} className="sidebar-btn">
+            Change Password
+          </button>
+          <button onClick={() => navigate("/change-username")} className="sidebar-btn">
+            Change Username
+          </button>
+          <button onClick={() => navigate("/policy")} className="sidebar-btn">
+            Policy Page
+          </button>
+          <button onClick={() => navigate("/home")} className="sidebar-btn back-btn">
+            Back
+          </button>
+          <button onClick={handleLogout} className="sidebar-btn logout-btn">
+            Logout
           </button>
         </div>
-      </div>
-
-      {/* Sidebar */}
-      <div className="profile-sidebar">
-        <button onClick={() => navigate("/change-password")} className="sidebar-btn">
-          Change Password
-        </button>
-        <button onClick={() => navigate("/change-username")} className="sidebar-btn">
-          Change Username
-        </button>
-        <button onClick={() => navigate("/policy")} className="sidebar-btn">
-          Policy Page
-        </button>
-        <button onClick={handleLogout} className="sidebar-btn logout-btn">
-          Logout
-        </button>
       </div>
     </div>
   );

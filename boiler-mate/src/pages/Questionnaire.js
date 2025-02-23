@@ -255,7 +255,9 @@ const Questionnaire = () => {
               />
               <span className="slider-label right-label">Neat Freak</span>
             </div>
-            <div className="slider-value">{formData.cleanliness}</div>{" "}
+            <div className="slider-value">
+              {formData.cleanliness ? formData.cleanliness : "#"}
+            </div>
             {/* Number below slider */}
           </div>
         )}
@@ -312,7 +314,9 @@ const Questionnaire = () => {
               />
               <span className="slider-label right-label">Extrovert</span>
             </div>
-            <div className="slider-value">{formData.extroversion}</div>{" "}
+            <div className="slider-value">
+              {formData.extroversion ? formData.extroversion : "#"}
+            </div>
             {/* Number below slider */}
           </div>
         )}
@@ -336,7 +340,11 @@ const Questionnaire = () => {
               />
               <span className="slider-label right-label">Best Friends</span>
             </div>
-            <div className="slider-value">{formData.friendshipPreference}</div>{" "}
+            <div className="slider-value">
+              {formData.friendshipPreference
+                ? formData.friendshipPreference
+                : "#"}
+            </div>
             {/* Number below slider */}
           </div>
         )}
@@ -345,8 +353,10 @@ const Questionnaire = () => {
         {step === 10 && (
           <>
             <label className="questionText">
-              What are your music preferences? (Speakers, instrument usage,
-              etc.)
+              What are your music preferences?
+            </label>
+            <label className="questionText">
+              (Speakers, instrument usage, etc.)
             </label>
             <textarea
               name="musicPreference"
@@ -392,27 +402,36 @@ const Questionnaire = () => {
 
         {/* Step 13: Guests Throughout Day (1-7 Slider) */}
         {step === 13 && (
-          <>
-            <label className="text-center mb-2">
-              How comfortable with you having guests over? (1 = never, 7 = very
-              often)
+          <div className="slider-container">
+            <label className="questionText">
+              How comfortable are you with guests throughout the day?
             </label>
-            <input
-              type="range"
-              name="guestsThroughoutDay"
-              min="1"
-              max="7"
-              value={formData.guestsThroughoutDay}
-              onChange={handleSliderChange}
-              className="w-full my-2"
-            />
-          </>
+            <div className="slider-wrapper">
+              <span className="slider-label left-label">Never</span>
+              <input
+                type="range"
+                name="guestsThroughoutDay"
+                min="1"
+                max="7"
+                value={formData.guestsThroughoutDay}
+                onChange={handleSliderChange}
+                className="custom-slider"
+              />
+              <span className="slider-label right-label">Very Often</span>
+            </div>
+            <div className="slider-value">
+              {formData.guestsThroughoutDay
+                ? formData.guestsThroughoutDay
+                : "#"}
+            </div>
+            {/* Number below slider */}
+          </div>
         )}
 
         {/* Step 14: Shared Cleaning Supplies (Yes/No Dropdown) */}
         {step === 14 && (
           <>
-            <label className="text-center mb-2">
+            <label className="questionText">
               Would you be okay with sharing cleaning supplies?
             </label>
             <select
@@ -431,7 +450,7 @@ const Questionnaire = () => {
         {/* Step 15: Sleep Time (Time Select) */}
         {step === 15 && (
           <>
-            <label className="text-center mb-2">
+            <label className="questionText">
               What time do you usually go to bed?
             </label>
             <input
@@ -446,14 +465,16 @@ const Questionnaire = () => {
 
         {/* Step 16: Smoke, Drink, Weed (Checkbox Input) */}
         {step === 16 && (
-          <>
-            <label className="text-center mb-2">
-              Do you smoke, drink, or use weed? (Select all that apply)
+          <div className="checkbox-section">
+            {/* Label Above Checkboxes */}
+            <label className="questionText">
+              Do you smoke, drink, or use weed?
             </label>
 
-            <div className="flex flex-col space-y-2">
+            {/* Checkboxes */}
+            <div className="checkbox-container">
               {["Smoke", "Drink", "Weed", "None"].map((option) => (
-                <label key={option} className="flex items-center space-x-2">
+                <label key={option} className="checkbox-label">
                   <input
                     type="checkbox"
                     name="smokeDrinkWeed"
@@ -470,37 +491,44 @@ const Questionnaire = () => {
                             ), // Remove if unchecked
                       }));
                     }}
-                    className="h-5 w-5 text-yellow-500"
                   />
                   <span>{option}</span>
                 </label>
               ))}
             </div>
-          </>
+          </div>
         )}
 
         {/* Step 17: Activity Level (1-7 Slider) */}
         {step === 17 && (
-          <>
-            <label className="text-center mb-2">
-              How active are you? (1 = sedentary, 7 = very active)
+          <div className="slider-container">
+            <label className="questionText">
+              How active are you in your daily life?
             </label>
-            <input
-              type="range"
-              name="activityLevel"
-              min="1"
-              max="7"
-              value={formData.activityLevel}
-              onChange={handleSliderChange}
-              className="w-full my-2"
-            />
-          </>
+            <div className="slider-wrapper">
+              <span className="slider-label left-label">Sedentary</span>
+              <input
+                type="range"
+                name="activityLevel"
+                min="1"
+                max="7"
+                value={formData.activityLevel}
+                onChange={handleSliderChange}
+                className="custom-slider"
+              />
+              <span className="slider-label right-label">Very Active</span>
+            </div>
+            <div className="slider-value">
+              {formData.activityLevel ? formData.activityLevel : "#"}
+            </div>
+            {/* Number below slider */}
+          </div>
         )}
 
         {/* Step 18: Room decorations */}
         {step === 18 && (
           <>
-            <label className="text-center mb-2">
+            <label className="questionText">
               Do you care about room decorations?
             </label>
             <input
