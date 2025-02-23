@@ -1,14 +1,6 @@
 /* src/css/Login.css */
 
 body {
-  /* Updated background color */
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  position: relative;
   animation: fadeInBackground 1s ease-in-out;
 }
 
@@ -51,8 +43,6 @@ html {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

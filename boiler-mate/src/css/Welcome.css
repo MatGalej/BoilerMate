@@ -22,11 +22,8 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
-    background-color: #E5D3A3;
-}
-
 .Content-Panel {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;

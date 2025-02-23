@@ -18,7 +18,7 @@ const Welcome = () => {
 
 
   return (
-    <div class="background">
+    <div class="welcome-background">
         <div class="Content-Panel">
             <h1 class="welcome-text">BoilerMate</h1>
             <p class="subtitle">Ditch The Train Wreck</p>
