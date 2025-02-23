@@ -6,7 +6,7 @@ import {
   updateDoc,
   collection,
 } from "firebase/firestore";
-import {getSimilarity} from "./aiMatching";
+import { getSimilarity } from "./loadModel"; // AI Model
 
 const WEIGHTS = {
   cleanliness: 3,
@@ -52,8 +52,9 @@ const computeMatchScore = async (user1, user2) => {
   /*
   score += await getSimilarity(user1.major, user2.major);
   */
-
-  console.log(await getSimilarity("Computer Science", "Computer Science"));
+  const similarityScore = await getSimilarity("Computer Science", "Mechanical Engineering");
+  console.log(`🔢 Similarity Score: ${similarityScore.toFixed(4)}`);
+  //console.log(await getSimilarity("Computer Science", "Computer Science"));
   /*
   score += getSimilarity(user1.hobbies, user2.hobbies) * AI_WEIGHTS.hobbies;
   console.log(score);
@@ -67,17 +68,17 @@ const computeMatchScore = async (user1, user2) => {
   console.log(score);
   */
 
-  score += calculateSimilarity(user1.graduationYear, user2.graduationYear, true) * WEIGHTS.graduationYear;
-  score += calculateSimilarity(user1.cleanliness, user2.cleanliness) * WEIGHTS.cleanliness;
-  score += calculateSimilarity(user1.earliestClassTime, user2.earliestClassTime, true) * WEIGHTS.earliestClassTime;
-  score += calculateSimilarity(user1.extroversion, user2.extroversion) * WEIGHTS.extroversion;  
-  score += calculateSimilarity(user1.friendshipPreference, user2.friendshipPreference) * WEIGHTS.friendshipPreference;  
-  score += calculateSimilarity(user1.overnightStay, user2.overnightStay, true) * WEIGHTS.overnightStay;
-  score += calculateSimilarity(user1.peopleOver, user2.peopleOver) * WEIGHTS.peopleOver;
-  score += calculateSimilarity(user1.shareCleaningSupplies, user2.shareCleaningSupplies, true) * WEIGHTS.shareCleaningSupplies;
-  score += calculateSimilarity(user1.sleepTime, user2.sleepTime, true) * WEIGHTS.sleepTime;
-  score += calculateSimilarity(user1.smokeDrinkWeed, user2.smokeDrinkWeed, true) * WEIGHTS.smokeDrinkWeed;
-  score += calculateSimilarity(user1.activityLevel, user2.activityLevel) * WEIGHTS.activityLevel;
+  // score += calculateSimilarity(user1.graduationYear, user2.graduationYear, true) * WEIGHTS.graduationYear;
+  // score += calculateSimilarity(user1.cleanliness, user2.cleanliness) * WEIGHTS.cleanliness;
+  // score += calculateSimilarity(user1.earliestClassTime, user2.earliestClassTime, true) * WEIGHTS.earliestClassTime;
+  // score += calculateSimilarity(user1.extroversion, user2.extroversion) * WEIGHTS.extroversion;  
+  // score += calculateSimilarity(user1.friendshipPreference, user2.friendshipPreference) * WEIGHTS.friendshipPreference;  
+  // score += calculateSimilarity(user1.overnightStay, user2.overnightStay, true) * WEIGHTS.overnightStay;
+  // score += calculateSimilarity(user1.peopleOver, user2.peopleOver) * WEIGHTS.peopleOver;
+  // score += calculateSimilarity(user1.shareCleaningSupplies, user2.shareCleaningSupplies, true) * WEIGHTS.shareCleaningSupplies;
+  // score += calculateSimilarity(user1.sleepTime, user2.sleepTime, true) * WEIGHTS.sleepTime;
+  // score += calculateSimilarity(user1.smokeDrinkWeed, user2.smokeDrinkWeed, true) * WEIGHTS.smokeDrinkWeed;
+  // score += calculateSimilarity(user1.activityLevel, user2.activityLevel) * WEIGHTS.activityLevel;
 
   return score;
 };
