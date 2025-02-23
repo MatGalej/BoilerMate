@@ -23,8 +23,8 @@ const Welcome = () => {
             <h1 class="welcome-text">BoilerMate</h1>
             <p class="subtitle">Ditch The Train Wreck</p>
             <div class="button-container">
-              <button class="button" id="signup" onClick={handleSignUp}>Sign Up</button>  
-              <button class="button" id="login" onClick={handleLogIn}>Log In</button>
+              <button class="intro-button" id="signup" onClick={handleSignUp}>Sign Up</button>  
+              <button class="intro-button" id="login" onClick={handleLogIn}>Log In</button>
             </div>
         </div>
     </div>

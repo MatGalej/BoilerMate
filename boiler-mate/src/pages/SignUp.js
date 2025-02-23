@@ -50,7 +50,7 @@ function SignUp() {
   };
 
   return (
-    <div className="background">
+    <div className="welcome-background">
       <div className="login-panel-background">
         <div className="login-container">
           <h2>Sign up</h2>
