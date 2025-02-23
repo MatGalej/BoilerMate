@@ -386,12 +386,24 @@ const Chat = () => {
     }
   };
 
+  useEffect(() => {
+        const checkUserLoggedIn = () => {
+              if (!auth.currentUser) {
+                navigate("/");
+              }
+            };
+        checkUserLoggedIn();
+  }, []);
+
   // ───────────────────────────────────────────────────────────
   //                      RENDER
   // ───────────────────────────────────────────────────────────
 
   return (
     <div className="welcome-background">
+      <span className="close-btn" onClick={() => navigate("/home")}>
+        ✖
+      </span>
       <div className="chat-page">
         {!selectedChat && <h2 className="chat-header">Chat</h2>}
 
@@ -420,9 +432,6 @@ const Chat = () => {
                 </div>
               )}
             </div>
-            <button onClick={() => navigate("/home")}>
-              Back
-            </button>
           </div>
         )}
 

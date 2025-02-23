@@ -91,7 +91,7 @@
 }
 
 .card-text {
-  font-family: "Lato", sans-serif;
+  font-family: monospace, sans-serif;
   color: var(--Steel); 
 }
 

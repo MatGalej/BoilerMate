@@ -34,6 +34,15 @@ const Friends = () => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+        const checkUserLoggedIn = () => {
+              if (!auth.currentUser) {
+                navigate("/");
+              }
+            };
+        checkUserLoggedIn();
+  }, []);
+
   // 🔍 Optimized User Search with Range Query (now includes blocked users)
   const handleSearch = async () => {
     if (!searchTerm.trim()) return;
@@ -221,6 +230,9 @@ const Friends = () => {
 
   return (
     <div className="friends-page">
+      <span className="close-btn" onClick={() => navigate("/home")}>
+        ✖
+      </span>
       <h2 className="friends-header">Find Friends</h2>
 
       <div className="friends-content">
@@ -266,7 +278,6 @@ const Friends = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button onClick={handleSearch}>Search</button>
-          <button onClick={() => navigate("/home")}>Back</button>
 
           <h3>Search Results</h3>
           <div className="search-results-box">

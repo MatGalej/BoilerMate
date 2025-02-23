@@ -15,6 +15,12 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const checkUserLoggedIn = () => {
+          if (!auth.currentUser) {
+            navigate("/");
+          }
+        };
+    
     const fetchUserData = async () => {
       if (auth.currentUser) {
         try {
@@ -25,7 +31,7 @@ const Profile = () => {
             if (data.profilePic && data.profilePic.trim() !== "") {
               data.profilePic = `data:image/jpeg;base64,${data.profilePic}`;
             } else {
-              data.profilePic = null;
+              data.profilePic = "/boiler-mate/public/default-icon.svg";
               console.log("No profile picture found for user:", auth.currentUser.uid);
             }
             setUserData(data);
@@ -35,6 +41,7 @@ const Profile = () => {
         }
       }
     };
+    checkUserLoggedIn();
     fetchUserData();
   }, []);
 
@@ -44,16 +51,18 @@ const Profile = () => {
     await signOut(auth);
     navigate("/");
   };
-
   return (
     <div className="welcome-background">
+      <span className="close-btn" onClick={() => navigate("/home")}>
+        ✖
+      </span>
       <div className="profile-container">
         {/* Profile Card with Flip Function */}
         <div className={`profile-card ${isFlipped ? "flipped" : ""}`}>
           {/* Front Side */}
           <div className="profile-front">
             <img
-              src={userData.profilePic || "https://via.placeholder.com/150"}
+              src={userData.profilePic}
               alt=""
               className="profile-pic"
             />
@@ -150,12 +159,6 @@ const Profile = () => {
           </button>
           <button onClick={() => navigate("/change-username")} className="sidebar-btn">
             Change Username
-          </button>
-          <button onClick={() => navigate("/policy")} className="sidebar-btn">
-            Policy Page
-          </button>
-          <button onClick={() => navigate("/home")} className="sidebar-btn back-btn">
-            Back
           </button>
           <button onClick={handleLogout} className="sidebar-btn logout-btn">
             Logout

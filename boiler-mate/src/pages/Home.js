@@ -11,6 +11,12 @@ const Home = () => {
   const [navOpen, setNavOpen] = useState(false); // Control Navigation Overlay
 
   useEffect(() => {
+    const checkUserLoggedIn = () => {
+      if (!auth.currentUser) {
+        navigate("/");
+      }
+    };
+
     const fetchUserData = async () => {
       if (auth.currentUser) {
         try {
@@ -23,8 +29,10 @@ const Home = () => {
         }
       }
     };
+
+    checkUserLoggedIn();
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   // ✅ Listen for Esc key to close the navigation menu
   useEffect(() => {
