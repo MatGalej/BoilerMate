@@ -14,11 +14,11 @@ const TestingWeb = () => {
                 console.log("✅ AI Model Loaded!");
 
                 // Test similarity between two words
-                const output = await extractor(["Computer Science", "Mechanical Engineering"], { normalize: true, pooling: "cls" });
+                const output = await extractor(["CS", "Computer Science"], { normalize: true, pooling: "cls" });
                 const [vec1, vec2] = output.tolist();
                 const similarity = vec1.reduce((sum, v, i) => sum + v * vec2[i], 0);
 
-                console.log(`🔢 Similarity between "Computer Science" and "Mechanical Engineering": ${similarity.toFixed(4)}`);
+                console.log(`🔢 Similarity between "CS" and "Computer Science": ${similarity.toFixed(4)}`);
             } catch (error) {
                 console.error("❌ AI Matching Error:", error);
             }

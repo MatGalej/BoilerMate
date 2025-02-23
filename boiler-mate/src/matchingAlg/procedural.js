@@ -49,37 +49,32 @@ const computeMatchScore = async (user1, user2) => {
   let score = 0;
 
 
-  /*
+ 
   score += await getSimilarity(user1.major, user2.major);
-  */
-  const similarityScore = await getSimilarity("Computer Science", "Mechanical Engineering");
-  console.log(`🔢 Similarity Score: ${similarityScore.toFixed(4)}`);
-  //console.log(await getSimilarity("Computer Science", "Computer Science"));
-  /*
-  score += getSimilarity(user1.hobbies, user2.hobbies) * AI_WEIGHTS.hobbies;
+  
+  score += await getSimilarity(user1.hobbies, user2.hobbies) * AI_WEIGHTS.hobbies;
   console.log(score);
-  score += getSimilarity(user1.studyPreference, user2.studyPreference) * AI_WEIGHTS.studyPreference;
+  score += await getSimilarity(user1.studyPreference, user2.studyPreference) * AI_WEIGHTS.studyPreference;
   console.log(score);
-  score += getSimilarity(user1.dietaryRestrictions, user2.dietaryRestrictions) * AI_WEIGHTS.dietaryRestrictions;
+  score += await getSimilarity(user1.dietaryRestrictions, user2.dietaryRestrictions) * AI_WEIGHTS.dietaryRestrictions;
   console.log(score);
-  score += getSimilarity(user1.musicInRoom, user2.musicInRoom) * AI_WEIGHTS.musicInRoom;
+  score += await getSimilarity(user1.musicInRoom, user2.musicInRoom) * AI_WEIGHTS.musicInRoom;
   console.log(score);
-  score += getSimilarity(user1.roomDecorations, user2.roomDecorations) * AI_WEIGHTS.roomDecorations;
+  score += await getSimilarity(user1.roomDecorations, user2.roomDecorations) * AI_WEIGHTS.roomDecorations;
   console.log(score);
-  */
 
-  // score += calculateSimilarity(user1.graduationYear, user2.graduationYear, true) * WEIGHTS.graduationYear;
-  // score += calculateSimilarity(user1.cleanliness, user2.cleanliness) * WEIGHTS.cleanliness;
-  // score += calculateSimilarity(user1.earliestClassTime, user2.earliestClassTime, true) * WEIGHTS.earliestClassTime;
-  // score += calculateSimilarity(user1.extroversion, user2.extroversion) * WEIGHTS.extroversion;  
-  // score += calculateSimilarity(user1.friendshipPreference, user2.friendshipPreference) * WEIGHTS.friendshipPreference;  
-  // score += calculateSimilarity(user1.overnightStay, user2.overnightStay, true) * WEIGHTS.overnightStay;
-  // score += calculateSimilarity(user1.peopleOver, user2.peopleOver) * WEIGHTS.peopleOver;
-  // score += calculateSimilarity(user1.shareCleaningSupplies, user2.shareCleaningSupplies, true) * WEIGHTS.shareCleaningSupplies;
-  // score += calculateSimilarity(user1.sleepTime, user2.sleepTime, true) * WEIGHTS.sleepTime;
-  // score += calculateSimilarity(user1.smokeDrinkWeed, user2.smokeDrinkWeed, true) * WEIGHTS.smokeDrinkWeed;
-  // score += calculateSimilarity(user1.activityLevel, user2.activityLevel) * WEIGHTS.activityLevel;
-
+  score += calculateSimilarity(user1.graduationYear, user2.graduationYear, true) * WEIGHTS.graduationYear;
+  score += calculateSimilarity(user1.cleanliness, user2.cleanliness) * WEIGHTS.cleanliness;
+  score += calculateSimilarity(user1.earliestClassTime, user2.earliestClassTime, true) * WEIGHTS.earliestClassTime;
+  score += calculateSimilarity(user1.extroversion, user2.extroversion) * WEIGHTS.extroversion;  
+  score += calculateSimilarity(user1.friendshipPreference, user2.friendshipPreference) * WEIGHTS.friendshipPreference;  
+  score += calculateSimilarity(user1.overnightStay, user2.overnightStay, true) * WEIGHTS.overnightStay;
+  score += calculateSimilarity(user1.peopleOver, user2.peopleOver) * WEIGHTS.peopleOver;
+  score += calculateSimilarity(user1.shareCleaningSupplies, user2.shareCleaningSupplies, true) * WEIGHTS.shareCleaningSupplies;
+  score += calculateSimilarity(user1.sleepTime, user2.sleepTime, true) * WEIGHTS.sleepTime;
+  score += calculateSimilarity(user1.smokeDrinkWeed, user2.smokeDrinkWeed, true) * WEIGHTS.smokeDrinkWeed;
+  score += calculateSimilarity(user1.activityLevel, user2.activityLevel) * WEIGHTS.activityLevel;
+  console.log("Fianl Score: ", score);
   return score;
 };
 
