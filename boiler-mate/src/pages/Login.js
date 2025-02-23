@@ -3,7 +3,7 @@ import { auth, firestore } from "../firebaseConfig"; // ✅ Import Firestore
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore"; // ✅ Import Firestore functions
 import { useNavigate } from "react-router-dom";
-import "../css/Login.css";
+import "../css/Auth.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -87,12 +87,6 @@ const Login = () => {
           >
             Sign Up
           </button>
-          <button
-          type="button"
-          onClick={() => navigate("/")}
-          className="back-button">
-          Back
-        </button>
         </p>
       </div>
     </div>
