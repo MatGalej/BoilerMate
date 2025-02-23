@@ -466,7 +466,7 @@ const Chat = () => {
                   value={messageInput}
                   onChange={(e) => setMessageInput(e.target.value)}
                 />
-                <button onClick={sendMessage}>Send</button>
+                <button className="send-msg-button" onClick={sendMessage}>Send</button>
               </div>
             </div>
 
