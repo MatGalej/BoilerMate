@@ -8,7 +8,7 @@ import {
   setDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { aiTextSimilarity } from "./aiMatching";
+import {aiMatching} from "./aiMatching";
 
 const WEIGHTS = {
   cleanliness: 3,
@@ -47,34 +47,28 @@ const calculateSimilarity = (value1, value2, isCategorical = false) => {
 /**
  * Computes a weighted match score between two users.
  */
-const computeMatchScore = async (user1ID, user2ID) => {
-  const usersRef = collection(firestore, "users");
-  const currentUser1Snap = await getDoc(doc(usersRef, user1ID));
-  const currentUser2Snap = await getDoc(doc(usersRef, user2ID));
-  if (!currentUser1Snap.exists() || !currentUser2Snap.exists()) return null; // User not found
-
-  const user1 = currentUser1Snap.data();
-  const user2 = currentUser2Snap.data();
-
+const computeMatchScore = async (user1, user2) => {
   let score = 0;
-
-  score += aiTextSimilarity(user1.major, user2.major) * AI_WEIGHTS.major;
-  score += calculateSimilarity(user1.graduationYear, user2.graduationYear) * WEIGHTS.graduationYear;
+  /*
+  console.log("WHAT", aiMatching("HELLO", "HI THERE") * AI_WEIGHTS.major);
+  score += ;
   score += aiTextSimilarity(user1.hobbies, user2.hobbies) * AI_WEIGHTS.hobbies;
-  score += calculateSimilarity(user1.cleanliness, user2.cleanliness) * WEIGHTS.cleanliness;
-  score += calculateSimilarity(user1.earliestClassTime, user2.earliestClassTime) * WEIGHTS.earliestClassTime;
   score += aiTextSimilarity(user1.studyPreference, user2.studyPreference) * AI_WEIGHTS.studyPreference;
+  score += aiTextSimilarity(user1.dietaryRestrictions, user2.dietaryRestrictions) * AI_WEIGHTS.dietaryRestrictions;
+  score += aiTextSimilarity(user1.musicInRoom, user2.musicInRoom) * AI_WEIGHTS.musicInRoom;
+  score += aiTextSimilarity(user1.roomDecorations, user2.roomDecorations) * AI_WEIGHTS.roomDecorations;
+  */
+  score += calculateSimilarity(user1.graduationYear, user2.graduationYear, true) * WEIGHTS.graduationYear;
+  score += calculateSimilarity(user1.cleanliness, user2.cleanliness) * WEIGHTS.cleanliness;
+  score += calculateSimilarity(user1.earliestClassTime, user2.earliestClassTime, true) * WEIGHTS.earliestClassTime;
   score += calculateSimilarity(user1.extroversion, user2.extroversion) * WEIGHTS.extroversion;  
   score += calculateSimilarity(user1.friendshipPreference, user2.friendshipPreference) * WEIGHTS.friendshipPreference;  
-  score += aiTextSimilarity(user1.musicInRoom, user2.musicInRoom) * AI_WEIGHTS.musicInRoom;
-  score += aiTextSimilarity(user1.dietaryRestrictions, user2.dietaryRestrictions) * AI_WEIGHTS.dietaryRestrictions;
-  score += calculateSimilarity(user1.overnightStay, user2.overnightStay) * WEIGHTS.overnightStay;
+  score += calculateSimilarity(user1.overnightStay, user2.overnightStay, true) * WEIGHTS.overnightStay;
   score += calculateSimilarity(user1.peopleOver, user2.peopleOver) * WEIGHTS.peopleOver;
-  score += calculateSimilarity(user1.shareCleaningSupplies, user2.shareCleaningSupplies) * WEIGHTS.shareCleaningSupplies;
-  score += calculateSimilarity(user1.sleepTime, user2.sleepTime) * WEIGHTS.sleepTime;
-  score += calculateSimilarity(user1.smokeDrinkWeed, user2.smokeDrinkWeed) * WEIGHTS.smokeDrinkWeed;
+  score += calculateSimilarity(user1.shareCleaningSupplies, user2.shareCleaningSupplies, true) * WEIGHTS.shareCleaningSupplies;
+  score += calculateSimilarity(user1.sleepTime, user2.sleepTime, true) * WEIGHTS.sleepTime;
+  score += calculateSimilarity(user1.smokeDrinkWeed, user2.smokeDrinkWeed, true) * WEIGHTS.smokeDrinkWeed;
   score += calculateSimilarity(user1.activityLevel, user2.activityLevel) * WEIGHTS.activityLevel;
-  score += aiTextSimilarity(user1.roomDecorations, user2.roomDecorations) * AI_WEIGHTS.roomDecorations;
 
   return score;
 };
@@ -93,6 +87,7 @@ export const findBestMatch = async (userID) => {
   const allUsersSnap = await getDocs(usersRef);
   for (const userDoc of allUsersSnap.docs) {
     const potentialMatch = userDoc.data();
+    /*
     if (
       userDoc.id === userID ||
       currentUser.deniedUsers.includes(userDoc.id) ||
@@ -100,11 +95,16 @@ export const findBestMatch = async (userID) => {
     ) {
       continue; // Skip self, denied users, or mismatched room types
     }
+      */
+    if (userDoc.id === userID) {
+      continue;
+    }
 
-    const matchScore = computeMatchScore(currentUser, potentialMatch);
-    
-    bestMatch[potentialMatch.id] = matchScore;
+    const matchScore = await computeMatchScore(currentUser, potentialMatch);
 
+    if (matchScore > 0) {
+      bestMatch[potentialMatch.uid] = matchScore;
+    }
   }
   const entries = Object.entries(bestMatch);
   entries.sort((a, b) => b[1] - a[1]);
