@@ -1,106 +1,101 @@
-  
-  /* Navbar */
-  .navbar {
-    width: 100%;
-    padding: 15px 30px;    
-    background: white;
-    border-bottom: 5px solid var(--Steel);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-  }
-  
-  .nav-left h2 {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #8E6F3E;
-    margin: 0;          /* Remove default H2 margins */
-    line-height: 1;
-    padding: 15px 30px;     /* Or another small line-height if needed */
-    padding: 0;
-  }
-  
-  .nav-right {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .nav-button {
-    background: none;
-    border: none;
-    font-size: 16px;
-    font-weight: 600;
-    color: #555960;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-  }
-  
-  .nav-button:hover {
-    color: #DAAA00;
-  }
-  
-  .logout-btn {
-    background-color: #DAAA00;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .logout-btn:hover {
-    background-color: #8E6F3E;
-  }
-  
-  /* Welcome Section */
-  .welcome-container {
-    margin-top: 120px;
-    text-align: center;
-  }
-  
-  .welcome-text-home {
-    font-size: 6rem;
-    color: #8E6F3E;
-    font-weight: 800;
-    font-family: "Raleway", sans-serif;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-style: italic;
-  }
-  
-  .welcome-container p {
-    font-size: 2rem;
-    color: #555960;
-  }
-  
-  /* Floating Buttons */
-  .button-container {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 40px;
-  }
-  
-  .floating-btn {
-    background-color: #9D9795;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 20px;
-    font-size: 18px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-  }
-  
-  .floating-btn:hover {
-    background-color: #6F727B;
-  }
-  
+/* Navbar */
+.navbar {
+  width: 100%;
+  padding: 15px 30px;
+  background: white;
+  border-bottom: 5px solid var(--Steel);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.nav-left h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #8e6f3e;
+  margin: 0; /* Remove default H2 margins */
+  line-height: 1;
+  padding: 15px 30px; /* Or another small line-height if needed */
+  padding: 0;
+}
+
+.nav-right {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #555960;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+  color: #daaa00;
+}
+
+.logout-btn {
+  background-color: #daaa00;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #8e6f3e;
+}
+
+/* Welcome Section */
+.welcome-container {
+  text-align: center;
+}
+
+.welcome-text-home {
+  font-size: 6rem;
+  color: #8e6f3e;
+  font-weight: 800;
+  font-family: monospace;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.welcome-container p {
+  font-size: 2rem;
+  color: #555960;
+}
+
+/* Floating Buttons */
+.button-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 60px;
+}
+
+.floating-btn {
+  background-color: #9d9795;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.floating-btn:hover {
+  background-color: #6f727b;
+}

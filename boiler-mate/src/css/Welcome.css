@@ -1,93 +1,92 @@
 @font-face {
-    font-family: "Raleway";
-    src: url("../fonts/Raleway-VariableFont_wght.ttf") format("truetype");
+  font-family: "Raleway";
+  src: url("../fonts/Raleway-VariableFont_wght.ttf") format("truetype");
 }
 
 /* Assortment of colors */
 :root {
-    --Aged: #8E6F3E;
-    --Bmake-gold: #E5D3A3; 
-    --White: #FFFFFF;
-    --Rush: #DAAA00;
-    --Steel: #555960;
+  --Aged: #8e6f3e;
+  --Bmake-gold: #e5d3a3;
+  --White: #ffffff;
+  --Rush: #daaa00;
+  --Steel: #555960;
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 .welcome-background {
-    background-color: var(--Bmake-gold);
-    width: 100%;
-    height: 100vh;
-    
-    /* Center Content-Panel both horizontally & vertically */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: var(--Bmake-gold);
+  width: 100%;
+  height: 100vh;
+
+  /* Center Content-Panel both horizontally & vertically */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Content-Panel {
-    /* Remove position: relative; since flexbox will handle alignment */
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  /* Remove position: relative; since flexbox will handle alignment */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .welcome-text {
-    font-family: "Raleway", sans-serif;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    font-style: italic;
-    color: var(--White);
-    font-size: 6rem;
+  font-family: "Raleway", sans-serif;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-style: italic;
+  color: var(--White);
+  font-size: 6rem;
 }
 
 .subtitle {
-    font-family: "Raleway";
-    color: var(--Aged);
-    font-size: 2rem;
+  font-family: monospace;
+  color: var(--Aged);
+  font-size: 2rem;
 }
 
 .button-container {
-    width: 100%;
-    margin-top: 50px;
+  width: 100%;
 }
 
 .intro-button {
-    width: 80%;
-    height: 80px;
-    border-radius: 15px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    font-family: "Raleway", sans-serif;
-    font-style: italic;
-    font-weight: bold;
-    color: var(--White);
-    font-size: 2rem;
-    border-style: none;
+  width: 80%;
+  height: 70px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: "Raleway", sans-serif;
+  font-style: italic;
+  font-weight: bold;
+  color: var(--White);
+  font-size: 2rem;
+  border-style: none;
 }
 
 .button:hover {
-    cursor: pointer;    
+  cursor: pointer;
 }
 
 .button:hover {
-    transform: scale(1.02);
-    transition: 0.5s;
+  transform: scale(1.02);
+  transition: 0.5s;
 }
 
 #signup {
-    background-color: var(--Rush);
-    margin-bottom: 20px;
+  background-color: var(--Rush);
+  margin-bottom: 20px;
 }
 
 #login {
-    background-color: var(--Steel);
+  background-color: var(--Steel);
 }
