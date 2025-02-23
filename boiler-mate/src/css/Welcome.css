@@ -23,19 +23,23 @@ html {
 }
 
 .welcome-background {
-    position: absolute;
     background-color: var(--Bmake-gold);
     width: 100%;
     height: 100vh;
-}
-
-.Content-Panel {
-    position: relative;
+    
+    /* Center Content-Panel both horizontally & vertically */
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.Content-Panel {
+    /* Remove position: relative; since flexbox will handle alignment */
     text-align: center;
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .welcome-text {
