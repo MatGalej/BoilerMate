@@ -21,8 +21,6 @@ const Friends = () => {
   const [friendRequests, setFriendRequests] = useState([]);
   const [friendsList, setFriendsList] = useState([]);
   const [blockedFriends, setBlockedFriends] = useState([]);
-
-  // For selecting a pending request in the dropdown
   const [selectedRequest, setSelectedRequest] = useState("");
 
   const currentUser = auth.currentUser;
@@ -36,11 +34,7 @@ const Friends = () => {
     }
   }, [currentUser]);
 
-  // ─────────────────────────────────────────────────────────
-  //                     Data Fetching
-  // ─────────────────────────────────────────────────────────
-
-  // 🔍 Search Users by username
+  // 🔍 Optimized User Search with Range Query (now includes blocked users)
   const handleSearch = async () => {
     if (!searchTerm.trim()) return;
 
@@ -55,18 +49,15 @@ const Friends = () => {
       const querySnapshot = await getDocs(q);
       let results = [];
       querySnapshot.forEach((docSnap) => {
-        // Skip self & blocked users
-        if (
-          docSnap.id !== currentUser.uid &&
-          !blockedFriends.includes(docSnap.id)
-        ) {
-          const userData = {
-            id: docSnap.id,
-            ...docSnap.data(),
-            isFriend: friendsList.some((friend) => friend.id === docSnap.id),
-          };
-          results.push(userData);
-        }
+        if (docSnap.id === currentUser.uid) return; // skip self
+
+        const userData = {
+          id: docSnap.id,
+          ...docSnap.data(),
+          isFriend: friendsList.some((friend) => friend.id === docSnap.id),
+          isBlocked: blockedFriends.includes(docSnap.id),
+        };
+        results.push(userData);
       });
       setSearchResults(results);
     } catch (error) {
@@ -74,7 +65,7 @@ const Friends = () => {
     }
   };
 
-  // 📥 Friend Requests
+  // 📥 Fetch Friend Requests Received
   const fetchFriendRequests = async () => {
     if (!currentUser) return;
 
@@ -97,7 +88,7 @@ const Friends = () => {
     }
   };
 
-  // 👫 Friends List
+  // 👫 Fetch Friends List
   const fetchFriendsList = async () => {
     if (!currentUser) return;
 
@@ -114,9 +105,7 @@ const Friends = () => {
           })
         );
         setFriendsList(
-          friendsData.filter(
-            (f) => f !== null && !blockedFriends.includes(f.id)
-          )
+          friendsData.filter((f) => f !== null && !blockedFriends.includes(f.id))
         );
       }
     } catch (error) {
@@ -124,7 +113,7 @@ const Friends = () => {
     }
   };
 
-  // 🛑 Blocked Friends
+  // 🛑 Fetch Blocked Friends
   const fetchBlockedFriends = async () => {
     if (!currentUser) return;
 
@@ -138,10 +127,6 @@ const Friends = () => {
     }
   };
 
-  // ─────────────────────────────────────────────────────────
-  //                   Actions (Send/Accept/Block)
-  // ─────────────────────────────────────────────────────────
-
   // 🤝 Send Friend Request
   const sendFriendRequest = async (userId) => {
     if (!currentUser) return;
@@ -153,11 +138,13 @@ const Friends = () => {
       await updateDoc(senderRef, {
         friendRequestSent: arrayUnion(userId),
       });
+
       await updateDoc(receiverRef, {
         friendRequestReceived: arrayUnion(currentUser.uid),
       });
 
       alert("Friend request sent!");
+      setSearchResults([]); // Clear search results
     } catch (error) {
       console.error("Error sending friend request:", error);
     }
@@ -191,7 +178,7 @@ const Friends = () => {
     }
   };
 
-  // 🚫 Block Friend (instead of decline)
+  // 🚫 Block Friend
   const blockFriend = async (userId) => {
     if (!userId) return alert("No user selected!");
     if (!currentUser) return;
@@ -199,11 +186,10 @@ const Friends = () => {
     const userRef = doc(db, "users", currentUser.uid);
 
     try {
-      // Remove from friend requests and add to blocked
       await updateDoc(userRef, {
         blockedFriends: arrayUnion(userId),
         friends: arrayRemove(userId),
-        friendRequestReceived: arrayRemove(userId), // Also remove from requests
+        friendRequestReceived: arrayRemove(userId), // remove if present in requests
       });
 
       setFriendRequests(friendRequests.filter((u) => u.id !== userId));
@@ -211,14 +197,27 @@ const Friends = () => {
       setFriendsList(friendsList.filter((f) => f.id !== userId));
       setBlockedFriends([...blockedFriends, userId]);
       alert("User blocked.");
+      setSearchResults([]); // Clear search results
     } catch (error) {
       console.error("Error blocking user:", error);
     }
   };
 
-  // ─────────────────────────────────────────────────────────
-  //                       RENDER
-  // ─────────────────────────────────────────────────────────
+  // ♻️ Unblock Friend
+  const unblockFriend = async (userId) => {
+    if (!currentUser) return;
+    const userRef = doc(db, "users", currentUser.uid);
+    try {
+      await updateDoc(userRef, {
+        blockedFriends: arrayRemove(userId),
+      });
+      setBlockedFriends(blockedFriends.filter((id) => id !== userId));
+      alert("User unblocked.");
+      setSearchResults([]); // Clear search results
+    } catch (error) {
+      console.error("Error unblocking user:", error);
+    }
+  };
 
   return (
     <div className="friends-page">
@@ -275,14 +274,24 @@ const Friends = () => {
               searchResults.map((user) => (
                 <div key={user.id} className="friend-card">
                   <p>{user.username}</p>
-                  {user.isFriend ? (
-                    <p>✅ Already your friend</p>
-                  ) : (
-                    <button onClick={() => sendFriendRequest(user.id)}>
-                      ➕ Friend Request
+                  {user.isBlocked ? (
+                    <button onClick={() => unblockFriend(user.id)}>
+                      Unblock
                     </button>
+                  ) : (
+                    <>
+                      {user.isFriend ? (
+                        <p>✅ Already your friend</p>
+                      ) : (
+                        <button onClick={() => sendFriendRequest(user.id)}>
+                          Add Friend
+                        </button>
+                      )}
+                      <button onClick={() => blockFriend(user.id)}>
+                        Block
+                      </button>
+                    </>
                   )}
-                  <button onClick={() => blockFriend(user.id)}>🚫 Block</button>
                 </div>
               ))
             ) : (
