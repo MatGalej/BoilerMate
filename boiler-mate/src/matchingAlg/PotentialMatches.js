@@ -7,7 +7,7 @@ import "../css/PotentialMatches.css"; // Import the CSS file
 
 function PotentialMatches({ userId }) {
   const [matches, setMatches] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [flashColor, setFlashColor] = useState(""); // Controls screen flash color
 
   // Fetch matches from your custom matching logic + Firestore
   useEffect(() => {
@@ -61,28 +61,53 @@ function PotentialMatches({ userId }) {
           friends: arrayUnion(match.uid),
         });
         console.log(`${match.name} added to friends`);
+        setFlashColor("green-flash"); // Green for accepted
+        setTimeout(() => setFlashColor(""), 300); // Remove flash effect after 300ms
       } else if (direction === "left") {
         // ✅ Add match to "denied" list
         await updateDoc(userRef, {
-          denied: arrayUnion(match.uid),
+          deniedUsers: arrayUnion(match.uid),
         });
         console.log(`${match.name} added to denied`);
+        setFlashColor("red-flash"); // Green for accepted
+        setTimeout(() => setFlashColor(""), 300); // Remove flash effect after 300ms
       }
-
-      // ✅ Move to the next card
-      setCurrentIndex((prevIndex) => prevIndex + 1);
     } catch (error) {
       console.error("Error updating lists:", error);
     }
   };
 
   // Called when a card leaves the screen
-  const outOfFrame = (name) => {
-    console.log(`${name} left the screen!`);
+  const outOfFrame = async (match, direction) => {
+    if (!userId || !match || !match.uid) return;
+
+    console.log(`${match.name} left the screen on the ${direction} side.`);
+
+    const userRef = doc(db, "users", userId);
+
+    try {
+      if (direction === "right") {
+        await updateDoc(userRef, {
+          friends: arrayUnion(match.uid),
+        });
+        console.log(`${match.name} automatically added to friends.`);
+        setFlashColor("green-flash"); // Green for accepted
+        setTimeout(() => setFlashColor(""), 300); // Remove flash effect after 300ms
+      } else if (direction === "left") {
+        await updateDoc(userRef, {
+          deniedUsers: arrayUnion(match.uid),
+        });
+        console.log(`${match.name} automatically added to denied.`);
+        setFlashColor("red-flash"); // Green for accepted
+        setTimeout(() => setFlashColor(""), 300); // Remove flash effect after 300ms
+      }
+    } catch (error) {
+      console.error("Error updating lists:", error);
+    }
   };
 
   return (
-    <div className="matches-container">
+    <div className={`matches-container ${flashColor}`}>
       <h2 className="title">Potential Matches</h2>
 
       <div className="card-container">
@@ -91,9 +116,9 @@ function PotentialMatches({ userId }) {
             <TinderCard
               className="swipe"
               key={match.uid}
-              onSwipe={(dir) => swiped(dir, match)}
-              onCardLeftScreen={() => outOfFrame(match.name)}
-              preventSwipe={["up", "down"]} // Only left/right swipes
+              onSwipe={(dir) => swiped(dir, match)} // ✅ Track swipe direction
+              onCardLeftScreen={() => outOfFrame(match)} // ✅ Auto-classify on exit
+              preventSwipe={["up", "down"]} // Only allow left/right swipes
             >
               <div
                 className="card"
