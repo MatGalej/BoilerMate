@@ -12,6 +12,15 @@
   font-family: monospace;
 }
 
+.questionnaire-page {
+  background-color: #555960; /* Set the background color to gray */
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  width: 100% !important; /* Ensure it covers the full viewport width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Input Fields */
 .questionnaire-container input,
 .questionnaire-container select,
@@ -73,9 +82,9 @@
 }
 
 /* Ensure input is also centered */
-.input-group input,
-.input-group select,
-.input-group textarea {
+.input-group > input,
+.input-group > select,
+.input-group > textarea {
   width: 90%;
   max-width: 400px;
   text-align: center;
