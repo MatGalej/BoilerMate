@@ -1,0 +1,432 @@
+/* General Styling */
+.questionnaire-container {
+  background: #555960;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-width: 600px;
+  font-family: monospace;
+}
+
+.questionnaire-page {
+  background-color: #555960; /* Set the background color to gray */
+  min-height: 100vh; /* Ensure it covers the full viewport height */
+  width: 100% !important; /* Ensure it covers the full viewport width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Input Fields */
+.questionnaire-container input,
+.questionnaire-container select,
+.questionnaire-container textarea {
+  background-color: #6f727b; /* Light gray background */
+  color: #dedbdb; /* Light text */
+  border: none;
+  padding: 12px; /* Consistent padding */
+  border-radius: 8px; /* Rounded corners */
+  width: 90%; /* Ensure consistent width */
+  max-width: 400px; /* Prevent excessive stretching */
+  outline: none;
+  font-size: 1rem;
+  box-sizing: border-box; /* Prevents width issues */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: monospace;
+}
+
+/* Placeholder Text */
+.questionnaire-container input::placeholder,
+.questionnaire-container textarea::placeholder {
+  color: #b0b0b0 !important; /* Lighter gray */
+  opacity: 1;
+}
+
+/* Dropdown Menu */
+.questionnaire-container select {
+  appearance: none; /* Removes default dropdown styling */
+  cursor: pointer;
+}
+
+/* Ensure Textareas are the Same Width */
+.questionnaire-container textarea {
+  height: 100px; /* Set a consistent height */
+  resize: none; /* Prevent manual resizing */
+  justify-content: center;
+}
+
+/* Center-align label and input container */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* Ensure label is centered and not constrained */
+.input-group label {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 8px;
+}
+
+/* Ensure input is also centered */
+.input-group > input,
+.input-group > select,
+.input-group > textarea {
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Ensure All Form Elements Align */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 450px; /* Keeps it aligned with buttons */
+}
+
+/* Container for progress bar and title */
+.progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 80px; /* Add bottom spacing */
+}
+
+/* Profile title styling */
+.profile-title {
+  font-size: 5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+/* Progress Bar Container */
+.progress-container {
+  height: 12px; /* Adjust thickness */
+  background-color: #6f727b; /* White bar background */
+  border-radius: 6px;
+  overflow: hidden;
+  width: 50%; /* Set to a fixed percentage of the container */
+  min-width: 200px; /* Ensure it doesn’t become too small */
+  max-width: 400px; /* Prevent it from becoming too large */
+}
+
+/* Progress Bar Filler */
+.progress-bar {
+  height: 100%;
+  background-color: #daaa00; /* Gold */
+  transition: width 0.3s ease-in-out;
+}
+
+.questionText {
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: normal;
+  margin-bottom: 1rem;
+  max-width: 800px;
+  text-align: center;
+}
+
+/* Button container - flexbox to ensure alignment */
+.button-group {
+  display: flex;
+  justify-content: center; /* Align buttons side by side */
+  align-items: center; /* Ensure vertical alignment */
+  gap: 20px; /* Space between buttons */
+  flex: 1;
+  width: 100%;
+  max-width: 400px; /* Prevent excessive stretching */
+  margin-top: 2rem; /* Reduce gap from input fields */
+}
+
+/* Single-button container for first step */
+.next-button-container {
+  display: flex;
+  justify-content: center; /* Center Next button when alone */
+  width: 100%;
+  margin-top: 2rem;
+}
+
+/* Default button styling */
+.button {
+  color: white;
+  justify-content: center;
+  font-size: 1.2rem; /* Match text input font size */
+  font-weight: bold;
+  padding: 0;
+  border-radius: 15px;
+  cursor: pointer;
+  flex: 1; /* Make both buttons take equal width */
+  width: 100%;
+  min-width: 150px;
+  height: 50px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center; /* Ensures text is vertically centered */
+}
+
+/* Enabled state (yellow) */
+.button.enabled {
+  background-color: #daaa00;
+  color: white;
+}
+
+/* Disabled state (gray) */
+.button.disabled {
+  background-color: #b0b0b0;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+/* Back Button (always gray) */
+.back-button {
+  background-color: #6f727b; /* Dark gray */
+  color: white;
+  margin-top: 12px;
+}
+
+.back-button:hover {
+  background-color: #5d6068; /* Slightly darker on hover */
+}
+
+.custom-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  min-width: 300px;
+  height: 12px;
+  background: #6f727b;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 8px; /* Adds spacing before the label */
+  align-items: center;
+}
+
+/* Custom Track */
+.custom-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 12px;
+  background: #6f727b; /* Dark gray track */
+  border-radius: 6px;
+}
+
+/* Custom Yellow Knob */
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px; /* Adjust size */
+  height: 24px;
+  background: #daaa00; /* Gold thumb */
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -6px; /* Center thumb on track */
+}
+
+/* Custom Yellow Knob for Firefox */
+.custom-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: #daaa00; /* Gold thumb */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Focus Outline Removal */
+.custom-slider:focus {
+  outline: none;
+}
+
+/* Labels for 1 (Messy) and 7 (Neat Freak) */
+.slider-label {
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0; /* Prevents labels from resizing */
+  width: 80px; /* Ensures both labels take up equal space */
+  text-align: center;
+}
+
+/* Left (Messy) label */
+.left-label {
+  text-align: left;
+}
+
+/* Right (Neat Freak) label */
+.right-label {
+  text-align: right;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600; /* Matches the main container width */
+  gap: 8px; /* Adds equal spacing */
+}
+
+/* Centers the label below the slider */
+.slider-value {
+  font-size: 1.2rem;
+  color: white;
+  text-align: center;
+}
+
+/* Ensures labels and slider are inline */
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Keeps labels at both ends */
+  width: 100%;
+  flex-wrap: nowrap; /* Prevents labels from stacking */
+}
+
+/* Container for horizontal checkboxes */
+.checkbox-container {
+  display: flex;
+  justify-content: center; /* Centers checkboxes horizontally */
+  gap: 20px; /* Adds spacing between checkboxes */
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px; /* Adjusted width for better horizontal layout */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Individual checkbox label */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom checkbox styling */
+.checkbox-label input {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #ffcc00;
+  border-radius: 6px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom check effect when clicked */
+.checkbox-label input:checked {
+  background: #ffcc00;
+  border-color: #ffcc00;
+}
+
+/* Hover Effect */
+.checkbox-label:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth hover effect on the container */
+.checkbox-container:hover {
+  box-shadow: 0 6px 10px rgba(255, 165, 0, 0.4);
+}
+
+/* 🟡 Overall Section Container */
+.checkbox-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Profile Picture Container */
+.profile-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #2d2f36;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Image Preview */
+.profile-image {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ffcc00;
+}
+
+/* Upload Button */
+.upload-label {
+  background: #ffcc00;
+  color: black;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.upload-label:hover {
+  background: #e6b800;
+}
+
+/* Hide default file input completely */
+.hidden-file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.custom-file-upload {
+  background-color: #daaa00;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* ✅ Adds drop shadow */
+  transition: all 0.3s ease-in-out;
+  align-self: center;
+}
+
+.custom-file-upload:hover {
+  background-color: #e6b800;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4); /* ✅ Slightly bigger shadow on hover */
+}
+
+/* Disabled state */
+.custom-file-upload.disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}

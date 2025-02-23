@@ -1,0 +1,272 @@
+/****************************************************************************
+ * GLOBAL RESETS & DISABLE SCROLL
+ ****************************************************************************/
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent both vertical & horizontal scrolling */
+  height: 100%; /* Ensure full height to avoid overflow issues */
+  font-family: monospace;
+}
+
+/****************************************************************************
+ * FLASH ANIMATIONS FOR SCREEN FEEDBACK
+ ****************************************************************************/
+/* Right (Green) */
+.green-flash {
+  animation: flash-green 0.5s ease-in-out;
+}
+
+/* Left (Red) */
+.red-flash {
+  animation: flash-red 0.5s ease-in-out;
+}
+
+@keyframes flash-green {
+  0% {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes flash-red {
+  0% {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/****************************************************************************
+ * MATCHES CONTAINER LAYOUT
+ ****************************************************************************/
+.matches-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh; /* Fills entire screen */
+  background: #f8f1e1; /* Soft background color */
+  padding: 20px;
+  margin: 0; /* Remove default margin */
+}
+
+/****************************************************************************
+ * TITLE
+ ****************************************************************************/
+.title {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #2a2a2a;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/****************************************************************************
+ * TINDER CARDS CONTAINER
+ ****************************************************************************/
+.card-container {
+  position: relative; /* So stacked cards (absolute) work */
+  width: 100%;
+  max-width: 400px;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/****************************************************************************
+ * INDIVIDUAL TINDER CARD (absolute stacking)
+ ****************************************************************************/
+.swipe {
+  position: absolute;
+}
+
+/****************************************************************************
+ * CARD INFO OVERLAY (for front face)
+ ****************************************************************************/
+.card-info {
+  width: 100%;
+  min-width: 300px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 20px;
+  border-radius: 0 0 12px 12px;
+  text-align: center;
+}
+
+.card-info h3 {
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+}
+
+.card-info p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/****************************************************************************
+ * NO MATCHES TEXT
+ ****************************************************************************/
+.no-matches {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/****************************************************************************
+ * DEFAULT TEXT (if no pic)
+ ****************************************************************************/
+.default-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+}
+
+/****************************************************************************
+ * CLOSE BUTTON (Top-right corner "✖")
+ ****************************************************************************/
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 28px;
+  color: #333;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-weight: bold;
+  transition: opacity 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.close-btn:hover {
+  opacity: 0.6;
+  transform: scale(1.2);
+}
+
+.close-btn:active {
+  transform: scale(0.9);
+}
+
+/****************************************************************************
+ * SWIPE ARROWS (Left & Right)
+ ****************************************************************************/
+.swipe-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px; /* Adjust size as needed */
+  height: auto;
+  opacity: 0.5; /* Lower opacity */
+  cursor: default;
+  user-select: none;
+}
+
+/* Left Arrow */
+.left-arrow {
+  left: 2%;
+}
+
+/* Right Arrow */
+.right-arrow {
+  right: 2%;
+}
+
+.left-arrow {
+  left: 2%;
+}
+
+.right-arrow {
+  right: 2%;
+}
+
+/****************************************************************************
+ * FLIP CARD STYLES
+ ****************************************************************************/
+/* Flip Container */
+.flip-card {
+  width: 100%;
+  max-width: 400px; /* Increase to your liking (e.g., 450px) */
+  min-width: 300px; /* Ensures it never goes too narrow */
+  height: 550px;
+  perspective: 1000px;
+  position: relative;
+}
+
+/* Flip states */
+.flip-card.flipped .flip-front {
+  transform: rotateY(180deg);
+}
+.flip-card.flipped .flip-back {
+  transform: rotateY(0deg);
+}
+
+/* Front & Back Faces */
+.flip-front,
+.flip-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: transform 0.6s ease-in-out;
+}
+
+/* Flip FRONT */
+.flip-front {
+  transform: rotateY(0deg);
+  background-size: cover;
+  background-position: center;
+  justify-content: flex-end;
+}
+
+/* Flip BACK */
+.flip-back {
+  transform: rotateY(180deg);
+  background: #f8f1e1;
+}
+
+/* Center the name and add spacing */
+.flip-back h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px; /* ⬅ Adds spacing below the name */
+  width: 100%;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2); /* Optional separator */
+  padding-bottom: 10px;
+}
+
+.flip-back p {
+  margin-bottom: 10px;
+}
+
+/* Info on each side */
+.flip-info {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 20px;
+  border-radius: 0 0 12px 12px;
+  /* etc. */
+}
+
+/* FLIPPED STATE */
+.card.flipped .card-front {
+  transform: rotateY(180deg);
+}
+
+.card.flipped .card-back {
+  transform: rotateY(0);
+}

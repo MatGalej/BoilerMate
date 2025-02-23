@@ -1,0 +1,135 @@
+/* Overall Page */
+.friends-page {
+  background-color: var(--Dust); /* match your site background */
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  color: var(--White);
+  display: flex;
+  align-items: center;      /* vertical centering */
+  justify-content: center;
+  flex-direction: column;  /* horizontal centering */
+}
+
+/* Main Header */
+.friends-header {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* 3-Column Layout */
+.friends-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  width: 100%; /* Adjust as needed */
+}
+
+/* Left, Middle, Right columns share similar styling */
+.friends-left,
+.friends-middle,
+.friends-right {
+  background-color: var(--Steel); /* dark steel color, like your chat panels */
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  color: var(--White);
+}
+
+/* Column Headings */
+.friends-left h3,
+.friends-middle h3,
+.friends-right h3 {
+  margin-bottom: 1rem;
+  color: var(--White);
+}
+
+/* PENDING REQUESTS BOX (left column) */
+.pending-requests-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* Updated select styling for better contrast */
+.pending-requests-box select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 1rem;
+  background-color: var(--White); /* white background for clarity */
+  color: var(--Steel);            /* dark text for contrast */
+}
+
+/* Actions under pending box */
+.request-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Middle Column: Search */
+.friends-middle input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 1rem;
+  color: #333;
+}
+.friends-middle button {
+  margin-bottom: 1rem;
+}
+
+/* Search Results Box */
+.search-results-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  min-height: 150px; /* ensures it's always visible */
+  max-height: 250px; /* optional scroll limit */
+  overflow-y: auto;  /* scroll if results are long */
+}
+
+/* Each friend card in search results */
+.friend-card {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 0;
+}
+
+/* Right Column: Your Friends */
+.friends-list {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.friend-item {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 0;
+}
+.friend-item:last-child {
+  border-bottom: none;
+}
+
+/* Buttons: left, middle, right columns */
+.friends-left button,
+.friends-middle button,
+.friends-right button {
+  background-color: var(--Rush); /* #DAAA00 */
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--White);
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+.friends-left button:hover,
+.friends-middle button:hover,
+.friends-right button:hover {
+  background-color: #b48f00; /* a darker gold or any hover color */
+}
