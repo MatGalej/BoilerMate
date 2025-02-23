@@ -1,10 +1,104 @@
-.guide-text {
-    font-family: "Lato", sans-serif;
-    text-align: center;
-    color: var(--Steel);
-    margin-bottom: 10px;
+/* Root Variables for Consistent Theme */
+:root {
+  --primary: #daaa00; /* Gold */
+  --background: #f8f8f8;
+  --text-dark: #333;
+  --text-light: #666;
+  --border-light: #ddd;
+  --button-hover: #b88c00;
 }
 
-.guide-text > ul {
-    list-style-type: none;
+/* Page Background */
+.welcome-background {
+  background: var(--background);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Guide Container */
+.guide-container {
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Guide Header */
+.guide-container h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--text-dark);
+  margin-bottom: 15px;
+}
+
+/* Guide Text */
+.guide-text {
+  font-family: monospace;
+  font-size: 1rem;
+  color: var(--text-light);
+  text-align: left;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* List Styles */
+.guide-text ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.guide-text li {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* CTA Buttons */
+.cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cta-buttons a {
+  text-decoration: none;
+}
+
+.cta-button {
+  background: var(--primary);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  width: 100%;
+}
+
+.cta-button:hover {
+  background: var(--button-hover);
+}
+
+/* Back Button */
+.back-button {
+  background: none;
+  color: var(--primary);
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.back-button:hover {
+  background: var(--primary);
+  color: white;
 }
