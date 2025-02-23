@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebaseConfig";
 import { signOut } from "firebase/auth";
@@ -8,6 +8,7 @@ import "../css/Home.css"; // Import the updated CSS
 const Home = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("User");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -20,12 +21,10 @@ const Home = () => {
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
-      } else {
-        //navigate("/401"); // Redirect to 401 page if user is not authenticated
       }
     };
     fetchUserData();
-  }, [navigate]);
+  }, []);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -33,29 +32,45 @@ const Home = () => {
   };
 
   return (
-    <div className="welcome-background">
-      {/* Navbar at the top */}
-      <nav className="navbar">
-        <div className="nav-left">
-          <h2 className="logo">BoilerMate</h2>
-        </div>
-        <div className="nav-right">
-          <button className="nav-button" onClick={() => navigate("/profile")}>Profile</button>
-          <button className="nav-button" onClick={() => navigate("/match")}>Match</button>
-          <button className="nav-button" onClick={() => navigate("/friends")}>Friends</button>
-          <button className="nav-button" onClick={() => navigate("/chat")}>Chat</button>
-          <button className="nav-button" onClick={() => navigate("/roommate-request")}>
-          Request Guide
-        </button>
-          <button className="logout-btn" onClick={handleLogout}>🔐 Log Out</button>
-        </div>
-      </nav>
+    <div className={`home-container ${menuOpen ? "menu-active" : ""}`}>
+      {/* Main Content */}
+      <div className="main-content">
+        <h1 className="logo-text">
+          <span className="bold">Boiler</span>Mate
+        </h1>
+        <p className="welcome-text">Hello, {firstName}</p>
 
-      {/* Welcome Section */}
-      <div className="welcome-container">
-        <h1 className="welcome-text-home">Welcome, {firstName}!</h1>
-        <p>Ditch The Train Wreck.</p>
+        {/* Purdue Seal as Navigation Trigger */}
+        <img
+          src="/assets/purdue-seal.png" // Change this path to match your assets folder
+          alt="Purdue Seal"
+          className="purdue-seal"
+          onClick={() => setMenuOpen(true)}
+        />
       </div>
+
+      {/* Fullscreen Navigation Overlay */}
+      {menuOpen && (
+        <div className="fullscreen-menu">
+          <div className="menu-content">
+            <button className="close-btn" onClick={() => setMenuOpen(false)}>
+              ✕
+            </button>
+            <nav className="nav-links">
+              <button onClick={() => navigate("/profile")}>Profile</button>
+              <button onClick={() => navigate("/match")}>Match</button>
+              <button onClick={() => navigate("/friends")}>Friends</button>
+              <button onClick={() => navigate("/chat")}>Chat</button>
+              <button onClick={() => navigate("/roommate-request")}>
+                Request Guide
+              </button>
+              <button className="logout-btn" onClick={handleLogout}>
+                🔐 Log Out
+              </button>
+            </nav>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
